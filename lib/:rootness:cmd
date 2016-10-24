@@ -1,0 +1,9 @@
+# $Id: :rootness:cmd,v 1.2 2016/06/06 02:38:12 tw Exp tw $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+:rootness:filter:cmd echo $*
+return $?
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

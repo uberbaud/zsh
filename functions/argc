@@ -1,0 +1,8 @@
+# $Id: argc,v 1.1 2016/08/07 18:13:13 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+echo $#
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

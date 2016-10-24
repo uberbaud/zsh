@@ -1,0 +1,48 @@
+After the optional glob word designator (so in parentheses) and after 
+a colon, you may add a sequence of modifiers (some of these work on 
+filename_generation, and parameter_expansion).
+
+[1mFile System objects[22m
+
+a,A       absolute path: 'a' does not resolve symbolic links and may be 
+          hypothetical, 'A' uses system realpath(3).
+c         resolve command name using PATH (but won't work unless glob 
+          would work.
+e         only the extension
+h         only the path (like `dirname`)
+r         only the path/file, no extension
+t         only the file, no path (like `basename`)
+
+
+[1mGeneral[22m
+
+l,u       lowercase, uppercase
+q,x       quote the words, useful for `eval`
+x         like `q` but split on whitespace, doesn't work with param expn
+
+[1mSubstitution[22m
+
+s/l/r[/]  substitute first occurrence of l with r. Use gs (or append :G) 
+          for global. On each item of an array.
+&         Repeat previous substitution.
+
+          The delimiter (above given as a slash '/'), may be any 
+          character. Normally l is a string, NOT a pattern. A & in r is 
+          replaced with the found text
+
+[1mHistory[22m
+
+p         history expansion, print the new command, don't execute it
+
+[1mModifier Modifiers[22m
+
+f         Repeats the immediately (without a colon) FOLLOWING modifer 
+          until the resulting word doesn't change any more.
+F:expr:   Like f, but repeats at most n times IF expr is true. any 
+          character may be used in place of the colon, but if ([{ are 
+          used, then the closing must be )]} respectively
+w         makes the immediately FOLLOWING modifier work on words
+W:sep:    like w but items separated by sep
+
+
+; vim: tw=72 ts=10 expandtab

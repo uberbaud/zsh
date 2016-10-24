@@ -1,0 +1,11 @@
+# $Id: yt,v 1.3 2016/09/29 02:46:37 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+(($#))&& warn 'Discarding all parameters.' "$*"
+
+# there's a function for that
+ssh yt.lan
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

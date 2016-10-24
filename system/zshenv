@@ -1,0 +1,16 @@
+# $Id: zshenv,v 1.2 2016/10/23 22:48:24 tw Exp $
+# system wide ZSHELL file that is ALWAYS called
+
+if [[ -d ~/.config ]]; then
+	XDG_CONFIG_HOME=~/.config
+	if [[ -f $XDG_CONFIG_HOME/user-dirs.dirs ]]; then
+		. $XDG_CONFIG_HOME/user-dirs.dirs
+	fi
+	typeset -xm 'XDG_*'
+
+	if [[ -d $XDG_CONFIG_HOME/zsh ]]; then
+		ZDOTDIR=$XDG_CONFIG_HOME/zsh
+	fi
+fi
+
+# vim: filetype=zsh ts=4

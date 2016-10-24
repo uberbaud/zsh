@@ -1,0 +1,8 @@
+# $Id: :rootness:finit,v 1.1 2016/06/06 01:57:46 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+print -p 'exit'
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

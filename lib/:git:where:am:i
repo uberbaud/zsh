@@ -1,0 +1,14 @@
+# $Id: :git:where:am:i,v 1.7 2016/09/24 06:07:20 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+
+typeset -- branch
+git rev-parse --abbrev-ref HEAD 2>/dev/null		\
+	| :assign branch
+
+print -n -- "${branch:-# NOT A git REPO}"
+
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

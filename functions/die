@@ -1,0 +1,13 @@
+# $Id: die,v 1.7 2016/05/09 21:06:37 tw Exp tw $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+[[ $# -eq 0 ]] && set '%F{251}[No message provided.]%f'
+
+print -Plu 2 "  %F{1}FAILED%f: $1" "          ${(@)^argv[2,-1]}"
+
+errno=${errno:-1}
+kill -SIGINT $$
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

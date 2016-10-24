@@ -1,0 +1,18 @@
+# $Id: mcd,v 1.2 2016/07/25 21:50:16 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+emulate -L zsh
+
+if [ $# -ne 1 ]; then
+	typeset -a warning_msg
+	warning_msg=(
+		'Usage %Bmcd%b %Unewdir%u'
+		'%Bmkdir%b %Unewdir%u and then %Bcd%b %Unewdir%u'
+	  )
+	warn $warning_msg
+	return 8
+fi
+
+mkdir -p $1 || return 9
+cd $1
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

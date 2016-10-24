@@ -1,0 +1,15 @@
+# $Id: rezsh,v 1.5 2016/10/24 00:50:41 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+# keep everything in a script so we don't have to run this twice,
+# but source it so it gets the current state of affairs of an 
+# interactive shell
+print -Pu 2 '  %F{4}>>>%f %Brecompiling all the pieces.%b'
+. $ZDOTDIR/bin/rezsh.zsh
+# but we must source it in a function for it to affect the current shell
+print -Pu 2 '  %F{4}>>>%f %Bre-sourcing%b'
+. $ZDOTDIR/.zshrc
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

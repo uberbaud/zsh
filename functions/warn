@@ -1,0 +1,10 @@
+# $Id: warn,v 1.8 2016/05/09 21:09:13 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+[[ $# -eq 0 ]] && set '%F{251}[No message provided.]%f'
+
+print -Plu 2 "  %F{172}warning%f: $1" "           ${(@)^argv[2,-1]}"
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

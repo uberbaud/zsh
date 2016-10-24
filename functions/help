@@ -1,0 +1,71 @@
+# $Id: help,v 1.6 2016/06/09 19:13:26 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+# test arguments {{{1
+
+[[ $# -le 1 ]] || 'Too many parameters. Expected at most one (1).'
+
+typeset -- helpfile=''
+[[ $# -eq 0 ]] && set 'TOC'
+for p in $helppath; do
+	[[ -f "$p/$1" ]] || continue
+	helpfile="$p/$1"
+	break
+done
+
+[[ -n "$helpfile" ]] || die "Topic %B$1%b not found."
+
+# }}}1
+
+unsetopt bash_rematch
+setopt re_match_pcre
+zmodload zsh/pcre
+
+pcre_compile -- '-'
+
+function dashes_in_ln1_TO_underscores_in_ln0 {
+	typeset -a p
+	typeset IFS=$' \t\n'
+
+	pcre_match -b -- $ln1
+	while [[ $? -eq 0 ]]; do
+		p=($=ZPCRE_OP)
+		ln0="${ln0:0:$p[1]}_${ln0:$p[2]}"
+		pcre_match -b -n $p[2] -- $ln1
+	done
+}
+
+function dashes_to_underscore {
+
+	typeset ln0
+	typeset ln1
+
+	typeset IFS=$'\n'
+	read -r ln0
+	while read -r ln1; do
+		if [[ $ln1 =~ '^[- ]+$' ]]; then
+			dashes_in_ln1_TO_underscores_in_ln0
+		else
+			print $ln0
+			ln0=$ln1
+		fi
+	done
+	print -- $ln0
+}
+
+if [[ -t 0 ]]; then
+	typeset -i linecount
+	linecount=$( egrep -v '^[- ]+$' "$helpfile" | wc -l )
+	if [[ $linecount -gt $(( $(tput lines) - 1 )) ]]; then
+		dashes_to_underscore < $helpfile | less
+	else
+		dashes_to_underscore < $helpfile
+	fi
+else
+		dashes_to_underscore < $helpfile
+fi
+
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

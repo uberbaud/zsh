@@ -1,0 +1,10 @@
+# $Id: -usage,v 1.8 2016/04/26 02:30:29 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+--msgify '  %F{4}Usage%f:' '        ' $@
+
+exit ${errno:-0}
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,0 +1,8 @@
+# $Id: -notify,v 1.2 2016/04/26 00:05:37 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+--msgify '  %F{4}>>>%f' '     ' $@
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

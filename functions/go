@@ -1,0 +1,11 @@
+# $Id: go,v 1.7 2016/10/03 06:21:17 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+[[ $PWD =~ ${1:-::} ]]&& { warn '$PWD matches. Doing nothing.'; return 1; }
+[[ $PWD =~ ${2:-::} ]]&& { warn '$PWD matches. Doing nothing.'; return 1; }
+
+eval "$( $LOCALBIN/go $@ )"
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

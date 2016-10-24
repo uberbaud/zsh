@@ -1,0 +1,53 @@
+[1mtw Functions overview[22m
+
+  [1mOutput Functions[22m
+
+    -die [3mln1 ln2 … lnN[23m
+        Print a message (FAILED) and exit 1.
+
+    -notify [3mln1 ln2 … lnN[23m
+        Print a message (>>>).
+
+    -usage [3mln1 ln2 … lnN[23m
+        Print a message (Usage) and exit 0;
+
+    -warn [3mln1 ln2 … lnN[23m
+        Print a message (Warning).
+
+    --msgify [3m ln1-prefix lnN-prefix ln1 ln2 … lnN[23m
+        Used by the other output functions to do the non-specialized bits.
+
+
+  [1mUX Functions[22m
+
+    :progress-bar [3mcompleted_tasks total_tasks[23m
+        Shows a progress bar and stats
+
+    :hide-cursor
+    :show-cursor
+        Controls the visibility of the cursor, run around :progress-bar
+
+
+  [1mSet Functions[22m
+
+    :set:intersect [3mvarnameA varnameB[23m
+        Prints a NUL separated list of the common items in the two sets.
+
+    :set:A-minus-B [3mvarnameA varnameB[23m
+        Prints a NUL separated list of items unique to set A.
+
+    :set:union [3mvarnameA varnameB[23m
+        Prints a NUL separated list of items in both sets.
+
+  [1mMiscellaneous Helper Functions[22m
+
+    :up-conky-note
+        Updates the note `conky` prints on the desktop background.
+
+    :vim-swap-info
+        Prints the process id of any `vim` instance holding a swap file
+        for a file, or prints a message about any problems.
+
+    :x11-get-winid-from-pid
+        Given a process id for something running in an `xterm`, prints
+        the window id of the `xterm` process.

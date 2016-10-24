@@ -1,0 +1,38 @@
+# $Id: cio,v 1.4 2016/10/24 01:14:17 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+typeset -- TRUNC P OPWD F
+
+typeset -a helpmsg=(
+	"%F{4}Usage:%f %F{2}${0##*/}%f [%F{2}-t%f] %Ufile%u %Ucmd%u"
+	'       performs:'
+	'           %F{3}co -l %Ufile%u%f'
+	'           %F{3}{ %Ucmd%u }>>%Ufile%u%f'
+	"           %F{3}ci -m'[cio]' -u %Ufile%u%f"
+	'       %F{2}-t%f truncates the file before appending.'
+  )
+
+TRUNC=false
+[[ $1 == '-h' ]]&& { print -Plu 2 $helpmsg; return 0; }
+[[ $1 == '-t' ]]&& { TRUNC=true; shift; }
+[[ -f $1 ]]|| die '$1 must be a file' $helpmsg
+
+F=$( readlink -fn $1 ); shift
+P=${F%/*}
+F=${F##*/}
+[[ -f $P/RCS/$F,v ]]|| die 'Not managed by %BRCS%b.'
+
+OPWD=$PWD
+cd $P || die 'Could not %F{2}cd%f to %F{5}${P:gs/%/%%}%f.'
+
+co -l $F
+$TRUNC && : >$F
+{ $@ } >>$F
+ci -m"[cio] $argv" -u $F
+
+cd $OPWD
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

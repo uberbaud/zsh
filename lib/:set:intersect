@@ -1,0 +1,26 @@
+# $Id: :set:intersect,v 1.2 2016/05/11 18:48:28 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+# if $2 happens to be setA, then it will be hidden by
+#   typeset -a setA=( ${(Po)1} )
+# so save the values to argv but keep $1 as it is
+set $1 ${(Po)2}
+typeset -a setA=( ${(Po)1} )
+typeset -a setB=( $argv[2,-1] )
+typeset -i maxb=${#setB}
+typeset -a intersection=()
+
+typeset -i b=1
+for s in ${setA}; do
+	[[ $s < ${setB[b]} ]] && continue
+	while [[ $s > ${setB[b]} ]]; do
+		(( ++b > maxb )) && break
+	done
+	(( b > maxb )) && break
+	[[ $s == ${setB[b]} ]] && { intersection+=( $s ); (( b++ )); }
+done
+print -N $intersection
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

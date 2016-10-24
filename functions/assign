@@ -1,0 +1,26 @@
+# $Id: assign,v 1.4 2016/09/24 01:49:48 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+(($#))||	die 'Missing argument %Svarname%s.'
+(($#==1))||	die 'Too many parameters. Expected one (1), %Svarname%s.'
+typeset -a accum=()
+typeset -- REPLY
+typeset -- i=1
+# this alg. removes ALL trailing blank lines
+while read -r -k -u 0; do
+	if [[ $REPLY == $'\n' ]]; then
+		i=$((i+1))
+		# accum[i]='' # include trailing blank lines
+	else
+		accum[i]+=$REPLY;
+	fi
+done
+
+if [[ ${(Pt)1} == array* ]]; then
+	eval "typeset -ga $1=( \"\${(@)accum}\" )"
+else
+	typeset -g $1="${(F)accum}"
+fi
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

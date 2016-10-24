@@ -1,0 +1,11 @@
+# $Id: uberbaud,v 1.1 2016/08/13 19:55:04 tw Exp tw $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+(($#))&& -warn 'Discarding all parameters.' "$@"
+
+# there's a function for that
+ssh uberbaud.net
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

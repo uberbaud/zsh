@@ -1,0 +1,16 @@
+# $Id: :rootness:init,v 1.3 2016/09/03 22:37:10 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+typeset -i i=3
+false
+while (($?)); do
+	(( i-- )) || -die 'Could not gather %Brootness%b.'
+	coproc doas ~/.local/bin/simplesh 'READY' 2>>~/log/simplesh
+	read -rpt 5 || -warn 'Bad try.'
+	[[ $REPLY == 'READY' ]]
+done
+[[ $REPLY == 'READY' ]] || -die 'Unexpected %Brootness%b condition.'
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

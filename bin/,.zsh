@@ -1,0 +1,60 @@
+#!/usr/bin/env zsh
+# vim: tabstop=4
+
+#================================================ Lock the Screen ======
+# lock the screen immediately, but don't stop there
+# -mode blank is good, and -mode moebius is cool, but -mode clock is 
+# actually # useful.
+#
+#   opts: a negative number sets the maximum
+typeset -a xlock_opts=(
+	-planfont	'-*-dejavu sans-bold-r-normal-*-*-160-*-*-p-*-ascii-*'
+	-mode		clock
+	-count		20
+	-size		-500
+	-username	' '
+	-password	' '
+	-info		"'I can't die but once.' -- Harriet Tubman"
+  )
+/usr/X11R6/bin/xlock $xlock_opts &
+typeset -i xlock_pid=$!
+
+#========================================== Require sudo Password ======
+# remove sudo timestamp for this user to ensure no root command can be 
+# run without entering the password
+[[ -x /usr/bin/sudo ]] && /usr/bin/sudo '-K'
+
+#================================================== Hide SSH keys ======
+# remove all keys from ssh-agent cache
+[[ -x /usr/bin/ssh-add ]] && /usr/bin/ssh-add '-D'
+
+#================================================= Stop the music ======
+typeset -- was_playing=false
+typeset -i ffmpeg_pid
+#ffmpeg_pid=$(pgrep ffmpeg)
+#if [[ $? -eq 0 ]]; then
+	#if [[ $(ps -ostat= -p $ffmpeg_pid) == T* ]]; then
+		#: # ffmpeg is already stopped
+	#else
+		#$USRBIN/amuse pause
+		#was_playing=true
+	#fi
+#fi
+
+#======================================================== Suspend ======
+# -Z hibernation -> disk
+# -z suspend  (deep sleep)
+# -S stand-by (light sleep)
+# suspend (returns immediately, suspension is in future)
+
+[[ ${1:-} =~ '^-[SzZ]$' ]]&& {
+	sleep 0.5	# make sure xlock has had time to do its thing
+	/usr/sbin/apm $1
+  }
+
+
+#===================== Pause here until we've unlocked the screen ======
+wait $xlock_pid
+
+$was_playing && $USRBIN/amuse play
+$XDG_DATA_HOME/bin/set_bg_per_battery.sh

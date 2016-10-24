@@ -1,0 +1,10 @@
+# $Id: :set:union,v 1.1 2016/05/11 18:59:12 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+typeset -aU union=( ${(P)1} ${(P)2} )
+
+print -N $union
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

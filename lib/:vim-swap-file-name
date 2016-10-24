@@ -1,0 +1,91 @@
+# $Id: :vim-swap-file-name,v 1.2 2016/09/18 01:13:47 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+# parameter is an actual file name
+(($#))||			-die 'Missing required argument, %Ufile name%u.'
+(($#==1))||			-die 'Too many arguments, expected one (1).'
+typeset -- fname=$( readlink -fn $1 )
+[[ -e $fname ]]||	-die "Could not find file %S${fname:gs/%/%%}%s."
+[[ -f $fname ]]||	-die "%S${fname:gs/%/%%}%s is not a file."
+
+# where .vimrc must be
+typeset -- vimrc=''
+
+if [[ -n $VIMINIT ]]; then
+	[[ $VIMINIT =~ '^[[:space:]]*so(u(r(ce?)?)?)?!?[[:space:]]' ]]&& {
+		[[ -f ${VIMINIT:$MEND} ]]&& vimrc=${VIMINIT:$MEND}
+	  }
+elif [[ -f ~/.vimrc ]]; then
+	vimrc=~/.vimrc
+elif [[ -f ~/.vim/vimrc ]]; then
+	vimrc=~/.vim/vimrc
+else
+	-die "Could not find %S~/.vimrc%s or %S~/.vim/vimrc%s."
+fi
+
+# where to look for swap files
+typeset -a awkpgm=(
+	'BEGIN'								'{rc=1;}'
+	'/^set[[:space:]]+directory=/'		'{print "="$2; rc=0;}'
+	'/^set[[:space:]]+directory\+=/'	'{print "+"$2; rc=0;}'
+	'/^set[[:space:]]+directory-=/'		'{print "-"$2; rc=0;}'
+	'END'								'{exit rc;}'
+  )
+typeset -a directories=(
+	${(f)"$( awk -F'=' "$awkpgm" $vimrc || print '=.' )"}
+  )
+typeset -- action=''
+typeset -aU swappaths=()	# unique entries
+typeset -- i=0
+autoload -U regexp-replace
+for d in $directories; do
+	action=${d:0:1}
+	[[ $action == '=' ]] && { swappaths=(); action='+'; }
+	d=${d:1}
+	# > For backwards compatibility with |Vim version 3.0| a '>' at the
+	# > start of the option is removed
+	d=${d#>}
+	# > To include a comma in a directory name precede it with
+	# > a backslash
+	# lets change commas to zeros for convenience, but revert escaped
+	# commas
+	d=${${d//,/$'\0'}//\\$'\0'/,}
+	for p in ${(0)d}; do
+		# > Spaces after the comma are ignored. To have a space at the
+		# > start of a directory name, precede *it* with a backslash.
+		regexp-replace p '^ +' ''	# for some reason '^ +\\?' removes
+									# spaces after the \ too.
+		regexp-replace p '\\(.)' '$match'
+		# we're going to use (e) expansion, but vim would only do 
+		# environment variable (parameter) expansion, so bail if 
+		# someone's trying to force some other kind of expansion
+		[[ $p =~ '\$\(' ]]&&	\
+			-die 'Command or Arithmetic Expansion in directory!'
+		p=${(e)p}
+		case $action in
+			+) swappaths+=( $p );						;;
+			-) swappaths=( ${swappaths:#$p} );			;;
+			*) -die 'Programmer Error (1)';				;;
+		esac
+	done
+done
+
+(($#swappaths))|| -die 'swap file turned off (see %Tset directory%t)'
+
+typeset -- fpath=${fname%/*}
+typeset -- fname=${fname##*/}
+typeset -aU swaps=()
+setopt null_glob
+for p in $swappaths; do
+	[[ $p =~ '//$' ]]&& { fname=${fpath:gs/\//%}%$fname; p=${p%//}; }
+	[[ $p == '.' ]]&&   { p=$fpath; fname=.$fname; }
+	swaps+=( ${p%/}/$fname.sw? )
+done
+
+print -nl $swaps
+
+return 0;
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,0 +1,36 @@
+[1mZSH Help Table of Contents(B[m
+
+        Use [1mhelp [4mtopic[24m[1m(B[m.
+
+[1mUser Help Topics(B[m
+        glob		globmods	param		paramflags
+        twfuncs
+
+[1mSystem Help Topics(B[m
+        alias		autoload	bg		bindkey
+        break		builtin		bye		cap
+        cd		chdir		clone		colon
+        command		comparguments	compcall	compctl
+        compdescribe	compfiles	compgroups	compquote
+        comptags	comptry		compvalues	continue
+        declare		dirs		disable		disown
+        dot		echo		echotc		echoti
+        emulate		enable		eval		exec
+        exit		export		false		fc
+        fg		float		functions	getcap
+        getln		getopts		hash		history
+        integer		jobs		kill		let
+        limit		local		log		logout
+        noglob		popd		print		printf
+        pushd		pushln		pwd		r
+        read		readonly	rehash		return
+        sched		set		setcap		setopt
+        shift		source		stat		suspend
+        test		times		trap		true
+        ttyctl		type		typeset		ulimit
+        umask		unalias		unfunction	unhash
+        unlimit		unset		unsetopt	vared
+        wait		whence		where		which
+        zcompile	zformat		zftp		zle
+        zmodload	zparseopts	zprof		zpty
+        zregexparse	zsocket		zstyle		ztcp

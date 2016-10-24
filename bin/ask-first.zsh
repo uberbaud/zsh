@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+# $Id: ask-first.zsh,v 1.3 2016/08/13 20:32:20 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+. "$USR_ZSHLIB/common.zsh"
+
+typeset -A cmds;
+cmds=(
+	ssh		/usr/bin/ssh
+	scp		/usr/bin/scp
+	sftp	/usr/bin/sftp
+	rsync	$SYSLOCAL/bin/rsync
+  )
+
+(($#))|| -usage 'Missing %Tcmd%t, one of' "  %S${(@k)^cmds}%s"
+typeset -- cmd=$1
+
+typeset -- bin=${cmds[$cmd]:-}
+[[ -n $bin ]]|| -die "Can't handle command <%T$cmd%t>."
+
+# test for possible installed identities
+if ! /usr/bin/ssh-add -l > /dev/null; then
+	printf '\e[s ==> Gather passphrase\n'
+	# force an x-window
+	/usr/bin/ssh-add < /dev/null
+	# restore cursor and blank intermediate
+	printf '\e[u\e[K\e[0J'
+fi
+
+shift
+exec $cmd $@
+
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,0 +1,23 @@
+# $Id: msg:done,v 1.7 2016/10/19 02:18:03 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@yt.lan%f.'
+msg:from '@yt\.lan' 2>/dev/null
+(($#MSGs))&& { refile -unlink $MSGs +yt.lan }
+
+print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@yt.lan%f.'
+msg:from 'root@csongor\.lan' 2>/dev/null
+(($#MSGs))&& { refile -unlink $MSGs +root@csongor.lan }
+
+print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}Notes to Self%f.'
+msg:to 'bgumm102@gmail\.com' 2>/dev/null
+(($#MSGs))&& { refile -unlink $MSGs +notes; }
+
+print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
+msg:from 2>/dev/null
+(($#MSGs))&& { rmm $MSGs; }
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

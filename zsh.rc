@@ -1,0 +1,114 @@
+# $Id: zsh.rc,v 1.36 2016/10/23 03:17:14 tw Exp $
+# vim: ts=4 ft=zsh
+
+setopt inc_append_history extended_history hist_ignore_dups
+setopt hist_expire_dups_first hist_reduce_blanks hist_ignore_space
+setopt beep notify interactive_comments re_match_pcre prompt_percent
+setopt extended_glob rm_star_silent numeric_glob_sort
+setopt bsd_echo chase_links ignore_eof
+setopt combining_chars vi
+unsetopt auto_cd bang_hist prompt_bang mult_ios
+
+typeset -U path
+typeset -TU HELPPATH helppath
+helppath=(
+		/usr/local/share/zsh/$ZSH_VERSION/help
+		$ZDOTDIR/help
+	)
+export HELPPATH
+
+me=~/work/clients/me
+Z=$ZDOTDIR
+
+export USRLIB=$XDG_DATA_HOME/lib
+export USR_ZSHLIB=$ZDOTDIR/lib
+export USRBIN=~/bin
+export LOCALBIN=~/.local/bin
+path=( $USRBIN $path /usr/games )
+
+# FINIT: {{{1
+typeset -a finit=()
+function FINIT: {
+	finit+=( "$@" )
+}; #}}}1
+
+# -----------------------------------------
+#  application environment thingies
+# -----------------------------------------
+. $ZDOTDIR/include/locale.zshrc				# LC, LANG, etc
+. $ZDOTDIR/include/${(L)$(/usr/bin/uname)}.zshrc # OS specific (eg linux)
+. $ZDOTDIR/include/${HOST%%.*}.zshrc		# local stuff
+. $ZDOTDIR/include/zsh-ux.zshrc				# shell experience
+. $ZDOTDIR/include/editor.zshrc				# vim
+# $ZDOTDIR/include/printer.zshrc			# cups printer
+. $ZDOTDIR/include/termio.zshrc				# Colors, -t dependent output
+. $ZDOTDIR/include/wraps.zshrc
+
+# commented to make everyone happy
+#  -- user specific ${HOST%%.*}
+# $ZDOTDIR/include/csongor.zshrc
+# $ZDOTDIR/include/uberbaud.zshrc
+# $ZDOTDIR/include/sam.zshrc
+#  -- os specific ${(L)$(uname)}
+# $ZDOTDIR/include/openbsd.zshrc
+# $ZDOTDIR/include/linux.zshrc
+# $ZDOTDIR/include/darwin.zshrc
+
+# -----------------------------------------
+#  language environment thingies
+# -----------------------------------------
+. $ZDOTDIR/include/c.zshrc
+# $ZDOTDIR/include/perl.zshrc
+. $ZDOTDIR/include/perl6.zshrc
+. $ZDOTDIR/include/versctrl.zshrc
+
+# -----------------------------------------
+#  other user features
+# -----------------------------------------
+. $ZDOTDIR/include/postgresql.zshrc
+. $ZDOTDIR/include/system.zshrc
+. $ZDOTDIR/include/user.zshrc
+. $ZDOTDIR/include/sys_database.zshrc
+# $ZDOTDIR/include/rlwrap.zshrc
+. $ZDOTDIR/include/irc.zshrc
+. $ZDOTDIR/include/backup.zshrc
+. $ZDOTDIR/include/mail.zshrc
+. $ZDOTDIR/include/x11.zshrc
+
+# -----------------------------------------
+#  … and finally
+# -----------------------------------------
+. $ZDOTDIR/include/wraps-end.zshrc
+
+fpath=( "$ZDOTDIR/usrfuncs.zwc" $fpath )
+# Autoload all functions we compile into usrfuncs.zwc
+autoload -Uz $ZDOTDIR/functions/*(*:t)
+
+unset -f FINIT:
+for statement in $finit; do
+	${=statement}
+	(( ${+functions[$statement]} )) && unset -f $statment
+done
+unset finit
+
+# the following should have the unique trait, but don't by default
+# Let's not create them, just mark them if they exist
+#     see zshparam(1)
+(( ${+chpwd_functions} ))			&& typeset -gaU chpwd_functions
+(( ${+periodic_functions} ))		&& typeset -gaU periodic_functions
+(( ${+precmd_functions} ))			&& typeset -gaU precmd_functions
+(( ${+preexec_functions} ))			&& typeset -gaU preexec_functions
+(( ${+zshaddhistory_functions} ))	&& typeset -gaU zshaddhistory_functions
+(( ${+zshexit_functions} ))			&& typeset -gaU zshexit_functions
+(( ${+path} ))						&& typeset -gaU path
+(( ${+cdpath} ))					&& typeset -gaU cdpath
+(( ${+fignore} ))					&& typeset -gaU fignore
+(( ${+fpath} ))						&& typeset -gaU fpath
+(( ${+mailpath} ))					&& typeset -gaU mailpath
+(( ${+manpath} ))					&& typeset -gaU manpath
+(( ${+module_path} ))				&& typeset -gaU module_path
+(( ${+watch} ))						&& typeset -gaU watch
+(( ${+zle_highlight} ))				&& typeset -gaU zle_highlight
+
+# set errno, which otherwise would be set by the above test
+true

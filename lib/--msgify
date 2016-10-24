@@ -1,0 +1,38 @@
+# $Id: --msgify,v 1.7 2016/06/05 20:23:17 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
+
+emulate -L zsh
+
+(( $#<2 )) && { print -Pu 2 '  %F{1}BAD PROGRAMMER%f (--msgify:1)'; exit 254; }
+
+typeset -- prefix_1=$1
+typeset -- prefix_N=$2
+shift 2
+
+[[ $# -eq 0 ]] && set '%F{251}[No message provided.]%f'
+
+typeset -a Message=( $@ )
+
+# Italic
+typeset -- I=$'\e[3m'
+typeset -- i=$'\e[23m'
+Message=( ${Message//\%I/$I} )
+Message=( ${Message//\%i/$i} )
+
+# TTY
+Message=( ${Message//\%T/%F\{2\}} )
+Message=( ${Message//\%t/%f} )
+# Special
+Message=( ${Message//\%S/%F\{5\}} )
+Message=( ${Message//\%s/%f} )
+# Greyed out
+Message=( ${Message//\%G/%F\{251\}} )
+Message=( ${Message//\%g/%f} )
+
+print -Pu 2 $prefix_1 $Message[1]
+shift Message
+for line in $Message; do
+	print -Pu 2 $prefix_N $line
+done
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

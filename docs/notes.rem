@@ -1,0 +1,42 @@
+% ZSH initialization
+% Tom Davis
+% 2016-03-26
+
+Order of Files
+===============
+
+ • Always
+    * //etc//zshenv
+ • Unless `-f` is specified
+    * $ZDOTDIR//.zshenv
+    * login shell
+      - //etc//zprofile
+      - $ZDOTDIR//.zprofile
+    * interactive
+      - //etc//zshrc
+      - $ZDOTDIR//.zshrc
+    * login shell
+      - //etc//zlogin
+      - $ZDOTDIR//.zlogin
+  • Logout of login shell (`-f`???)
+     * $ZDOTDIR//.zlogout
+     * //etc//zlogout
+
+Environment
+============
+
+Options
+--------
+
+  |RCS|
+  |GLOBAL_RCS|
+
+Variables
+----------
+
+  |ZDOTDIR|
+
+
+
+> Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
+; $Id: notes.rem,v 1.1 2016/03/26 20:17:11 tw Exp tw $

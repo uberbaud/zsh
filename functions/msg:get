@@ -1,0 +1,60 @@
+# $Id: msg:get,v 1.5 2016/10/19 02:17:11 tw Exp tw $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo rematch_pcre null_glob
+
+typeset -- re_mb_typ1='^(\d+) (messages?) \((\d+) seen\) for (.*) at (.*)\.$'
+typeset -- re_mb_typ2='^(\d+) (messages?) for (.*) at (.*)\.$'
+typeset -- re_msg='^reading message (.*):(\d+) of (\d+) \('
+typeset -- re_mb_empty='^fetchmail: No mail for (.*) at (.*)$'
+
+typeset -- N W
+typeset -- P='      %F{4}─%f'
+
+print -Pu 2 '  %F{4}>>>%f Cleaning out %F{5}inbox%f.'
+for delf in $(mhpath)/,*; do rm $delf; done
+
+print -Pu 2 '  %F{4}>>>%f Generating %F{5}fetchmailrc%f.'
+$XDG_CONFIG_HOME/fetchmail/accTofetch.zsh $@
+
+print -Pu 2 '  %F{4}>>>%f Downloading remote messages...'
+$SYSLOCAL/bin/fetchmail 2>&1 | while read -r resp; do
+	if   [[ $resp =~ $re_msg ]]; then
+		continue
+	elif [[ $resp =~ $re_mb_typ1 ]]; then
+		W=${match[4]:gs/%/%%}
+		M=${match[2]:gs/%/%%}
+		N=$((match[1]-match[3]))
+		if ((N)); then
+			print -Pu 2 "$P Getting %F{5}$N%f $M for %F{5}$W%f."
+		else
+			print -Pu 2 "$P No new messages for %F{5}$W%f."
+		fi
+	elif [[ $resp =~ $re_mb_typ2 ]]; then
+		W=${match[3]:gs/%/%%}@${match[4]:gs/%/%%}
+		M=${match[2]:gs/%/%%}
+		N=$((match[1]))
+		if ((N)); then
+			print -Pu 2 "$P Getting %F{5}$N%f $M for %F{5}$W%f."
+		else
+			print -Pu 2 "$P No new messages for %F{5}$W%f."
+		fi
+	elif [[ $resp =~ $re_mb_empty ]]; then
+		print -Pu 2 "$P No new messages for %F{5}${match[2]:gs/%/%%}%f."
+	else
+		warn $resp
+	fi
+done
+# regenerate fetchmailrc with all accounts enabled
+$XDG_CONFIG_HOME/fetchmail/accTofetch.zsh
+
+typeset -i msgCount=$(egrep -c '^From ' /var/mail/tw)
+
+(($msgCount))|| { warn "Nothing more to do, quitting."; return 0; }
+
+print -Pnu 2 '  %F{4}>>>%f '
+$SYSLOCAL/bin/inc -nochangecur
+
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

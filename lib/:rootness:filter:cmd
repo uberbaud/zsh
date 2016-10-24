@@ -1,0 +1,21 @@
+# $Id: :rootness:filter:cmd,v 1.3 2016/06/07 03:30:46 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+typeset -- filter=$1; shift
+
+print -p -- ${${(qq)argv}:gs/\'\\\'\'/\'\'}			\
+	|| -die 'Unexpected %Brootness%b condition.'
+
+local match
+local IFS=$'\0'
+while read -rp respline; do
+	[[ $respline =~ '^(\+OK|-ERR) \((\d+)\) READY$' ]] && break
+	$filter $respline
+done
+
+# return the value returned by simplesh
+return $match[2]
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

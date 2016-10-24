@@ -1,0 +1,44 @@
+#!/usr/bin/env zsh
+# $Id: :vim-swap-info,v 1.3 2016/09/15 04:20:46 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# checks a filename (possibly the name of a swap file) to see if vim is 
+# currently editing it.
+# RETURN CODES
+# 0 + STDOUT => a vim process is editing the file, process id on STDOUT
+# 0 => not currently being edited
+# 1 + STDOUT => there are multiple swap files,
+#               or a swap file with no opener
+# 2 + STDOUT => there are multiple openers for a single swap file!
+# 9
+
+emulate -L zsh
+
+typeset -- fname=$( /usr/bin/readlink -fn $1 )
+# fname may be set to something that doesn't exist, but that's up to the 
+# caller to handle. It's better this way as it allows for testing 
+# a non-existent file which you're getting ready to create but which may 
+# have existed at some time in the past
+(( $#fname )) || return 1
+
+typeset -- vSwpDir=$XDG_DATA_HOME/vim/cache
+typeset -a swaps=()
+# is it already the name of a swap file?
+if [[ $fname =~ "^$vSwpDir" ]]; then
+	swaps=( $fname )
+else
+	setopt null_glob
+	swaps=( $vSwpDir/${fname:gs/\//%}.s?? )
+	(( $#swaps )) 		|| return 0 # no swap files
+	(( $#swaps == 1 ))	|| { print 'multiple swap files';	return 1; }
+fi
+
+typeset -a openers=( $( /usr/bin/fstat $swaps[1] ) )
+(( $#openers == 10 ))	&& { :vim-recover-file $fname;		return $?; }
+(( $#openers % 10 ))	&& -die 'Unexpected %Tfstat%t info'
+(( $#openers > 20 ))	&& { print 'multiple openers';		return 2; }
+
+print $openers[13]
+return 0
+
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+# $Id: :up-conky-note,v 1.2 2016/05/04 21:21:32 tw Exp $
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+exec >$XDG_DATA_HOME/conky/conky.1
+
+print "TODO:"
+/usr/bin/cut -c 24- < $XDG_DATA_HOME/sysdata/todo.lst
+
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
