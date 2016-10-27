@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: ansi_rgb.zsh,v 1.1 2016/05/27 18:56:10 tw Exp $
+# $Id: ansi-rgb.zsh,v 1.1 2016/10/25 07:07:16 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

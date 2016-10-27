@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: cal.zsh,v 1.2 2016/09/29 21:36:27 tw Exp $
+# $Id: cal.zsh,v 1.3 2016/10/25 07:07:16 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

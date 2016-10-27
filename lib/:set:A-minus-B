@@ -1,4 +1,4 @@
-# $Id: :set:A-minus-B,v 1.1 2016/05/11 18:04:46 tw Exp tw $
+# $Id: :set:A-minus-B,v 1.1 2016/05/11 18:04:46 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

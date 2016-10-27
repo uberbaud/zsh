@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: start-surf.zsh,v 1.3 2016/09/28 03:44:56 tw Exp $
+# $Id: start-surf.zsh,v 1.4 2016/10/25 07:08:53 tw Exp $
 # vim: tabstop=4 textwidth=72 noexpandtab ft=zsh
 
 emulate -L zsh

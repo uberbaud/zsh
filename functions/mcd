@@ -1,4 +1,5 @@
-# $Id: mcd,v 1.2 2016/07/25 21:50:16 tw Exp $
+#!/usr/bin/env zsh
+# $Id: mcd,v 1.3 2016/10/25 07:47:28 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 emulate -L zsh
 

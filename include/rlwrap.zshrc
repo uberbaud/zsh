@@ -1,9 +1,9 @@
-# $Id: rlwrap.zshrc,v 1.3 2016/10/23 02:37:53 tw Exp $
+# $Id: rlwrap.zshrc,v 1.1 2016/04/24 04:42:40 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 
 RLWRAP_HOME="$XDG_DATA_HOME/rlwrap"
-RLWRAP_EDITOR="$SYSLOCAL/bin/vim +%L"
+RLWRAP_EDITOR='/usr/local/bin/vim +%L'
 RLWRAP_SQLITE3_OPTS=(
 	--always-readline
 	# --filter 'pipeto'				# allow output to `less`
@@ -13,7 +13,7 @@ RLWRAP_SQLITE3_OPTS=(
 
 function sqlite3 {
 	export LESS='-iMSx4 -FXc'
-	$SYSLOCAL/bin/rlwrap "${RLWRAP_SQLITE3_OPTS[@]}" sqlite3 "$@"
+	/usr/local/bin/rlwrap "${RLWRAP_SQLITE3_OPTS[@]}" sqlite3 "$@"
 }
 
 typeset -x -m 'RLWRAP_*'

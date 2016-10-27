@@ -1,12 +1,10 @@
-# $Id: csongor.zshrc,v 1.3 2016/10/23 02:58:43 tw Exp $
+# $Id: csongor.zshrc,v 1.5 2016/10/27 05:18:44 tw Exp $
 # vim: tabstop=4 filetype=zsh
-
-SYSLOCAL='/usr/local'
 
 CSONGOR_XTERM_WINDOW_BG='#FFFFFF'
 CSONGOR_XTERM_WINDOW_FG='#000000'
 
-typeset -xm 'CSONGOR_XTERM_*'
+typeset -xm 'CSONGOR_XTERM_*' SYSLOCAL
 function set-colors-bg-fg {
 	printf '\e]11;%s\a\e]10;%s\a' $1 $2
 }

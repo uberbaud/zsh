@@ -1,4 +1,4 @@
-# $Id: :rootness:filter:cmd,v 1.3 2016/06/07 03:30:46 tw Exp $
+# $Id: :rootness:filter:cmd,v 1.3 2016/06/07 03:30:46 tw Exp tw $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

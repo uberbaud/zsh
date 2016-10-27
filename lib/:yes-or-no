@@ -1,4 +1,4 @@
-# $Id: :yes-or-no,v 1.5 2016/06/07 05:34:11 tw Exp $
+# $Id: :yes-or-no,v 1.5 2016/06/07 05:34:11 tw Exp tw $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

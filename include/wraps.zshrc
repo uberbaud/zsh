@@ -12,7 +12,7 @@ typeset -Ag	WRAP_COMMANDS=(
 	# ───────────────────────────────────────────────────────────────────
 	#  autopage
 	'b' "autopage $USRBIN/perl/bible.pl"
-	'dmidecode' "autopage $AsRoot $SYSLOCAL/sbin/dmidecode"
+	'dmidecode' "autopage $AsRoot /usr/local/sbin/dmidecode"
 
 	# ───────────────────────────────────────────────────────────────────
 	#  sudo
@@ -34,6 +34,7 @@ typeset -Ag	WRAP_COMMANDS=(
 
 	# ───────────────────────────────────────────────────────────────────
 	#  wrap to a shorter command name
+	'ls' '/usr/local/bin/colorls ${LS_OPTIONS}'
 	'pass' "$USRBIN/pass-gen"
 	#'off' ". $USRBIN/off.sh"
 	#'modver' "$USRBIN/modver.pl"	# get version of perl modules
@@ -42,14 +43,14 @@ typeset -Ag	WRAP_COMMANDS=(
 	#  add default options
 	'bc' '/usr/bin/bc $@ $BC_ENV_ARG'
 	'clear' "printf '\\e[0;0H\\e[2J\\e[3J'; eval"
-	'clisp' "$SYSLOCAL/bin/clisp -i $clpath/init.lisp -lp $clpath/lib"
+	'clisp' "/usr/local/bin/clisp -i $clpath/init.lisp -lp $clpath/lib"
 
 	'cdcl' 'cd;clear'
 
 	'nifty' ' w3m http://nifty.nisusnet.com/nifty/gay; scrub'
 	#
 	'rsync' "$AskFirst rsync"
-	'sbcl'  "$SYSLOCAL/bin/sbcl --userinit $XDG_CONFIG_HOME/sbcl/sbcl.rc"
+	'sbcl'  "/usr/local/bin/sbcl --userinit $XDG_CONFIG_HOME/sbcl/sbcl.rc"
 	'ssh' "$AskFirst ssh \$@; csongor-colors"
 	'scp' "$AskFirst scp"
 	'sftp' "$AskFirst sftp"

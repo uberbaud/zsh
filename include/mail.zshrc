@@ -10,19 +10,13 @@ NMH=$XDG_CONFIG_HOME/nmh
 MH=$NMH/config
 fold=( fold -s -w 78 )
 
-FETCHMAILHOME=$XDG_CONFIG_HOME/fetchmail
-#FETCHMAILUSER=tw
-#FETCHMAIL_DISABLE_CBC_IV_COUNTERMEASURE
-#FETCHMAIL_INCLUDE_DEFAULT_X509_CA_CERTS
-#HOME_ETC
-
-typeset -x -m 'MAIL*' MBOX NMH MH 'FETCHMAIL*'
+typeset -x -m 'MAIL*' MBOX NMH MH
 
 function mail { warn "Don't you mean %F{2}inc%f?"; }
-function inc  { $SYSLOCAL/bin/inc -nochangecur; }
-function prev { $SYSLOCAL/bin/prev | $fold | less; }
-function n    { $SYSLOCAL/bin/next | $fold | less; }
+function inc  { /usr/local/bin/inc -nochangecur; }
+function prev { /usr/local/bin/prev | $fold | less; }
+function n    { /usr/local/bin/next | $fold | less; }
 function next { n $@; }
-function s    { $SYSLOCAL/bin/show $@ | $fold | less; }
+function s    { /usr/local/bin/show $@ | $fold | less; }
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

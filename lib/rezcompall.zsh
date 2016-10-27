@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: rezcompall.zsh,v 1.19 2016/09/24 02:01:58 tw Exp $
+# $Id: rezcompall.zsh,v 1.20 2016/10/26 19:33:25 tw Exp tw $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
