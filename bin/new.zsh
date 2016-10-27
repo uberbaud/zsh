@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: new.zsh,v 1.19 2016/10/21 03:42:49 tw Exp $
+# $Id: new.zsh,v 1.20 2016/10/25 07:08:53 tw Exp $
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.

@@ -1,5 +1,6 @@
-# $Id: sys_database.zshrc,v 1.2 2016/08/12 05:13:22 tw Exp $
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+#!/usr/local/bin/bash
+# $Id: sys_database.zshrc,v 1.1 2016/04/24 04:43:39 tw Exp $
+# vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
 
 AMUSE_SOCKET="$XDG_DATA_HOME/run/amuse.socket"
 

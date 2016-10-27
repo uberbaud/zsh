@@ -1,0 +1,97 @@
+; $Id: includes.rc,v 1.3 2016/10/27 05:25:36 tw Exp $
+; vim: ts=4 expandtab ft=twrc
+;=========================================================================
+;   This file is parsed by  to determine whether or not to include 
+;   specific files in the $ZDOTDIR/include directory. By doing things 
+;   this way we can maintain a single configuration for multiple users 
+;   accounts on possibly multiple machines.
+;
+;   The format of this file is:
+;   Comments and Blank lines are ignored. Comments begin with 
+;   a semi-colon.
+;
+;   A Header
+;   in which each user account is given a single ascii character (not 
+;   a space or the equals sign).  White space in the header is ignored.
+;   Each line is a single 'code' "=" 'machine-name'. The machine will be 
+;   matched to $USER'@'$HOST. The user name and trailing parts of the 
+;   domain are not necessary but may be included in which case they are 
+;   significant.
+;
+;   The Body
+;   in which each line is a set of the above listed codes which will 
+;   indicate if the file should be included. The order of the codes 
+;   doesn't matter to the parser, and here we have included a fake 
+;   account (SKIP) just so we have a visual place holder. But that's 
+;   just how I want to do it today.
+;
+;   If the parser gets to a body line before it's found a machine code 
+;   for the machine it's running on it dies with a message.
+;
+;   If the parser finds a keycode in a directive that hasn't been 
+;   assigned, it dies with a message.
+;
+;   TODO: Allow multiple useraccts on a keycode assignment. The 
+;   assignment MUST only be one line or that's a fatal error.
+
+ - = SKIP
+ c = csongor
+ u = uberbaud.net
+; s = sam
+
+; -----------------------------------------
+;  application environment thingies FIRST!
+;  -----------------------------------------
+    c u   locale					; LC, LANG, etc
+    c u   ${(L)$(/usr/bin/uname)}	; local stuff
+    c u   ${HOST%%.*}				; local stuff
+
+; -----------------------------------------
+;  application environment thingies AFTER
+; -----------------------------------------
+    c u   zsh-ux				; shell experience
+    c u   editor				; vim, etc
+    c -   printer				; cups printer
+    c u   termio				; Colors, -t dependent output
+    c u   wraps
+
+; -----------------------------------------
+;  language environment thingies
+; -----------------------------------------
+    c u   c
+    c u   perl
+    c u   perl6
+    c u   versctrl
+
+; -----------------------------------------
+;  other user features
+; -----------------------------------------
+    c u   postgresql
+    c u   system
+    c u   user
+    c u   sys_database
+    - -   rlwrap
+    c -   irc
+    c -   backup
+    c u   mail
+    c -   x11
+    c -   fetchmail
+
+; -----------------------------------------
+;  … and finally
+; -----------------------------------------
+    c u   wraps-end
+
+; -----------------------------------------
+;  Everything below this is to satisify
+;  the compiler about 'Existing files not
+;  mentioned'. They should all be SKIPPED
+;  as they are pulled in as needed
+;  according to $HOST and `uname`
+; -----------------------------------------
+    -     darwin
+    -     linux
+    -     openbsd
+    -     uberbaud
+    -     csongor
+;    -     sam

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: twread.zsh,v 1.1 2016/07/11 02:47:08 tw Exp $
+# $Id: twread.zsh,v 1.2 2016/10/25 07:09:12 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

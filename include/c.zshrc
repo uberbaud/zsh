@@ -1,8 +1,7 @@
-# $Id: c.zshrc,v 1.4 2016/10/23 02:37:24 tw Exp $
+# $Id: c.zshrc,v 1.2 2016/05/26 01:57:59 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-CC="$SYSLOCAL/bin/clang"
-
+CC='/usr/local/bin/clang'
 USR_CLIB="$USRLIB/c"
 
 export CC USR_CLIB

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: pbcopy.zsh,v 1.2 2016/05/26 05:38:18 tw Exp $
+# $Id: pbcopy.zsh,v 1.5 2016/10/25 07:08:53 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 $SYSLOCAL/bin/xclip -selection clipboard -in

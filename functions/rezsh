@@ -1,4 +1,4 @@
-# $Id: rezsh,v 1.5 2016/10/24 00:50:41 tw Exp $
+# $Id: rezsh,v 1.6 2016/10/25 07:47:28 tw Exp tw $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

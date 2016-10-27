@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: google.zsh,v 1.4 2016/06/09 05:33:07 tw Exp tw $
+# $Id: google.zsh,v 1.5 2016/10/25 07:07:16 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

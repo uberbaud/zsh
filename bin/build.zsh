@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: build.zsh,v 1.12 2016/10/23 20:37:59 tw Exp $
+# $Id: build.zsh,v 1.13 2016/10/25 07:07:16 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

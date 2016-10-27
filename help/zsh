@@ -1,0 +1,21 @@
+
+  MAN-TOC
+
+  All man topics start with "zsh". That prefix has been left off the 
+  following index for visual distinction.
+
+       roadmap     Informal introduction to the manual
+       misc        Anything not fitting into the other sections
+       expn        command and parameter expansion
+       param       parameters
+       options     options
+       builtins    built-in functions
+       zle         command line editing
+       compwid     completion widgets
+       compsys     completion system
+       compctl     completion control
+       modules     loadable modules
+       calsys      built-in calendar functions
+       tcpsys      built-in TCP functions
+       zftpsys     built-in FTP client
+       contrib     Additional zsh functions and utilities

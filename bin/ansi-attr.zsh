@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: ansi-attr.zsh,v 1.1 2016/09/23 21:10:25 tw Exp $
+# $Id: ansi-attr.zsh,v 1.2 2016/10/25 07:06:09 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 printf '  \e[47;38m    \\e[#m   \\e[3#m  \\e[4#m  \e[0m\n'

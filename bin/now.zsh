@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: now.zsh,v 1.2 2016/09/18 06:39:19 tw Exp $
+# $Id: now.zsh,v 1.3 2016/10/25 07:08:53 tw Exp $
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 # helper functions {{{1

@@ -1,4 +1,5 @@
-# $Id: usage,v 1.3 2016/05/09 21:05:03 tw Exp $
+#!/usr/bin/env zsh
+# $Id: usage,v 1.4 2016/10/25 07:47:28 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

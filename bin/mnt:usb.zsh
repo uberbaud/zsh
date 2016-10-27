@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: mnt:usb.zsh,v 1.3 2016/10/05 07:11:24 tw Exp $
+# $Id: mnt:usb.zsh,v 1.4 2016/10/25 07:08:53 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

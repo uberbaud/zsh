@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: start-firefox.zsh,v 1.6 2016/09/28 03:44:49 tw Exp $
+# $Id: start-firefox.zsh,v 1.7 2016/10/25 07:08:53 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh

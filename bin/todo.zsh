@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: todo.zsh,v 1.7 2016/09/18 06:41:18 tw Exp $
+# $Id: todo.zsh,v 1.8 2016/10/25 07:09:12 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh
