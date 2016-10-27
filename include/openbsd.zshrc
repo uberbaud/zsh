@@ -9,7 +9,7 @@ AsRoot='/usr/bin/doas'
 SYSLOCAL='/usr/local'
 LS_OPTIONS='-FG'
 
-function ls { $SYSLOCAL/colorls ${=LS_OPTIONS} $argv; }
+function ls { $SYSLOCAL/bin/colorls ${=LS_OPTIONS} $argv; }
 
 export SYSLOCAL
 
