@@ -18,7 +18,9 @@ PERLBREW_SKIP_INIT=''
 PERLBREW_LIB=''
 typeset -x -m "PERLBREW_*"
 
-FINIT: "source $PERLBREW_ROOT/etc/bashrc"
+[[ -f $PERLBREW_ROOT/etc/bashrc ]] && {
+	FINIT: "source $PERLBREW_ROOT/etc/bashrc"
+}
 
 # perlbrew sets MANPATH, which on OpenBSD replaces the standard path, so unset 
 # it.

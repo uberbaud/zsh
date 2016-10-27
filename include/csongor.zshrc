@@ -4,7 +4,7 @@
 CSONGOR_XTERM_WINDOW_BG='#FFFFFF'
 CSONGOR_XTERM_WINDOW_FG='#000000'
 
-typeset -xm 'CSONGOR_XTERM_*' SYSLOCAL
+typeset -xm 'CSONGOR_XTERM_*'
 function set-colors-bg-fg {
 	printf '\e]11;%s\a\e]10;%s\a' $1 $2
 }

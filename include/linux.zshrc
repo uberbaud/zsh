@@ -10,6 +10,7 @@ LS_OPTIONS='-F --color=auto'
 
 function ls { $SYSLOCAL/bin/ls ${=LS_OPTIONS} $argv; }
 
+typeset -- AsRoot='/usr/bin/sudo'
 export SYSLOCAL
 
 # Copyright (C) 2016 by Tom Davis <tom@tbdavis.com>.

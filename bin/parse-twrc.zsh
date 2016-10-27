@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/usr/bin/env zsh
 # $Id: parse-twrc.zsh,v 1.4 2016/10/27 04:45:59 tw Exp $
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
@@ -161,6 +161,7 @@ typeset -- filename
 	printf '#           using input file %s\n' ${(D)incRC}
 	printf '# ZDOTDIR = %s\n\n' ${(D)ZDOTDIR}
 	# preamble
+	printf 'typeset -ga finit=()\n'
 	printf 'function FINIT: { finit+=( "$@" ); }\n'
 
 	# includes

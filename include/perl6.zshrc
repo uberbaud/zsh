@@ -1,5 +1,5 @@
 # $Id: perl6.zshrc,v 1.4 2016/10/15 03:12:12 tw Exp $
-# vim: tabstop=4 filetype=bash
+# vim: tabstop=4 filetype=zsh
 
 RAKUDO_HOME="$XDG_DATA_HOME/rakudobrew"
 RAKUDO_BIN="$RAKUDO_HOME/bin"

@@ -5,6 +5,7 @@
 # so
 #    openbsd, linux, darwin, etc
 
+typeset -- AsRoot='/usr/bin/sudo'
 SYSLOCAL='/usr/local'
 LS_OPTIONS='-vbF'
 

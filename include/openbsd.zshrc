@@ -5,6 +5,7 @@
 # so
 #    openbsd, linux, darwin, etc
 
+AsRoot='/usr/bin/doas'
 SYSLOCAL='/usr/local'
 LS_OPTIONS='-FG'
 

@@ -1,5 +1,5 @@
 # $Id: x11.zshrc,v 1.2 2016/07/09 22:44:06 tw Exp $
-# vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 WRAP:FUNCTION pbcopy	/usr/local/bin/xclip -selection clipboard -in
 WRAP:FUNCTION pbpaste	/usr/local/bin/xclip -selection clipboard -out
