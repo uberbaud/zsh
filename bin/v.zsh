@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[v.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[v.zsh 2016/10/28 14:20:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh
@@ -124,22 +124,32 @@ typeset -- has_rcs=false
 	co -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
   }
 
+# TEMPORARY !!! Note the superfluous quotes to keep egrep from matching 
+# any of the `egrep` or `sed` lines
+egrep -q '\$Id'': ' ./$f_name && { # previously checked in
+	-warn 'Updating %SRCS:Id%s line.'
+	sed -i -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
+}
+egrep -q '\$Id''\$' ./$f_name && { # never been kissed
+	-warn 'Updating %SRCS:Id%s line.'
+	sed -i -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
+}
 typeset -- CKSUM=$(cksum -a sha384b ./$f_name)
 
 $edit_cmd
 
-# UPDATE the @(#)[RCS:Id replacement] string
+# UPDATE the @''(#)[…] string
 # 1. If there is such a string, and
-egrep -q '@\(#\)\[' ./$f_name && {
+egrep -q '@''\(#\)\[' ./$f_name && {
 	# 2. if there were changes
 	[[ $CKSUM == $(cksum -a sha384b ./$f_name) ]]|| {
 		typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
 		typeset -- newid
 		# escape any of separator #, whole match &, or escape \
 		printf '%s %s %s %s@%s' $f_name $now $USERNAME $HOST	\
-			| sed -e 's_[#&\\]_\\&_g'							\
+			| sed -e 's#[_&\\]#\&#g'							\
 			| :assign newid
-		sed -i -e '/@(#)/s#\[[^\]*\]#['$newid']/' ./$f_name
+		sed -i -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
 	}
 }
 
