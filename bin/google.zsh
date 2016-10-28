@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: google.zsh,v 1.5 2016/10/25 07:07:16 tw Exp $
+# @(#)[google.zsh 2016/10/25 07:07:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

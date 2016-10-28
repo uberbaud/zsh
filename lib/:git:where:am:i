@@ -1,4 +1,4 @@
-# $Id: :git:where:am:i,v 1.7 2016/09/24 06:07:20 tw Exp tw $
+# @(#)[:git:where:am:i 2016/09/24 06:07:20 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

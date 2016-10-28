@@ -1,4 +1,4 @@
-# $Id: x11.zshrc,v 1.2 2016/07/09 22:44:06 tw Exp $
+# @(#)[x11.zshrc 2016/07/09 22:44:06 tw@csongor.lan]
 # vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
 
 WRAP:FUNCTION pbcopy	/usr/local/bin/xclip -selection clipboard -in

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: times.zsh,v 1.2 2016/10/25 07:09:12 tw Exp $
+# @(#)[times.zsh 2016/10/25 07:09:12 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

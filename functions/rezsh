@@ -1,4 +1,4 @@
-# $Id: rezsh,v 1.9 2016/10/28 08:06:00 tw Exp $
+# @(#)[rezsh 2016/10/28 08:06:00 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

@@ -1,4 +1,4 @@
-# $Id: -die,v 1.3 2016/04/26 00:04:37 tw Exp $
+# @(#)[-die 2016/04/26 00:04:37 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

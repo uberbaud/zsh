@@ -1,4 +1,4 @@
-# $Id: :vim-swap-info,v 1.3 2016/09/15 04:20:46 tw Exp tw $
+# @(#)[:vim-swap-info 2016/09/15 04:20:46 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # checks a filename (possibly the name of a swap file) to see if vim is 
 # currently editing it.

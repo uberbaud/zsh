@@ -1,4 +1,4 @@
-# $Id: rlwrap.zshrc,v 1.1 2016/04/24 04:42:40 tw Exp $
+# @(#)[rlwrap.zshrc 2016/04/24 04:42:40 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 

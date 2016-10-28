@@ -1,4 +1,4 @@
-# $Id: --msgify,v 1.7 2016/06/05 20:23:17 tw Exp $
+# @(#)[--msgify 2016/06/05 20:23:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh

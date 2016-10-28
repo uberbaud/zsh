@@ -1,4 +1,4 @@
-# $Id: versctrl.zshrc,v 1.1 2016/04/24 05:29:38 tw Exp $
+# @(#)[versctrl.zshrc 2016/04/24 05:29:38 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 unset -m 'BZR*' 'CVS*' 'DARCS_*' 'GIT_*' 'HG*'

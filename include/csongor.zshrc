@@ -1,4 +1,4 @@
-# $Id: csongor.zshrc,v 1.5 2016/10/27 05:18:44 tw Exp $
+# @(#)[csongor.zshrc 2016/10/27 05:18:44 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 CSONGOR_XTERM_WINDOW_BG='#FFFFFF'

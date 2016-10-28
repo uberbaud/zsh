@@ -1,4 +1,4 @@
-# $Id: c.zshrc,v 1.2 2016/05/26 01:57:59 tw Exp $
+# @(#)[c.zshrc 2016/05/26 01:57:59 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 CC='/usr/local/bin/clang'

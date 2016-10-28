@@ -1,4 +1,4 @@
-# $Id: :x11-get-winid-from-pid,v 1.2 2016/06/04 23:38:47 tw Exp tw $
+# @(#)[:x11-get-winid-from-pid 2016/06/04 23:38:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

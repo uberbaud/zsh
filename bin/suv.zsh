@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: suv.zsh,v 1.14 2016/10/25 07:08:53 tw Exp $
+# @(#)[suv.zsh 2016/10/25 07:08:53 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh

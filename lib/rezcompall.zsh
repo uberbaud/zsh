@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: rezcompall.zsh,v 1.20 2016/10/26 19:33:25 tw Exp tw $
+# @(#)[rezcompall.zsh 2016/10/26 19:33:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

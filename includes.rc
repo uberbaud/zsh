@@ -1,4 +1,4 @@
-; $Id: includes.rc,v 1.3 2016/10/27 05:25:36 tw Exp $
+; @(#)[includes.rc 2016/10/27 05:25:36 tw@csongor.lan]
 ; vim: ts=4 expandtab ft=twrc
 ;=========================================================================
 ;   This file is parsed by  to determine whether or not to include 

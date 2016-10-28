@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: term-colors.zsh,v 1.1 2016/10/25 07:09:12 tw Exp $
+# @(#)[term-colors.zsh 2016/10/25 07:09:12 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -i i j n

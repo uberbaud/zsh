@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: ask-first.zsh,v 1.4 2016/10/25 07:07:16 tw Exp $
+# @(#)[ask-first.zsh 2016/10/25 07:07:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

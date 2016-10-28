@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: pass-gen.zsh,v 1.4 2016/10/25 07:08:53 tw Exp $
+# @(#)[pass-gen.zsh 2016/10/25 07:08:53 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

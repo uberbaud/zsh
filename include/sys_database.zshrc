@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# $Id: sys_database.zshrc,v 1.1 2016/04/24 04:43:39 tw Exp $
+# @(#)[sys_database.zshrc 2016/04/24 04:43:39 tw@csongor.lan]
 # vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
 
 AMUSE_SOCKET="$XDG_DATA_HOME/run/amuse.socket"

@@ -1,4 +1,4 @@
-# $Id: wraps-end.zshrc,v 1.3 2016/08/12 08:04:17 tw Exp $
+# @(#)[wraps-end.zshrc 2016/08/12 08:04:17 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 for f in ${(k)WRAP_COMMANDS}; do
