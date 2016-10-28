@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
-# @(#)[wifi%.zsh 2016/10/25 07:09:12 tw@csongor.lan]
-# vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
+# @(#)[wifi%.zsh 2016/10/28 15:21:05 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -i signalstrength=0
 # assignment to an integer typed variable performs shell arithmetic, and 
