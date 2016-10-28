@@ -61,6 +61,9 @@ typeset -- f_fullpath="$( readlink -fn -- $1 )"
 typeset -- f_path=${f_fullpath%/*}
 typeset -- f_name=${f_fullpath:$#f_path+1}
 
+# we're in the directory with $f_fullpath, SO we could just vim $f_name, 
+# BUT then the vim process would not have a command including the path, 
+# SO, let's use $f_fullpath
 typeset -a edit_cmd=( ${EDITOR:-$SYSLOCAL/bin/vim} $f_fullpath )
 
 typeset -- swapinfo
@@ -117,23 +120,31 @@ cd $f_path || -die "Could not %F{2}cd%f to %B${f_path:gs/%/%%}%b."
 typeset -- has_rcs=false
 [[ -d RCS && -f RCS/$f_name,v ]] && {
 	has_rcs=true
-	# the `sed` bits are because RCS poorly handles these differences, 
-	# but they should not ever be taken into account.
-	# TODO: fix RCS
-	sed -i -e '/[$]Id: /s/ '$USER' Exp '$USER' \$/ '$USER' Exp $/' ./$f_name
 	rcsdiff ./$f_name
 	co -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
-	sed -i -e '/[$]Id: /s/ '$USER' Exp \$/ '$USER' Exp '$USER' $/' ./$f_name
   }
 
-# we're in the directory with $f_fullpath, SO we could just vim $f_name, 
-# BUT then the vim process would not have a command including the path, 
-# SO, let's use $f_fullpath
+typeset -- CKSUM=$(cksum -a sha384b ./$f_name)
+
 $edit_cmd
 
-typeset -a rcsopts=( -u )
+# UPDATE the @(#)[RCS:Id replacement] string
+# 1. If there is such a string, and
+egrep -q '@\(#\)\[' ./$f_name && {
+	# 2. if there were changes
+	[[ $CKSUM == $(cksum -a sha384b ./$f_name) ]]|| {
+		typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
+		typeset -- newid
+		# escape any of separator #, whole match &, or escape \
+		printf '%s %s %s %s@%s' $f_name $now $USERNAME $HOST	\
+			| sed -e 's_[#&\\]_\\&_g'							\
+			| :assign newid
+		sed -i -e '/@(#)/s#\[[^\]*\]#['$newid']/' ./$f_name
+	}
+}
 
 if [[ -d RCS ]]; then
+	typeset -a rcsopts=( -u )
 	if $has_rcs; then
 		$hasmsg && rcsopts+=( -m"$rcsmsg" )
 		rcsdiff ./$f_name
