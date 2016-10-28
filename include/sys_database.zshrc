@@ -1,6 +1,6 @@
-#!/usr/local/bin/bash
-# @(#)[sys_database.zshrc 2016/04/24 04:43:39 tw@csongor.lan]
-# vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
+#!/usr/bin/env zsh
+# @(#)[sys[sys_database.zshrc 2016/04/24 04:43:39 tw@csongor.lan]database.zshrc 2016/10/28 15:24:10 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 AMUSE_SOCKET="$XDG_DATA_HOME/run/amuse.socket"
 

@@ -1,5 +1,5 @@
 # @(#)[editor.zshrc 2016/09/18 02:06:37 tw@csongor.lan]
-# vim: filetype=bash tabstop=4 textwidth=72 noexpandtab
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export EDITOR='/usr/local/bin/vim'
 export VIMINIT="so $XDG_CONFIG_HOME/vim/vimrc"
