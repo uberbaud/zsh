@@ -1,4 +1,4 @@
-# $Id: postgresql.zshrc,v 1.2 2016/10/23 02:58:04 tw Exp $
+# @(#)[postgresql.zshrc 2016/10/23 02:58:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 PSQL_HOME=$XDG_CONFIG_HOME/pg

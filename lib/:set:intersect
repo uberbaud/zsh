@@ -1,4 +1,4 @@
-# $Id: :set:intersect,v 1.2 2016/05/11 18:48:28 tw Exp tw $
+# @(#)[:set:intersect 2016/05/11 18:48:28 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

@@ -1,4 +1,4 @@
-# $Id: printer.zshrc,v 1.1 2016/04/24 04:41:32 tw Exp $
+# @(#)[printer.zshrc 2016/04/24 04:41:32 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 PRINTER='poco'

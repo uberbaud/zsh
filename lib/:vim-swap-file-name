@@ -1,4 +1,4 @@
-# $Id: :vim-swap-file-name,v 1.2 2016/09/18 01:13:47 tw Exp tw $
+# @(#)[:vim-swap-file-name 2016/09/18 01:13:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: highlight-window.zsh,v 1.1 2016/10/25 07:08:52 tw Exp $
+# @(#)[highlight-window.zsh 2016/10/25 07:08:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

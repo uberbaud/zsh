@@ -1,4 +1,4 @@
-# $Id: fetchmail.zshrc,v 1.1 2016/09/13 00:34:03 tw Exp $
+# @(#)[fetchmail.zshrc 2016/09/13 00:34:03 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 FETCHMAILHOME=$XDG_CONFIG_HOME/fetchmail

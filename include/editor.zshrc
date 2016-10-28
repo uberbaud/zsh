@@ -1,4 +1,4 @@
-# $Id: editor.zshrc,v 1.4 2016/09/18 02:06:37 tw Exp tw $
+# @(#)[editor.zshrc 2016/09/18 02:06:37 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export EDITOR=$SYSLOCAL/bin/vim

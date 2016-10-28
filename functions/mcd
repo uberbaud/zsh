@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: mcd,v 1.3 2016/10/25 07:47:28 tw Exp $
+# @(#)[mcd 2016/10/25 07:47:28 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 emulate -L zsh
 

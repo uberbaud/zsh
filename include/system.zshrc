@@ -1,4 +1,4 @@
-# $Id: system.zshrc,v 1.7 2016/09/22 04:06:22 tw Exp $
+# @(#)[system.zshrc 2016/09/22 04:06:22 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 function pkg { # {{{1

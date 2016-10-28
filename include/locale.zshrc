@@ -1,4 +1,4 @@
-# $Id: locale.zshrc,v 1.6 2016/05/27 05:48:38 tw Exp $
+# @(#)[locale.zshrc 2016/05/27 05:48:38 tw@csongor.lan]
 # vim: tabstop=4 filetype=sh
 
 # LOCALIZATION & STANDARDIZATION

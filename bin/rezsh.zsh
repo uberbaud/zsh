@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: rezsh.zsh,v 1.16 2016/10/27 04:49:41 tw Exp $
+# @(#)[rezsh.zsh 2016/10/27 04:49:41 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh

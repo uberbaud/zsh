@@ -1,4 +1,4 @@
-# $Id: zsh-ux.zshrc,v 1.17 2016/10/23 22:51:00 tw Exp $
+# @(#)[zsh-ux.zshrc 2016/10/23 22:51:00 tw@csongor.lan]
 # vim: tabstop=4 filetype=sh nowrap
 
 HISTFILE=~/.local/zsh/histfile

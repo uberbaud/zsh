@@ -1,4 +1,4 @@
-# $Id: perl.zshrc,v 1.3 2016/05/10 05:58:03 tw Exp $
+# @(#)[perl.zshrc 2016/05/10 05:58:03 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 # ---------- local::lib Stuff ----------

@@ -1,4 +1,4 @@
-# $Id: termio.zshrc,v 1.6 2016/09/18 01:39:00 tw Exp $
+# @(#)[termio.zshrc 2016/09/18 01:39:00 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 CLICOLOR=1

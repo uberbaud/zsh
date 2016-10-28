@@ -1,4 +1,4 @@
-# $Id: wraps.zshrc,v 1.18 2016/10/24 01:23:40 tw Exp $
+# @(#)[wraps.zshrc 2016/10/24 01:23:40 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )

@@ -1,4 +1,4 @@
-# $Id: backup.zshrc,v 1.1 2016/04/24 03:12:34 tw Exp $
+# @(#)[backup.zshrc 2016/04/24 03:12:34 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 ABS_BACKUP_ORIGIN="$HOME"

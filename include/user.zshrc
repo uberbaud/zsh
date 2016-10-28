@@ -1,4 +1,4 @@
-# $Id: user.zshrc,v 1.5 2016/10/08 03:33:54 tw Exp $
+# @(#)[user.zshrc 2016/10/08 03:33:54 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"

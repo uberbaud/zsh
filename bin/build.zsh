@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: build.zsh,v 1.13 2016/10/25 07:07:16 tw Exp $
+# @(#)[build.zsh 2016/10/25 07:07:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -9,20 +9,31 @@ emulate -L zsh
 typeset -- this_pgm=$(basename $0)
 typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t"
-	'  %T-v%t  verbose'
-	'  %T-n%t  dry run and verbose'
+	'  Uses information in a header to get build options and does it.'
+	'    %T-v%t  verbose'
+	'    %T-n%t  dry run and verbose'
+	"%T${this_pgm:gs/%/%%} -H%t"
+	'  Show an extensive description of the %Bbuild header%b.'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
 ); # }}}1
+function -filedoc { # {{{1
+	typeset -- tag='IN-FILE-DOCUMENTATION'
+	awk "/^: <<-$tag/,/^$tag/" $1		\
+	| egrep -v "$tag\$"					\
+	| less -r
+    exit
+} # }}}1
 # process -options {{{1
 function bad_programmer {	# {{{2
 	-die '%BProgrammer error%b:' "  No %Tgetopts%t action defined for %T-$1%t."
   };	# }}}2
 typeset -- verbose=false
 typeset -- actually_run_cmd=true
-while getopts ':hnv' Option; do
+while getopts ':hHnv' Option; do
 	case $Option in
 		h)	-usage $Usage;										;;
+		H)	-filedoc $0;										;;
 		n)	verbose=true; actually_run_cmd=false;				;;
 		v)	verbose=true;										;;
 		\?)	-die "Invalid option: '-$OPTARG'.";					;;
@@ -48,6 +59,7 @@ typeset -a AWKPGM=( # {{{1
 	'/^[[:space:]]*\*[[:space:]]+---[[:space:]]*$/'
 		'{ nextfile; }'	# quit
   ) # }}}1
+
 typeset -- rx_sets_outfile=$'(^|[ \t])-[co][[:>:]]'
 typeset -- bofile='build.output'
 typeset -i totalerrs=0
@@ -110,5 +122,37 @@ else
 	rm $bofile
 fi
 exit totalerrs
+
+# begin in-file documentation {{{1
+: <<-IN-FILE-DOCUMENTATION
+
+    [1mEXTENSIVE BUILD HEADER DESCRIPTION[22m
+
+    The build header must occur before the first blank line in the file.
+
+    In order to support various comment styles, each header declaration 
+    line may contain any number of characters before the declaration
+    and looks like:
+
+[33m
+        BUILD-OPTS (clang)
+        : -opt
+        # some comment
+        :s=Linux: --linux-option
+        :s=Darwin:---some-text
+        : --darwin-option1
+        : --darwin-option2
+        :---some-text
+        ---
+[0m
+    The compiler/assembler/etc name is in parenthesis after the
+    term BUILD-OPTS and more than BUILD-OPTS declaration
+    is allowed, each one run in turn.
+
+    The first triple dash ends the build header.
+    each :flag=SomeText: is a uname flag set, if the text matches
+
+IN-FILE-DOCUMENTATION
+# end in-file documentation }}}1
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

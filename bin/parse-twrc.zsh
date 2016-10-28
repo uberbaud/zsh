@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: parse-twrc.zsh,v 1.4 2016/10/27 04:45:59 tw Exp $
+# @(#)[parse-twrc.zsh 2016/10/27 04:45:59 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh

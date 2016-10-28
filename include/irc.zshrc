@@ -1,4 +1,4 @@
-# $Id: irc.zshrc,v 1.1 2016/04/24 03:48:02 tw Exp $
+# @(#)[irc.zshrc 2016/04/24 03:48:02 tw@csongor.lan]
 # vim: tabstop=4 textwidth=72 noexpandtab
 
 EPIC5_HOME="$XDG_CONFIG_HOME/epic5"

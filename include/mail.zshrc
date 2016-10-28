@@ -1,4 +1,4 @@
-# $Id: mail.zshrc,v 1.10 2016/10/15 07:17:19 tw Exp $
+# @(#)[mail.zshrc 2016/10/15 07:17:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 MAILCHECK=-1

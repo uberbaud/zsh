@@ -1,4 +1,4 @@
-# $Id: :up-conky-note,v 1.2 2016/05/04 21:21:32 tw Exp tw $
+# @(#)[:up-conky-note 2016/05/04 21:21:32 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh

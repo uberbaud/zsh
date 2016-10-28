@@ -1,7 +1,14 @@
-# $Id: rezsh,v 1.6 2016/10/25 07:47:28 tw Exp tw $
+# @(#)[rezsh 2016/10/28 08:06:00 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
+
+# save state
+typeset -- OPWD=$PWD
+# setopts and set +o only print the difference from standard, so
+typeset -a sopts=(
+	$(set -o | awk '/ on$/ {print "-o " $1;} / off$/ {print "+o " $1;}')
+  )
 
 # keep everything in a script so we don't have to run this twice,
 # but source it so it gets the current state of affairs of an 
@@ -11,5 +18,9 @@ print -Pu 2 '  %F{4}>>>%f %Brecompiling all the pieces.%b'
 # but we must source it in a function for it to affect the current shell
 print -Pu 2 '  %F{4}>>>%f %Bre-sourcing%b'
 . $ZDOTDIR/.zshrc
+
+# restore state
+set $sopts
+cd $OPWD
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

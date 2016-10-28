@@ -1,4 +1,4 @@
-# $Id: uberbaud.zshrc,v 1.4 2016/10/23 02:34:38 tw Exp $
+# @(#)[uberbaud.zshrc 2016/10/23 02:34:38 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 # THIS FILE CONTAINS

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# $Id: wifi%.zsh,v 1.3 2016/10/25 07:09:12 tw Exp $
+# @(#)[wifi%.zsh 2016/10/25 07:09:12 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -i signalstrength=0
