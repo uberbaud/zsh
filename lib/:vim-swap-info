@@ -12,7 +12,7 @@
 
 emulate -L zsh
 
-typeset -- fname=$( /usr/bin/readlink -fn $1 )
+typeset -- fname=$( readlink -fn $1 )
 # fname may be set to something that doesn't exist, but that's up to the 
 # caller to handle. It's better this way as it allows for testing 
 # a non-existent file which you're getting ready to create but which may 

@@ -1,0 +1,21 @@
+# vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
+# @(#)[Initial]
+
+emulate -L zsh
+
+# we only handle the -nf filename bits
+(($#!=2))&&			{ /usr/bin/readlink $@; return $?; }
+[[ $1 == -n ]]&&	{ /usr/bin/readlink $@; return $?; }
+
+[[ ${1:0:1} == '-' && $1 =~ f ]]&& {
+	[[ $1 =~ '[^-fn]' ]]&& { die 'Unknown flag!'; return 1; }
+	typeset -- fname=$( $USRBIN/getTrueName $2 )
+	[[ -n $fname ]]|| return 1
+	printf '%s' $fname
+	[[ $1 =~ n ]]|| echo
+	return 0
+}
+
+/usr/bin/readlink $@
+
+# Copyright (C) 2016 by Tom Davis <tom@tbdavis.com>.

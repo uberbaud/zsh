@@ -22,13 +22,18 @@ Z=$ZDOTDIR
 
 export USRLIB=$XDG_DATA_HOME/lib
 export USR_ZSHLIB=$ZDOTDIR/lib
-export USRBIN=~/bin
+[[ -d ~/bin ]] && { USRBIN=~/bin; path=( $USRBIN $path ); }
+[[ -d $XDG_DATA_HOME/bin ]] && {
+	USRBIN=$XDG_DATA_HOME/bin
+	path=( $USRBIN $path )
+}
+[[ -n $USRBIN ]]&& export USRBIN
 export LOCALBIN=~/.local/bin
-path=( $USRBIN $path /usr/games )
+path=( $path /usr/games )
 
 . $ZDOTDIR/.include
 
-fpath=( "$ZDOTDIR/usrfuncs.zwc" $fpath )
+fpath=( $ZDOTDIR/usrfuncs.zwc $fpath )
 # Autoload all functions we compile into usrfuncs.zwc
 autoload -Uz $ZDOTDIR/functions/*(*:t)
 

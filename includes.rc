@@ -37,50 +37,50 @@
  - = SKIP
  c = csongor
  u = uberbaud.net
-; s = sam
+ s = sam
 
 ; -----------------------------------------
 ;  application environment thingies FIRST!
 ;  -----------------------------------------
-    c u   locale					; LC, LANG, etc
-    c u   ${(L)$(/usr/bin/uname)}	; local stuff
-    c u   ${HOST%%.*}				; local stuff
+    c u s  locale					; LC, LANG, etc
+    c u s  ${(L)$(/usr/bin/uname)}	; local stuff
+    c u s  ${HOST%%.*}				; local stuff
 
 ; -----------------------------------------
 ;  application environment thingies AFTER
 ; -----------------------------------------
-    c u   zsh-ux				; shell experience
-    c u   editor				; vim, etc
-    c -   printer				; cups printer
-    c u   termio				; Colors, -t dependent output
-    c u   wraps
+    c u s  zsh-ux				; shell experience
+    c u s  editor				; vim, etc
+    c - -  printer				; cups printer
+    c u s  termio				; Colors, -t dependent output
+    c u s  wraps
 
 ; -----------------------------------------
 ;  language environment thingies
 ; -----------------------------------------
-    c u   c
-    c u   perl
-    c u   perl6
-    c u   versctrl
+    c u s  c
+    c u s  perl
+    c u s   perl6
+    c u s  versctrl
 
 ; -----------------------------------------
 ;  other user features
 ; -----------------------------------------
-    c u   postgresql
-    c u   system
-    c u   user
-    c u   sys_database
-    - -   rlwrap
-    c -   irc
-    c -   backup
-    c u   mail
-    c -   x11
-    c -   fetchmail
+    c u s  postgresql
+    c u s  system
+    c u s  user
+    c u s  sys_database
+    - - -  rlwrap
+    c - -  irc
+    c - -  backup
+    c u -  mail
+    c - -  x11
+    c - -  fetchmail
 
 ; -----------------------------------------
 ;  … and finally
 ; -----------------------------------------
-    c u   wraps-end
+    c u s  wraps-end
 
 ; -----------------------------------------
 ;  Everything below this is to satisify
@@ -94,4 +94,4 @@
     -     openbsd
     -     uberbaud
     -     csongor
-;    -     sam
+    -     sam

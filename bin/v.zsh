@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[v.zsh 2016/10/28 14:20:51 tw@csongor.lan]
+# @(#)[v.zsh 2016/10/31 06:43:36 tw@sam.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh
@@ -50,7 +50,14 @@ function warnOrDie { #{{{1
 (( $# >= 2 ))	&& -die 'Too many arguments.' "Expected one (1) %Ufile-name%u."
 [[ -a $1 ]]		|| -die "No such file %B${1:gs/%/%%}%b."
 
-typeset -- f_fullpath="$( readlink -fn -- $1 )"
+typeset -- f_fullpath
+if [[ -x $USRBIN/getTrueName ]]; then
+	f_fullpath="$( $USRBIN/getTrueName $1 )"
+else
+	f_fullpath="$( readlink -fn -- $1 )"
+fi
+
+
 [[ -n $f_fullpath ]]	|| -die 'Could not follow link.'
 [[ -f $f_fullpath ]]	|| -die "%B${1:gs/%/%%}%b is %Bnot%b a file."
 [[ $( /usr/bin/file -b $f_fullpath ) =~ 'text|XML' ]]	\
@@ -124,17 +131,33 @@ typeset -- has_rcs=false
 	co -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
   }
 
+# different OSes have different ways of getting the sha384, and of 
+# providing that in base64, additionally
+# macOS sed requires an "unattached" parameter for -i (eg none => `-i 
+# ''`), whereas linux and openbsd require an "attached" parameter (eg 
+# none => `-i`).
+typeset -a inplace=( -i )
+if [[ $(uname) == Darwin ]]; then
+	shaid() { echo ${$(shasum -a 384 ./$1)[1]} | xxd -r -p | base64; }
+	inplace+=( '' )
+elif [[ $(uname) == Linux ]]; then
+	shaid() { echo ${$(sha384sum ./$1)[1]} | xxd -r -p | base64; }
+else
+	shaid() { cksum -a sha384b ./$1; }
+fi
+
 # TEMPORARY !!! Note the superfluous quotes to keep egrep from matching 
 # any of the `egrep` or `sed` lines
 egrep -q '\$Id'': ' ./$f_name && { # previously checked in
 	-warn 'Updating %SRCS:Id%s line.'
-	sed -i -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
+	sed "${(@)inplace}" -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
 }
 egrep -q '\$Id''\$' ./$f_name && { # never been kissed
 	-warn 'Updating %SRCS:Id%s line.'
-	sed -i -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
+	sed "${(@)inplace}" -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
 }
-typeset -- CKSUM=$(cksum -a sha384b ./$f_name)
+
+typeset -- CKSUM=$(shaid $f_name)
 
 $edit_cmd
 
@@ -142,14 +165,14 @@ $edit_cmd
 # 1. If there is such a string, and
 egrep -q '@''\(#\)\[' ./$f_name && {
 	# 2. if there were changes
-	[[ $CKSUM == $(cksum -a sha384b ./$f_name) ]]|| {
+	[[ $CKSUM == $(shaid $f_name) ]]|| {
 		typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
 		typeset -- newid
 		# escape any of separator #, whole match &, or escape \
 		printf '%s %s %s %s@%s' $f_name $now $USERNAME $HOST	\
 			| sed -e 's#[_&\\]#\&#g'							\
 			| :assign newid
-		sed -i -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
+		sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
 	}
 }
 
