@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[new.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/04 08:43:04 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -109,7 +109,8 @@ function list_vars { # {{{2
 		'                       %F{248}# $EMAIL must be exported elsewhere%f'
 		"    «[CCOPYRIGHT]»   := '${CCOPYRIGHT}'"
 		'                       %F{248}# Copyright © $YEAR by $ORGANIZATION <$EMAIL>.%f'
-		' '
+		"    «:IDENT:»        := '@(""#)[:stemma: $(date -u +'%Y/%m/%d %H:%M:%S') $USERNAME@$HOST]"
+		'                       %F{248}# @(''#)[:stemma: %%Y/%%m/%%d %%H:%%M:%%S $USERNAME@$HOST]%f'
 		'%F{4}  And if you use %F{2}-m %Urcs initial message%u%F{4}, then%f'
 		"    «[DESCRIPTION]»  := '%Urcs initial message%u'"
 	  )
@@ -292,6 +293,15 @@ function do_common { # {{{2
 		check_for_cyclical_matching $match
 		file=${file/$MATCH/${(P)match}}
 	done
+
+	# replace new style Identity string
+	typeset -- IDENT='«:IDENT:»'
+	[[ $file =~ $IDENT ]] && {
+		typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
+		typeset -- stemma=$(uuid85|tr '>' , )
+		typeset -- newid='@(''#'')'"[:$stemma: $now $USERNAME@$HOST]"
+		file=${file:gs/«:IDENT:»/$newid}
+	}
 
 	print -Rn $file > $file_path
 

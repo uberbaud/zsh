@@ -1,4 +1,4 @@
-# @(#)[zsh.rc 2016/10/27 04:39:19 tw@csongor.lan]
+# @(#)[:i9YoD[zsh.rc 2016/10/27 04:39:19 tw@csongor.lan];YXx!+76#lfL<k: 2016/11/04 09:48:38 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -22,13 +22,18 @@ Z=$ZDOTDIR
 
 export USRLIB=$XDG_DATA_HOME/lib
 export USR_ZSHLIB=$ZDOTDIR/lib
-[[ -d ~/bin ]] && { USRBIN=~/bin; path=( $USRBIN $path ); }
 [[ -d $XDG_DATA_HOME/bin ]] && {
 	USRBIN=$XDG_DATA_HOME/bin
+	LOCALBIN=$XDG_DATA_HOME/bin
+	path=( $USRBIN $path )
+}
+[[ -d ~/bin ]] && {
+	USRBIN=~/bin
 	path=( $USRBIN $path )
 }
 [[ -n $USRBIN ]]&& export USRBIN
-export LOCALBIN=~/.local/bin
+[[ -n $LOCALBIN ]]&& export LOCALBIN
+
 path=( $path /usr/games )
 
 . $ZDOTDIR/.include

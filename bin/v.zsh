@@ -1,8 +1,11 @@
 #!/usr/bin/env zsh
-# @(#)[v.zsh 2016/10/31 06:43:36 tw@sam.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/11/04 08:20:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh
+
+[[ -d $LOCALBIN ]] || -die '%F{6}$LOCALBIN%f is not set.'
+path+=( $LOCALBIN )
 
 # Usage {{{1
 typeset -- this_pgm=${0##*/}
@@ -146,16 +149,40 @@ else
 	shaid() { cksum -a sha384b ./$1; }
 fi
 
+typeset -- stemma=''
+[[ ${${(f)"$(what -s ./$f_name )"}[2]} =~ '\[:([[:print:]]{20}): ' ]]&& {
+	stemma=$match[1]
+	printf '  \e[36m1. stemma set to %s\e[0m\n' $stemma >&2
+}
+
 # TEMPORARY !!! Note the superfluous quotes to keep egrep from matching 
 # any of the `egrep` or `sed` lines
+typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
+typeset -- newid
 egrep -q '\$Id'': ' ./$f_name && { # previously checked in
 	-warn 'Updating %SRCS:Id%s line.'
-	sed "${(@)inplace}" -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
+	[[ -n $stemma ]]|| {
+		stemma=$(uuid85|tr '>' , )
+		printf '  \e[36m2. stemma set to %s\e[0m\n' $stemma >&2
+	}
+	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
+		| sed -e 's#[_&\\]#\&#g'							\
+		| :assign newid
+	sed "${(@)inplace}" -E '/@\(#\)/s_\[[^\]*\]_['$newid']_' ./$f_name
+	sed "${(@)inplace}" -E '/\$Id:[^$]+\$/s__@''(#)['$newid']_' ./$f_name
 }
 egrep -q '\$Id''\$' ./$f_name && { # never been kissed
-	-warn 'Updating %SRCS:Id%s line.'
-	sed "${(@)inplace}" -E '/\$Id/s_\$''Id: (.*),v [^ ]+ ([^ ]+ [^ ]+) tw.*\$_@''(#)''[\1 \2 '$USERNAME@$HOST']_' ./$f_name
+	-warn 'Updating (empty) %SRCS:Id%s line.'
+	[[ -n $stemma ]]|| {
+		stemma=$(uuid85|tr '>' , )
+		printf '  \e[36m3. stemma set to %s\e[0m\n' $stemma >&2
+	}
+	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
+		| sed -e 's#[_&\\]#\&#g'							\
+		| :assign newid
+	sed "${(@)inplace}" -E '/\$Id\$/s__@''(#)['$newid']_' ./$f_name
 }
+# END OF TEMPORARY
 
 typeset -- CKSUM=$(shaid $f_name)
 
@@ -166,10 +193,14 @@ $edit_cmd
 egrep -q '@''\(#\)\[' ./$f_name && {
 	# 2. if there were changes
 	[[ $CKSUM == $(shaid $f_name) ]]|| {
-		typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
+		now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
+		[[ -n $stemma ]]|| {
+			stemma=$(uuid85|tr '>' , )
+			printf '  \e[36m4. stemma set to %s\e[0m\n' $stemma >&2
+		}
 		typeset -- newid
-		# escape any of separator #, whole match &, or escape \
-		printf '%s %s %s %s@%s' $f_name $now $USERNAME $HOST	\
+		# escape any of separator _, whole match &, or escape \
+		printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
 			| sed -e 's#[_&\\]#\&#g'							\
 			| :assign newid
 		sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name

@@ -1,0 +1,9 @@
+# $Id$
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+/usr/local/bin/mhstore $argv
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

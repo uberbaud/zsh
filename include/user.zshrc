@@ -1,4 +1,4 @@
-# @(#)[user.zshrc 2016/10/08 03:33:54 tw@csongor.lan]
+# @(#)[user.zshrc 2016/11/04 05:30:45 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -25,8 +25,8 @@ function radio { # play radio wazee {{{1
 	  )
 	usr/local/bin/mplayer $opts $radio_wazee
 }; # }}}1
-function p { cd ~/play; while (($#)); do cd $1; shift; done; }
 
 alias find='noglob find'
 alias newest='noglob newest'
+alias p='noglob p'
 

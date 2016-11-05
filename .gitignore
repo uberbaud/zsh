@@ -1,3 +1,4 @@
 *.zwc
 .zcompdump*
 .include
+lib/common.zsh

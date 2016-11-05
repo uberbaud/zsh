@@ -1,0 +1,48 @@
+# $Id$
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+cd ~/play
+(($#))|| return 0	# no directory given so we're done
+(($#>1))&&	{ print -Pu 2 '  %F{4}Usage%f: %F{2}p%f %Udir%u'; return 0; }
+
+setopt null_glob
+typeset -a possibles=()
+if [[ -d $1 ]]; then
+	possibles=( $1 )
+elif [[ $1 =~ '\*' ]]; then
+	eval 'possibles=( $1(/) )'
+else
+	eval 'possibles=( *$1*(/) )'
+fi
+
+function new_dir {
+	typeset -- makedir
+	printf '  Make a \e[1mnew\e[22m directory \e[32m%s\e[0m? ' $choice
+	read -rsq makedir
+	echo
+	[[ $makedir == y ]]|| return 0
+	mkdir -p $1
+}
+
+typeset -- choice='-'
+if (($#possibles==1)); then
+	choice=$possibles[1]
+	[[ -d $choice ]] && { cd $possibles; return $?; }
+	new_dir $choice;
+else
+	if (($#possibles)); then
+		choice=$( umenu $possibles )
+	else
+		choice=$( umenu $1 *(/) )
+	fi
+	[[ -n $choice ]]|| return 1
+	new_dir $choice;
+fi
+
+[[ -n $choice ]]|| return 0
+cd $choice
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
