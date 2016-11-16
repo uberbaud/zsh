@@ -1,4 +1,4 @@
-# @(#)[:rootness:init 2016/09/03 22:37:10 tw@csongor.lan]
+# @(#)[:k#a|CsDV1LV4)B7mGcR3: 2016/11/16 19:26:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -9,7 +9,6 @@ while (($?)); do
 	(( i-- )) || -die 'Could not gather %Brootness%b.'
 	coproc doas ~/.local/bin/simplesh 'READY' 2>>~/log/simplesh
 	read -rpt 5 || -warn 'Bad try.'
-	[[ $REPLY == 'READY' ]]
 done
 [[ $REPLY == 'READY' ]] || -die 'Unexpected %Brootness%b condition.'
 
