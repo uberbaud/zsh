@@ -1,7 +1,9 @@
-# @(#)[:rootness:finit 2016/06/06 01:57:46 tw@csongor.lan]
+# @(#)[:%k=ZquhegDaoPsG@dGKX: 2016/11/17 08:13:50 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
+
+printf ':rootness:finit\n' >> ~/log/simplesh
 
 print -p 'exit'
 

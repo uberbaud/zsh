@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[build.zsh 2016/10/25 07:07:16 tw@csongor.lan]
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2016/11/13 02:32:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -19,9 +19,7 @@ typeset -a Usage=(
 ); # }}}1
 function -filedoc { # {{{1
 	typeset -- tag='IN-FILE-DOCUMENTATION'
-	awk "/^: <<-$tag/,/^$tag/" $1		\
-	| egrep -v "$tag\$"					\
-	| less -r
+	sed -e "1,/^: <<-$tag/d" -e "/^$tag/"$'{g\nq\n}' $1 | less -r
     exit
 } # }}}1
 # process -options {{{1

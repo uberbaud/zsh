@@ -1,15 +1,32 @@
-# @(#)[:k#a|CsDV1LV4)B7mGcR3: 2016/11/16 19:26:47 tw@csongor.lan]
+# @(#)[:k#a|CsDV1LV4)B7mGcR3: 2016/11/17 07:14:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 
-typeset -i i=3
-false
-while (($?)); do
-	(( i-- )) || -die 'Could not gather %Brootness%b.'
-	coproc doas ~/.local/bin/simplesh 'READY' 2>>~/log/simplesh
+typeset -- expected='READY'
+typeset -- LOG=~/log/simplesh
+typeset -- RSH=~/.local/bin/simplesh
+
+[[ -x $RSH ]]|| {
+	[[ -f $RSH ]] || -die "No such file %B${RSH:gs/%/%%}%b."
+	-die "%B${RSH:gs/%/%%}%b is not executable."
+}
+touch $LOG || -die "Can't use %B${LOG:gs/%/%%}%b as log."
+
+typeset -i triesleft=3
+while ((triesleft--)); do
+	coproc doas $RSH $expected 2>>$LOG
 	read -rpt 5 || -warn 'Bad try.'
+	[[ $REPLY == $expected ]] && break
 done
-[[ $REPLY == 'READY' ]] || -die 'Unexpected %Brootness%b condition.'
+
+(( triesleft == -1))&& -die '%BNot authorized%b.'
+
+[[ $REPLY == $expected ]]|| {
+	typeset -a msgbits=( 'Unexpected %Brootness%b condition.' )
+	[[ -n $REPLY ]] && msgbits+=( "REPLY: %B${REPLY:gs/%/%%}%b" )
+	printf "%s\n" $REPLY | sed -e 's/%[Bb]/|/g'  >>$LOG
+	-die $msgbits
+}
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/11/04 08:20:01 tw@csongor.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/11/19 05:10:44 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh
@@ -14,6 +14,7 @@ typeset -- this_pgm=${0##*/}
 typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t [%T-m%t %Umessage%u] [%T-f%t] %Ufile%u"
 	'  %T-m%t  Use %Umessage%u as rcs checkin message.'
+	'  %T-s%t  Create new stemma and replace any existing.'
 	"  %T-f%t  Force edit even if %Ufile%u isn't text."
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
@@ -23,11 +24,13 @@ function bad_programmer {	# {{{2
 	-die '%BProgrammer error%b:' "  No %Tgetopts%t action defined for %T-$1%t."
   };	# }}}2
 typeset -- hasmsg=false;
+typeset -- newStemma=false
 typeset -- warnOrDie='die';
 typeset -- rcsmsg='';
-while getopts ':fhm:' Option; do
+while getopts ':fshm:' Option; do
 	case $Option in
 		f)	warnOrDie='warn';									;;
+		s)	newStemma=true;										;;
 		h)	-usage $Usage;										;;
 		m)	hasmsg=true; rcsmsg=$OPTARG;						;;
 		\?)	-die "Invalid option: '-$OPTARG'.";					;;
@@ -150,10 +153,23 @@ else
 fi
 
 typeset -- stemma=''
-[[ ${${(f)"$(what -s ./$f_name )"}[2]} =~ '\[:([[:print:]]{20}): ' ]]&& {
+if [[ ${${(f)"$(what -s ./$f_name )"}[2]} =~ '\[:([[:print:]]+): ' ]]; then
 	stemma=$match[1]
-	printf '  \e[36m1. stemma set to %s\e[0m\n' $stemma >&2
-}
+	if (( $#stemma != 20 )); then
+		stemma=$(uuid85|tr '>' , )
+		printf '  \e[36m1. stemma reset to %s\e[0m\n' $stemma >&2
+		newStemma=true
+	elif $newStemma; then
+		typeset -- old=$stemma
+		stemma=$(uuid85|tr '>' , )
+		printf '  \e[36m1. stemma reset from %s to %s\e[0m\n' $old $stemma >&2
+		unset old
+	else
+		printf '  \e[36m1. stemma set to %s\e[0m\n' $stemma >&2
+	fi
+elif $newStemma; then
+	-warn 'No %Bstemma%b found, so not resetting one.'
+fi
 
 # TEMPORARY !!! Note the superfluous quotes to keep egrep from matching 
 # any of the `egrep` or `sed` lines
@@ -161,6 +177,7 @@ typeset -a now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
 typeset -- newid
 egrep -q '\$Id'': ' ./$f_name && { # previously checked in
 	-warn 'Updating %SRCS:Id%s line.'
+
 	[[ -n $stemma ]]|| {
 		stemma=$(uuid85|tr '>' , )
 		printf '  \e[36m2. stemma set to %s\e[0m\n' $stemma >&2
@@ -186,7 +203,17 @@ egrep -q '\$Id''\$' ./$f_name && { # never been kissed
 
 typeset -- CKSUM=$(shaid $f_name)
 
+# do the CKSUM before this to force a save
+$newStemma && {
+	-warn 'Updating current file with new stemma.'
+	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
+		| sed -e 's#[_&\\]#\&#g'							\
+		| :assign newid
+	sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
+}
+
 $edit_cmd
+
 
 # UPDATE the @''(#)[…] string
 # 1. If there is such a string, and
@@ -195,10 +222,9 @@ egrep -q '@''\(#\)\[' ./$f_name && {
 	[[ $CKSUM == $(shaid $f_name) ]]|| {
 		now=( $(date -u +'%Y/%m/%d %H:%M:%S') )
 		[[ -n $stemma ]]|| {
-			stemma=$(uuid85|tr '>' , )
+			stemma=$(uuid85|tr '>' ',' )
 			printf '  \e[36m4. stemma set to %s\e[0m\n' $stemma >&2
 		}
-		typeset -- newid
 		# escape any of separator _, whole match &, or escape \
 		printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
 			| sed -e 's#[_&\\]#\&#g'							\

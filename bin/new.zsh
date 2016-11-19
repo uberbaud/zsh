@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/04 08:43:04 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/19 04:03:47 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -21,23 +21,24 @@ template_dir="${TEMPLATES_FOLDER:-${HOME}/.templates}"
 #   PROCESS OPTIONS                                                {{{1
 # ======================================================================
 typeset -a Usage=(
-	'%Tnew%t [%T-d%t] [%T-n%t] [%T-m%t %Umsg%u] [%T-z%t|%T-t%t %Uext%u] %Ufull_name%u'
+	'%Tnew%t [%T-d%t] [%T-n%t] [%T-z%t|%T-t%t %Uext%u] %Ufull_name%u %Udesc%u'
 	'  %T-d%t  do not use %BRCS%b, and mark it so %Tv%t won'\''t either'
-	'  %T-m%t  Use this message for RCS check-in and IN the file (%BDESCRIPTION%b)'
 	'  %T-n%t  do not edit (still does an initial RCS checkin)'
 	'  %T-t%t  ext will use the template for that extension.  This overrides any'
-	  '      actual extension'
+	  '      actual extension, no description required.'
 	'  %T-x%t  include template specific mod'
 	'  %T-z%t  Create a temporary file, the contents of which are copied to the'
 	'        clipboard after editing. Then the file is deleted.'
-	''
+	'  %Udesc%u Use this description for RCS log message, and'
+	'        IN the file (%BDESCRIPTION%b)'
+	' '
 	'%Tnew%t [%T-V%t] [%T-T%t]'
 	'  %T-V%t  list available variables and values'
 	'  %T-T%t  list available templates'
-	''
+	' '
 	'%Tnew%t [%T-X%t %Utemplate%u]'
 	'  %T-X%t  list available mods for template'
-	''
+	' '
 	'%Tnew -h%t'
 	'  %T-h%t  print this message.'
 )
@@ -162,10 +163,9 @@ function list_templates { # {{{2
 }; # }}}2
 typeset -- warnOrDie='die'
 typeset -a vopts=()
-while getopts ":dm:nt:x:z:hVTX:f" Option; do
+while getopts ":dnt:x:z:hVTX:f" Option; do
 	case $Option in
 		d)	RUN_DONT_RCS=true;							;;
-		m)	typeset -xr DESCRIPTION="${OPTARG}";		;;
 		n)	DO_EDIT=false;								;;
 		t)	extension="${OPTARG}";						;;
 		x)	newModules+=( "${OPTARG}" );				;;
@@ -219,13 +219,16 @@ $SHOW_VARIABLES && exit
 $SHOW_TEMPLATES && exit
 
 if $USE_TMPFILE; then
-	(( $# == 0 )) || -die 'Unexpected arguments. No %Ufilename%u needed.'
+	(( $# == 0 )) || -die 'Unexpected arguments. No %Ufilename%u or %Udesc%u needed.'
+	DESCRIPTION=${DESCRIPTION:-Temporary File}
 	cmdln_arg=$( mktemp )
 	-notify "Using tempfile UB${cmdln_arg:gs/%/%%}%b."
 else
-	(( $# > 0 )) || -die 'No file given to create.'
-	(( $# < 2 )) || -die 'Too many arguments on command line.'
-	cmdln_arg="$1"
+	(( $# > 0 )) || -die 'No file given to create nor description.'
+	(( $# > 1 )) || -die 'Missing required %Bdescription%b.'
+	(( $# < 3 )) || -die 'Too many arguments on command line.'
+	cmdln_arg=$1
+
 	[[ -e $cmdln_arg ]] && -die "%B${cmdln_arg:gs/%/%%}%b already exists."
 fi
 
@@ -364,8 +367,7 @@ fi
 $RUN_DONT_RCS && [[ -w RCS/ ]] && $USRBIN/dont-rcs $file_name
 
 if $DO_EDIT; then
-	vopts+=( -- )
-	[[ -n $DESCRIPTION ]]&& vopts=( -m $DESCRIPTION -- )
+	vopts+=( -m $DESCRIPTION -- )
 	v $vopts $file_name;
 elif [[ -w RCS/ ]]; then
 	if ! $RUN_DONT_RCS; then
@@ -373,7 +375,7 @@ elif [[ -w RCS/ ]]; then
 			-i	# initial check-in
 			-u	# unlock file (keep a copy checked out) after versioning
 		)
-		[[ -n "$DESCRIPTION" ]] && ci_opts+=( "-t-'$DESCRIPTION'" )
+		[[ -n $DESCRIPTION ]] && ci_opts+=( "-t-'$DESCRIPTION'" )
 		# do the check-in
 		echo /usr/bin/ci $ci_opts \"$file_name\"
 		/usr/bin/ci $ci_opts -- $file_name

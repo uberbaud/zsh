@@ -1,12 +1,15 @@
-# @(#)[:rootness:filter:cmd 2016/06/07 03:30:46 tw@csongor.lan]
+# @(#)[:*KED)|x7u=9@~aQ21D-k: 2016/11/17 08:08:14 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 
 typeset -- filter=$1; shift
+typeset -- LOG=~/log/simplesh
 
-print -p -- ${${(qq)argv}:gs/\'\\\'\'/\'\'}			\
-	|| -die 'Unexpected %Brootness%b condition.'
+typeset -- cmd=${${(qq)argv}:gs/\'\\\'\'/\'\'}
+
+printf ':rootness:cmd:filter |%s|\n' $cmd >>$LOG
+print -p -- $cmd || -die 'Unexpected %Brootness%b condition.'
 
 local match
 local IFS=$'\0'
@@ -15,6 +18,7 @@ while read -rp respline; do
 	$filter $respline
 done
 
+printf ':rootness:cmd:filter:resp %s\n' $MATCH >>$LOG
 # return the value returned by simplesh
 return $match[2]
 
