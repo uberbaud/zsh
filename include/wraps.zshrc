@@ -1,4 +1,4 @@
-# @(#)[wraps.zshrc 2016/10/24 01:23:40 tw@csongor.lan]
+# @(#)[:PvaYmxK`#x6wvMsG[wraps.zshrc 2016/10/24 01:23:40 tw@csongor.lan]<C?: 2016/11/20 23:22:42 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -38,7 +38,7 @@ typeset -Ag	WRAP_COMMANDS=(
 	#'modver' "$USRBIN/modver.pl"	# get version of perl modules
 
 	# ───────────────────────────────────────────────────────────────────
-	#  add default options
+	#  add default options or use specific path
 	'bc' '/usr/bin/bc $@ $BC_ENV_ARG'
 	'clear' "printf '\\e[0;0H\\e[2J\\e[3J'; eval"
 	'clisp' "$SYSLOCAL/bin/clisp -i $clpath/init.lisp -lp $clpath/lib"
@@ -49,9 +49,10 @@ typeset -Ag	WRAP_COMMANDS=(
 	#
 	'rsync' "$AskFirst rsync"
 	'sbcl'  "$SYSLOCAL/bin/sbcl --userinit $XDG_CONFIG_HOME/sbcl/sbcl.rc"
-	'ssh' "$AskFirst ssh \$@; csongor-colors"
 	'scp' "$AskFirst scp"
 	'sftp' "$AskFirst sftp"
+	'sqlite3' '/usr/local/bin/sqlite3'
+	'ssh' "$AskFirst ssh \$@; csongor-colors"
 	#'tom' "$USRBIN/tweet.pl"
 
 )
