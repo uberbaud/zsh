@@ -1,4 +1,4 @@
-# @(#)[:PvaYmxK`#x6wvMsG[wraps.zshrc 2016/10/24 01:23:40 tw@csongor.lan]<C?: 2016/11/20 23:22:42 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2016/11/20 23:26:00 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
