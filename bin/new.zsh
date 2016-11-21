@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/19 04:03:47 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/21 02:22:56 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -220,14 +220,16 @@ $SHOW_TEMPLATES && exit
 
 if $USE_TMPFILE; then
 	(( $# == 0 )) || -die 'Unexpected arguments. No %Ufilename%u or %Udesc%u needed.'
-	DESCRIPTION=${DESCRIPTION:-Temporary File}
+	DESCRIPTION='Temporary File'
 	cmdln_arg=$( mktemp )
 	-notify "Using tempfile UB${cmdln_arg:gs/%/%%}%b."
 else
 	(( $# > 0 )) || -die 'No file given to create nor description.'
 	(( $# > 1 )) || -die 'Missing required %Bdescription%b.'
 	(( $# < 3 )) || -die 'Too many arguments on command line.'
+
 	cmdln_arg=$1
+	DESCRIPTION=$2
 
 	[[ -e $cmdln_arg ]] && -die "%B${cmdln_arg:gs/%/%%}%b already exists."
 fi
