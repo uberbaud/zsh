@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2016/11/13 02:32:52 tw@csongor.lan]
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2016/11/22 06:47:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -45,18 +45,6 @@ unset -f bad_programmer
 shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
-typeset -a AWKPGM=( # {{{1
-	'BEGIN'	'{ inside = 0; }'
-	# START OF BUILD-OPTS
-	'/^[[:space:]]*\/?\*[[:space:]]+BUILD-OPTS[[:space:]]*$/'
-		'{ inside = 1; next; }'
-	# an actual build option
-	'inside == 1 && /:/'
-		'{ printf( " %s", $2 ); }'
-	# FOUND END OF BUILD-OPTS
-	'/^[[:space:]]*\*[[:space:]]+---[[:space:]]*$/'
-		'{ nextfile; }'	# quit
-  ) # }}}1
 
 typeset -- rx_sets_outfile=$'(^|[ \t])-[co][[:>:]]'
 typeset -- bofile='build.output'
@@ -65,49 +53,134 @@ typeset -i totalerrs=0
 print build $*  > $bofile
 print '----'   >> $bofile
 
-function build_one {
-	-notify "Building for %B${1:gs/%/%%}%b."
-	echo "--- $1" >> $bofile
-	typeset -- base="${1%.c}"
-	typeset -- source="${base}.c"
-	[[ -f "$source" ]] || {
-		echo "!!! no such file $source" >> $bofile
-		-warn "Could not find %Ufile%u %B${source:gs/%/%%}%b."
-		return 1
-	}
+function file:exists { # {{{1
+	[[ -f $1 ]]&& return 0
+	-warn "File not found: %S${1:gs/%/%%}%s, %F{1}Skipping%f."
+	return 1
+} # }}}1
+function file:readable { # {{{1
+	[[ -r $1 ]]&& return 0
+	-warn "File %S${1:gs/%/%%}%s is unreadable, %F{1}Skipping%f."
+	return 1
+} # }}}1
+function parse-warn { # {{{1
+	typeset -a msg=(
+		'Syntax Error, '$1
+		"Line %S$3%s, %S${2:gs/%/%%}%s."
+	  )
+	[[ -n $4 ]]&& msg+=( "> %F{4}${4:gs/%/%%}%f <" )
+	-warn $msg
+} # }}}1
 
-	typeset -- cc_opts=$( awk -F':[[:space:]]*' "$AWKPGM" $source )
-	on_error {
-		echo "!!! no BUILD-OPTS for $source" >> $bofile
-		-warn 'Could not get BUILD-OPTS'
-		return 1
-		}
+function __nasm { REPLY="$2 $1"; }
+function __ld { REPLY="$2 ${1%.*}.o"; }
+function __CC { # {{{1
+	typeset -- bname=${1%.*}
+	typeset -- sname=$1
+	typeset -- cc=${2[(w)1]}
+	typeset -- cc_opts=${2[(w)2,-1]}
 
 	typeset -- outopt=''
-	[[ $cc_opts =~ $rx_sets_outfile ]] || outopt="-o '$base'"
+	[[ $cmd =~ $rx_sets_outfile ]] || outopt="-o '$bname' "
 
-	typeset -- cmd="clang -Wall $outopt '$source' $cc_opts"
-	$verbose && echo "$cmd" | fold -sw $(tput columns) >&2
-	$actually_run_cmd || return 0
-	eval "$cmd" 2>&1 | fold -sw 80 | tee -a "$bofile"
-	(($pipestatus[1]))&& {
-		-warn "${base:gs/%/%%} build failed"
-		return 1
-	  }
+	REPLY="$cc -Wall $outopt'$sname' $cc_opts"
+} # }}}1
+function __clang { __CC $@; }
+function __gcc { __CC $@; }
+
+function build-one { # {{{1
+	file:exists $1		|| return 1
+	file:readable $1	|| return 1
+
+	typeset +t -- SRC ln utest uflags uresp commented
+	typeset -- buildopts=()
+	typeset -i I=0
+	typeset -- headerfound=false
+
+	# PARSE HEADER {{{2
+	exec {SRC}<$1
+	while read -ru $SRC ln; do
+		I=$((I+1))
+		[[ $ln =~ '^[ \t]$' ]]&& { -warn "No %BBUILD-OPTS%b in %S${1:gs/%/%%}%s."; return 1; }
+		[[ $ln =~ 'BUILD-OPTS' ]]&& { headerfound=true; break; }
+	done
+	$headerfound || { -warn "No %BBUILD-OPTS%b in %S${1:gs/%/%%}%s."; return 1; }
+	buildopts+=( ${ln:$MBEGIN-1} )
+	while read -ru $SRC ln; do
+		I=$((I+1))
+		commented=false
+		[[ $ln =~ '^[ \t]$' ]]&& break
+		[[ $ln =~ '---' ]]&& break
+		[[ $ln =~ 'BUILD-OPTS' ]]&& {
+			buildopts+=( ${ln:$MBEGIN-1} )
+			continue
+		}
+		[[ $ln =~ '#' ]]&& {
+			ln=${ln:$MEND}
+			commented=true
+		}
+		[[ $ln =~ ':' ]]|| {
+			$commented || parse-warn 'not a directive (no %S:%s).' $1 $I $ln
+			continue
+		}
+		ln=${ln:$MEND}
+		[[ $ln =~ ':' ]]&& {
+			utest=${ln:0:$MBEGIN-1}
+			ln=${ln:$MEND}
+			[[ $utest =~ '=' ]]|| {
+				parse-warn 'no %S=%s in %Tuname%t test.' $1 $I
+				return 1
+			}
+			uflags=${utest:0:$MBEGIN-1}
+			uresp=${utest:$MEND}
+			[[ $uresp =~ $(uname -$uflags) ]]|| continue
+		}
+		buildopts+=( $ln )
+	done
+	exec {SRC}>&-
+	# }}}2
+	# BUILD-OPTS TO SHELL COMMANDS {{{2
+	typeset -a cmds=()
+	typeset -- cmd=''
+	for c in $buildopts; do
+		[[ $c =~ '^BUILD-OPTS' ]]&& {
+			[[ -n $cmd ]]&& cmds+=( $cmd )
+			if [[ $c =~ '^BUILD-OPTS[ \t]*\(([^\)]+)\)' ]]; then
+				cmd=$match
+			else
+				cmd=$CC
+			fi
+			continue
+		}
+		[[ $c =~ '^[ \t]*(.*?)[ \t]*$' ]] # strip leading+trailing ws
+		[[ -n $match ]]&& cmd+=" $match"
+	done
+	cmds+=( $cmd )
+	# }}}2
+	# TWEAK AND RUN COMMANDS {{{2
+	typeset -i i=1
+	while ((i<=$#cmds)); do
+		cmd=$cmds[i++]
+		((${+functions[__${cmd[(w)1]##*/}]}))&& {
+			__${cmd[(w)1]##*/} $1 $cmd
+			cmd=$REPLY
+		  }
+		$verbose && echo "$cmd" | fold -sw $(tput columns) >&2
+		$actually_run_cmd || continue
+		eval "$cmd" 2>&1 | fold -sw 80 | tee -a "$bofile"
+		(($pipestatus[1]))&& {
+			-warn "${base:gs/%/%%} build failed"
+			return 1
+		  }
+	done
+	# }}}2
 	return 0
-}
+} # }}}1
 
-(($#))|| {
-	# it's easy to set an array using a glob, so we do that, but there's 
-	# only one item, so it otherwise handles pretty much like a simple 
-	# scalar.
-	typeset -- srcfile=( *.c(om[1]) )
-	-warn 'No source file given' "Using %B%U${srcfile:gs/%/%%}%u%b."
-	set $srcfile
-}
+(($#))|| -die 'No source file(s) given.'
 
 for sourcefile in $@; do
-	build_one $sourcefile
+	build-one $sourcefile
 	(( totalerrs += $? ))
 done
 
