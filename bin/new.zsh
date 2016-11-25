@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/21 02:22:56 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/25 06:43:39 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -58,7 +58,7 @@ typeset -- SHOW_TEMPLATES=false
 typeset -- SHOW_MODS_FOR=''
 
 
-function set_vars { #{{{2
+function set-vars { #{{{2
 
 	export FILE_NAME=$1
 	export FILE_W_EXT=$file_name
@@ -79,7 +79,7 @@ function warnOrDie {	#{{{1
 		*)    -die '%BProgrammer error%b:' 'warnOrDie is %B${warnOrDie:gs/%/%%}%b.'
 	esac
 }	# }}}1
-function list_vars { # {{{2
+function list-vars { # {{{2
 	# set some vars we would need to figure out if we weren't just 
 	# listing them.
 	directory='path'
@@ -89,7 +89,7 @@ function list_vars { # {{{2
 
 	# use the same function to set things that we would if we were 
 	# really doing it so we get it exact.
-	set_vars "$directory/$file_name"
+	set-vars "$directory/$file_name"
 
 	typeset -a varlist=(
 		'%F{4}  Filename Related variables:%f'
@@ -125,41 +125,35 @@ typeset awk_rlog2description=( #{{{2
 				'print $0;'
 		'}'
   ); #}}}2
-function get_template_info { #{{{2
-	typeset --  f_name="$1"
-	if [[ -d $f_name ]]; then
-		/bin/cat "$f_name/description.txt"
+function get-template-info { #{{{2
+	typeset --  f_name=$1
+	if [[ -h $f_name ]]; then
+		printf 'alias for \e[35m%s\e[0m' ${$(readlink -f $f_name)#*/_.}
+	elif [[ -d $f_name ]]; then
+		sed -e '2,$s/^/	/' "$f_name/description.txt"
 	else
-		/usr/bin/rlog -t $f_name | /usr/bin/awk "$awk_rlog2description"
+		/usr/bin/rlog -t $f_name						\
+			| /usr/bin/awk "$awk_rlog2description"		\
+			| sed -E '2,$s/^/	/'
 	fi
 }; #}}}2
-function list_templates { # {{{2
+function list-templates { # {{{2
 	print '  Installed Templates'
-	typeset -i	max_width=0
-	typeset -a	templates=()
-	typeset -A	descriptions=()
-	typeset -- template
-	for xtra in $template_dir/_.*(:t); do
-		template=$xtra
-		# asterisk directory templates (they have *mods*!)
-		[[ -d $template_dir/$xtra ]] && template+='*'
-		(( $#template > $max_width )) && max_width=$#template
-		templates+=( $template )
-		descriptions[$template]=$( get_template_info $template_dir/$xtra )
-	done
-	(( max_width += 7 ))
-	typeset -i i;
-	typeset -r space='                                                        '
-	typeset -r padding="${space:0:$max_width}"
-	typeset -r nl_chr=$'\n'
-	typeset -- term=''
-	for template in $templates; do
-		term="     $template: ${space}"
-		term="${term:0:$max_width}"
-		definition="${descriptions[$template]//$nl_chr/$nl_chr$padding}"
-		print "${term}${definition}"
-	done
-	print '    */ templates with mods'
+	typeset -a	templates=( $template_dir/_.*(:t) )
+	templates=( ${templates#_.} )
+	typeset -i	width=${#${(O)${templates//?/X}}[1]}
+
+	typeset -- tname='' fname='' descr=''
+	for tname in $templates; do
+		fname=$template_dir/_.$tname
+		descr="$( get-template-info $fname )"
+		if [[ -d $fname ]]; then
+			printf "    \e[34m%-${width}s\e[0m  %s\n" $tname $descr
+		else
+			printf "    \e[1m%-${width}s\e[0m  %s\n" $tname $descr
+		fi
+	done | expand -t $((width+6))
+	printf '\t\e[34mtemplates with mods\e[0m, \e[1mother templates\e[0m\n'
 }; # }}}2
 typeset -- warnOrDie='die'
 typeset -a vopts=()
@@ -182,7 +176,7 @@ done
 # let's remove all of the already processed bits
 shift $(($OPTIND - 1))
 
-function get_mods_list { # {{{2
+function get-mods-list { # {{{2
 	typeset -- template=$1
 	typeset -- f_mods=$template/mods_list.txt
 	if [[ -a $f_mods ]]; then
@@ -201,7 +195,7 @@ if [[ -n $SHOW_MODS_FOR ]]; then
 		|| -die "There is no template %B_.${SHOW_MODS_FOR:gs/%/%%}%b in %B${template_dir:gs/%/%%}%b."
 	[[ -d $template ]] || -die 'No mods for this template'
 	typeset -a mods_list
-	get_mods_list $template
+	get-mods-list $template
 
 	# these opts are for the show_mods bit only, we exit thereafter
 	-notify $mods_list ''
@@ -209,10 +203,21 @@ if [[ -n $SHOW_MODS_FOR ]]; then
 	exit
 fi
 
-$SHOW_VARIABLES && list_vars
-# add a blank line between the two, if there are two
-$SHOW_VARIABLES && $SHOW_TEMPLATES && echo
-$SHOW_TEMPLATES && list_templates
+# LESS OPTIONS
+#	-F	--quit-if-one-screen
+#	-X	--no-init				# don't send tinfo init
+#	-c	--clear-screen			# from bottom, not from top
+#	-i	--ignore-case
+#	-n	--line-numbers			# turns OFF line numbers
+#	-R	--RAW-CONTROL-CHARS
+#	-W	--HILITE-UNREAD
+
+{ $SHOW_VARIABLES || $SHOW_TEMPLATES } && {
+	$SHOW_VARIABLES && list-vars
+	# add a blank line between the two, if there are two
+	$SHOW_VARIABLES && $SHOW_TEMPLATES && echo
+	$SHOW_TEMPLATES && list-templates
+  } 2>&1 | /usr/bin/env LESS='-FXcinRW' less
 
 # exit if we were just showing off
 $SHOW_VARIABLES && exit
@@ -263,7 +268,7 @@ fi
 # ======================================================================
 #  DO THE TRANFORMATION                                            {{{1
 # ======================================================================
-function do_common { # {{{2
+function do-common { # {{{2
 	typeset -r	file_path="$1"
 
 	# make sure the file was actually created.
@@ -272,7 +277,7 @@ function do_common { # {{{2
 
 	chmod u+w $file_path
 
-	set_vars $file_path
+	set-vars $file_path
 
 	# skip any lines containing the REMark declaration
 	typeset -- file=''
@@ -312,7 +317,7 @@ function do_common { # {{{2
 
 }; # }}}2
 
-function handle_directory_template { #{{{2
+function handle-directory-template { #{{{2
 	setopt local_options null_glob
 	typeset -r	template="$1"
 	typeset -r	file_path="$2"
@@ -338,27 +343,27 @@ function handle_directory_template { #{{{2
 			-die "This template does not handle adding modules." "  ${^newModules[@]}"
 		fi
 	elif [[ -n $REQUIRE_MODS ]]; then
-		get_mods_list $template mods_list
+		get-mods-list $template mods_list
 		-die 'This template requires mods (%T-x %Umod%u%t)' "  ${^mods_list[@]}"
 	fi
 	scripts=( $template/after* );
 	for script in $scripts; do
 		. $script $template $file_path
 	done
-	do_common $file_path
+	do-common $file_path
 }; #}}}2
-function handle_file_template { #{{{2
+function handle-file-template { #{{{2
 	typeset -r	template=$1
 	typeset -r	file_path=$2
 	cp -p $template $file_path
 	on_error -die "Could not create %B${file_path:gs/%/%%}%b" "from %B${template:gs/%/%%}%b."
-	do_common $file_path
+	do-common $file_path
 }; # }}}2
 
 if [[ -d "$template" ]]; then
-	handle_directory_template $template $cmdln_arg
+	handle-directory-template $template $cmdln_arg
 else
-	handle_file_template $template $cmdln_arg
+	handle-file-template $template $cmdln_arg
 fi
 
 																# }}}1
