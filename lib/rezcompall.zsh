@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[rezcompall.zsh 2016/10/31 06:35:05 tw@sam.lan]
+# @(#)[:$G5da0Wndx}{ND`#mdhs: 2016/11/25 19:55:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -47,16 +47,17 @@ rm -f $loader || {
 }
 
 typeset -a script_sh_opts=(
-	'bsd_echo'			# require -e to handle escaped sequences
-	'extended_glob'		#
-	'local_options'		#
-	'local_patterns'	#
-	'local_traps'		#
-	'no_hash_dirs'		# only hash a command actually run
-	'no_mult_ios'		# require `tee` don't use `zsh` multiple redirects
-	'no_unset'			# fail on using unset variables
-	'pipe_fail'			# don't set $?=0 just because rightmost succeeded
-	're_match_pcre'		# use pcre for [[ =~ ]] rather than posix extended
+	bsd_echo			# require -e to handle escaped sequences
+	extended_glob		#
+	local_options		#
+	local_patterns		#
+	local_traps			#
+	no_function_argzero	# $0 is always the name of the script
+	no_hash_dirs		# only hash a command actually run
+	no_mult_ios			# require `tee` don't use `zsh` multiple redirects
+	no_unset			# fail on using unset variables
+	pipe_fail			# don't set $?=0 just because rightmost succeeded
+	re_match_pcre		# use pcre for [[ =~ ]] rather than posix extended
   )
 
 typeset -a lines=(
