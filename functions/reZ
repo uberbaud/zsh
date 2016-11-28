@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+# @(#)[:aB$rPFXh*PW+Ic*WhD*Y: 2016/11/28 04:40:17 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+(($#))&& {
+	printf '  pulls changes and recompiles zsh.rc & common.zsh, etc\n'
+	exit 0
+  }
+
+[[ -n ${ZDOTDIR:-} ]]|| -die '%S$Z%s is not defined.'
+cd $ZDOTDIR|| -die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
+
+typeset -- branch=$( git rev-parse --abbrev-ref HEAD 2>/dev/null )
+[[ $branch == master ]]|| {
+	[[ -n $(git status --porcelain) ]]&& {
+		print -Pu 2 "  %F{4}>>>%f stashing changes on %B${branch:gs/%/%%}%b."
+		git stash
+	  }
+	print -Pu 2 '  %F{4}>>>%f Switching to %Bmaster%b branch.'
+	git checkout master
+  }
+print -Pu 2 '  %F{4}>>>%f Syncing with %Bremote%b.'
+git pull
+
+typeset -a exen=(
+	". $ZDOTDIR/bin/rezsh.zsh"
+	$ZDOTDIR/lib/rezcompall.zsh
+  )
+
+print -Pu 2 '  %F{4}>>>%f Recompiling everything.'
+for x ($exen) $=x
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
