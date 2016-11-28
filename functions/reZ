@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:2016/11/28: 05:33:51 tw uberbaud.net@]
+# @(#)[:2016/11/28: 05:36:27 tw uberbaud.net@]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -17,8 +17,8 @@ cd $ZDOTDIR|| -die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
 function  Log { print -Pu 2 " %F{4}>>>%f" $@; }
 
 typeset -- branch=$( git rev-parse --abbrev-ref HEAD 2>/dev/null )
-typeset -- stash=''
 typeset -- unchanged='No local changes to save'
+typeset -- stash=$unchanged
 [[ $branch == master ]]|| {
 	[[ -n $(git status --porcelain) ]]&& {
 		Log " stashing changes on %B${branch:gs/%/%%}%b."
@@ -38,7 +38,6 @@ if [[ $stash == $unchanged ]]; then
 	Log 'Merging changes from %Bmaster%b.'
 	git merge master
 else
-	printf '  |%s|\n' $stash
 	print -Pu 2 ' %F{1}WARNING%f stashed changes. Do your own merge!'
 fi
 
