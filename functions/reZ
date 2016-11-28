@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:2016/11/28: 05:36:27 tw uberbaud.net@]
+# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/11/28 05:45:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
