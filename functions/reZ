@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:aB$rPFXh*PW+Ic*WhD*Y: 2016/11/28 05:15:11 tw@csongor.lan]
+# @(#)[:aB$rPFXh*PW+Ic*WhD*Y: 2016/11/28 05:28:05 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -14,26 +14,28 @@ typeset -- OPWD=$PWD
 [[ -n ${ZDOTDIR:-} ]]|| -die '%S$Z%s is not defined.'
 cd $ZDOTDIR|| -die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
 
-alias log='print -Pu 2 " %F{4}>>>%f"'
+function  Log { print -Pu 2 " %F{4}>>>%f" $@; }
 
 typeset -- branch=$( git rev-parse --abbrev-ref HEAD 2>/dev/null )
 typeset -- stash=''
+typeset -- unchanged='No local changes to save'
 [[ $branch == master ]]|| {
 	[[ -n $(git status --porcelain) ]]&& {
-		log " stashing changes on %B${branch:gs/%/%%}%b."
-		stash=$( git stash )
+		Log " stashing changes on %B${branch:gs/%/%%}%b."
+		stash=$( git stash save )
 	  }
-	log 'Switching to %Bmaster%b branch.'
+	Log 'Switching to %Bmaster%b branch.'
 	git checkout master
   }
-log 'Syncing with %Bremote%b.'
+Log 'Syncing with %Bremote%b.'
 git pull
 
-if [[ $stash == 'No local changes to save' ]]; then
-	log 'Switching to %Blocal%b branch %F{5}'$HOST:r'%f.'
+
+if [[ $stash == $unchanged ]]; then
+	Log 'Switching to %Blocal%b branch %F{5}'$HOST:r'%f.'
 	git checkout $HOST:r
 
-	log 'Merging changes from %Bmaster%b.'
+	Log 'Merging changes from %Bmaster%b.'
 	git merge master
 else
 	print -Pu 2 ' %F{1}WARNING%f stashed changes. Do your own merge!'
@@ -44,9 +46,10 @@ typeset -a exen=(
 	$ZDOTDIR/lib/rezcompall.zsh
   )
 
-log 'Recompiling everything.'
+Log 'Recompiling everything.'
 for x ($exen) $=x
 
+unset -f Log
 cd $OPWD
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
