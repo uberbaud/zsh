@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:-V?26YLT;hfd6(0{QK7@: 2016/11/28 02:06:11 tw@csongor.lan]
+# @(#)[:-V?26YLT;hfd6(0{QK7@: 2016/11/28 03:01:24 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"
@@ -74,7 +74,7 @@ function open-one-file {
 		file=$1
 	else
 		file="$(readlink -nf $1 2>/dev/null)"
-		typeset -F=${1:gs/%/%%}
+		typeset -- F=${1:gs/%/%%}
 		[[ -n $file ]]|| { -warn "%B$F%b: No such path."; return 1; }
 		[[ -a $file ]]|| { -warn "%B$F%b: No such file."; return 1; }
 		[[ -f $file ]]|| { -warn "%B$F%b: Not a file.";   return 1; }

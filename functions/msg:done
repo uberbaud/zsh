@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[msg:done 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2016/11/28 02:30:36 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -20,5 +20,8 @@ msg:to 'bgumm102@gmail\.com' 2>/dev/null
 print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
 msg:from 2>/dev/null
 (($#MSGs))&& { rmm $MSGs; }
+
+print -Pu 2 ' %F{4}>>>%f %BCleaning %S$XDG_CACHE_HOME/mail%s.'
+rm $XDG_CACHE_HOME/mail/* 2>/dev/null
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
