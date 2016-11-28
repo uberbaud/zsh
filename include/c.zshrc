@@ -1,8 +1,8 @@
-# @(#)[c.zshrc 2016/05/26 01:57:59 tw@csongor.lan]
+# @(#)[:S-34oe19A$Ys0)t=t+la: 2016/11/28 07:16:45 tw@uberbaud.net]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-CC='/usr/local/bin/clang'
-USR_CLIB="$USRLIB/c"
+CC=$SYSLOCAL/bin/clang
+USR_CLIB=$USRLIB/c
 
 export CC USR_CLIB
 export AUTOCONF_VERSION=2.69
