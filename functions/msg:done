@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2016/11/28 02:30:36 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2016/11/28 03:14:36 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -21,7 +21,7 @@ print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
 msg:from 2>/dev/null
 (($#MSGs))&& { rmm $MSGs; }
 
-print -Pu 2 ' %F{4}>>>%f %BCleaning %S$XDG_CACHE_HOME/mail%s.'
+print -Pu 2 ' %F{4}>>>%f %BCleaning %{5}$XDG_CACHE_HOME/mail%f.'
 rm $XDG_CACHE_HOME/mail/* 2>/dev/null
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
