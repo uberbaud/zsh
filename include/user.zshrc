@@ -1,4 +1,4 @@
-# @(#)[:[user.zshrc 2016/11/04 05:30:45 tw@csongor.lan]EkW^X|n}S=KP,d+U%Vy: 2016/11/25 01:10:48 tw@csongor.lan]
+# @(#)[:X*rE<fLZqlwVvd0[:X*rE<fLZqlwVvd0[:[user.zshrc 2016/11/04 05:30:45 tw@csongor.lan]EkW^X|n}S=KP,d+U%Vy: 2016/11/25 01:10:48 tw@csongor.lan]-nzw: 2016/11/28 07:07:16 tw@uberbaud.net]-nzw: 2016/11/28 07:07:27 tw@uberbaud.net]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -9,7 +9,6 @@ export LESSHISTFILE='-'
 export LINODE_IP='69.164.216.170'
 export LINODE_IPv6='2600:3c03::f03c:91ff:fe96:e402'
 export LOGNAME='tw'
-export LS_OPTIONS='-FG'
 export PAGER='/usr/bin/less'
 export TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"
 export TMPDIR="$XDG_DATA_HOME/temp"

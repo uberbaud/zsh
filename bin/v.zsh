@@ -153,7 +153,8 @@ else
 fi
 
 typeset -- stemma=''
-if [[ ${${(f)"$(what -s ./$f_name )"}[2]} =~ '\[:([[:print:]]+): ' ]]; then
+typeset -- scmd='/@(#)/{ s/^[^)]*)//p;q;}'; scmd=${scmd//;/$'\n'}
+if [[ $(sed -n -e $scmd ./$f_name ) =~ '\[:([[:print:]]+): ' ]]; then
 	stemma=$match[1]
 	if (( $#stemma != 20 )); then
 		stemma=$(uuid85|tr '>' , )
