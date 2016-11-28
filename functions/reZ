@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:aB$rPFXh*PW+Ic*WhD*Y: 2016/11/28 05:28:05 tw@csongor.lan]
+# @(#)[:2016/11/28: 05:33:51 tw uberbaud.net@]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -38,6 +38,7 @@ if [[ $stash == $unchanged ]]; then
 	Log 'Merging changes from %Bmaster%b.'
 	git merge master
 else
+	printf '  |%s|\n' $stash
 	print -Pu 2 ' %F{1}WARNING%f stashed changes. Do your own merge!'
 fi
 
