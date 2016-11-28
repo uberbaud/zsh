@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:aB$rPFXh*PW+Ic*WhD*Y: 2016/11/28 04:40:17 tw@csongor.lan]
+# @(#)[:aB$rPFXh*PW+Ic*WhD*Y: 2016/11/28 04:56:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,6 +8,8 @@ emulate -L zsh
 	printf '  pulls changes and recompiles zsh.rc & common.zsh, etc\n'
 	exit 0
   }
+
+typeset -- OPWD=$PWD
 
 [[ -n ${ZDOTDIR:-} ]]|| -die '%S$Z%s is not defined.'
 cd $ZDOTDIR|| -die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
@@ -31,5 +33,7 @@ typeset -a exen=(
 
 print -Pu 2 '  %F{4}>>>%f Recompiling everything.'
 for x ($exen) $=x
+
+cd $OPWD
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
