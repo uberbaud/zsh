@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[open.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:-V?26YLT;hfd6(0{QK7@: 2016/11/28 02:06:11 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"
@@ -51,7 +51,7 @@ function get-handler-for-filetype {
 function exec-handler {
 	typeset -- handler=$1
 	typeset -- arg=$2
-	if [[ $1 =~ '%f[[:>:]]' ]]; then
+	if [[ $handler =~ '%f[[:>:]]' ]]; then
 		arg=$(readlink -f $arg)
 		handler=${handler:gs/%f/%s}
 	fi
@@ -65,14 +65,23 @@ function exec-handler {
 }
 
 function open-one-file {
-	typeset -- file="$(readlink -nf $1 2>/dev/null)"
-	[[ -n $file ]]|| { -warn "%B${1:gs/%/%%}%b: No such path."; return 1; }
-	[[ -a $file ]]|| { -warn "%B${1:gs/%/%%}%b: No such file."; return 1; }
-	[[ -f $file ]]|| { -warn "%B${1:gs/%/%%}%b: Not a file.";   return 1; }
+	local REPLY=''
 
-	local REPLY
+	typeset -- file=''
+	typeset -- is_remote=false
+	if [[ $1 =~ '^https?://' ]]; then
+		is_remote=true
+		file=$1
+	else
+		file="$(readlink -nf $1 2>/dev/null)"
+		typeset -F=${1:gs/%/%%}
+		[[ -n $file ]]|| { -warn "%B$F%b: No such path."; return 1; }
+		[[ -a $file ]]|| { -warn "%B$F%b: No such file."; return 1; }
+		[[ -f $file ]]|| { -warn "%B$F%b: Not a file.";   return 1; }
+	fi
+
 	typeset -- filetype=''
-	if [[ $file =~ '^https?://' ]]; then
+	if $is_remote; then
 		REPLY='remote/web'
 	elif [[ ${(U)file} =~ '^README\.M(D|ARKDOWN)$' ]]; then
 		REPLY='text/markdown'
@@ -101,8 +110,26 @@ function open-one-file {
 		return 1
 	fi
 
-	-notify "opening %B${${file##*/}:gs/%/%%}%b (%S${filetype:gs/%/%%}%s) with %T${filehandler:gs/%/%%}%t."
-	exec-handler $filehandler $file || -warn "Could not open %B${file:gs/%/%%}%b."
+	typeset -- url=''
+	if $is_remote; then
+		url=${${file#http*://}%\?*}
+	else
+		url=${${file##*/}:gs/%/%%}
+	fi
+
+	typeset -a note=(
+		"opening %B$url%b (%S${filetype:gs/%/%%}%s)"
+		"with %T${filehandler:gs/%/%%}%t."
+	  )
+
+	if ((${#${(F)note}}>$COLUMNS)); then
+		note[2]="    ${note[2]}"
+		-notify $note
+	else
+		-notify "$note"
+	fi
+	exec-handler $filehandler $file
+	on-error -warn "Could not open %B${file:gs/%/%%}%b."
 }
 
 
