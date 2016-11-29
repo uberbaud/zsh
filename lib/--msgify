@@ -1,4 +1,4 @@
-# @(#)[--msgify 2016/06/05 20:23:17 tw@csongor.lan]
+# @(#)[:NoAgU5z4RPRX6IO)iQ~$: 2016/11/29 09:50:35 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -28,6 +28,10 @@ Message=( ${Message//\%s/%f} )
 # Greyed out
 Message=( ${Message//\%G/%F\{251\}} )
 Message=( ${Message//\%g/%f} )
+
+typeset -a CURPOS=()
+[[ -x $LOCALBIN/get-row-col ]]&& CURPOS=( $($LOCALBIN/get-row-col) )
+[[ ${CURPOS[2]:-1} -eq 1 ]]|| echo
 
 print -Pu 2 $prefix_1 $Message[1]
 shift Message

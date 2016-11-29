@@ -1,4 +1,4 @@
-# @(#)[:assign 2016/09/24 01:49:01 tw@csongor.lan]
+# @(#)[:=M8MBnauV3Bh8H)42Z<5: 2016/11/29 21:06:35 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,7 +8,7 @@ typeset -a accum=()
 typeset -- REPLY
 typeset -- i=1
 # this alg. removes ALL trailing blank lines
-while read -r -k -u 0; do
+while read -t 0.3 -r -k -u 0; do
 	if [[ $REPLY == $'\n' ]]; then
 		i=$((i+1))
 		# accum[i]='' # include trailing blank lines

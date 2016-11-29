@@ -7,6 +7,8 @@
 [[ -d $LOCALBIN ]] || -die '%F{6}$LOCALBIN%f is not set.'
 path+=( $LOCALBIN )
 
+[[ " ${DEBUG:-} " =~ ' v.zsh ' ]]&& set -x
+
 # Usage {{{1
 typeset -- this_pgm=${0##*/}
 # %T/%t => terminal (green fg)
@@ -123,7 +125,7 @@ fi
 typeset -- start_wd=$PWD
 cd $f_path || -die "Could not %F{2}cd%f to %B${f_path:gs/%/%%}%b."
 
-:git:current:branch 2>/dev/null | :assign repo
+:git:current:branch | :assign repo
 [[ ${repo:-:} =~ ':$' ]]|| {
 	warnOrDie	\
 	"This is the %B%S${${repo%:*}:gs/%/%%}%s branch%b of a %Bgit%b repo." \
@@ -153,7 +155,7 @@ else
 fi
 
 typeset -- stemma=''
-typeset -- scmd='/@(#)/{ s/^[^)]*)//p;q;}'; scmd=${scmd//;/$'\n'}
+typeset -- scmd='/@''(#)/{ s/^[^)]*)//p;q;}'; scmd=${scmd//;/$'\n'}
 if [[ $(sed -n -e $scmd ./$f_name ) =~ '\[:([[:print:]]+): ' ]]; then
 	stemma=$match[1]
 	if (( $#stemma != 20 )); then

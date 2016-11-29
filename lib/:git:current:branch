@@ -1,4 +1,4 @@
-# @(#)[:git:current:branch 2016/09/24 06:14:21 tw@csongor.lan]
+# @(#)[:eLNTMe|d2K?Rk++!!|#E: 2016/11/29 21:20:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -7,8 +7,10 @@ setopt pipe_fail
 typeset -- fmt='%(refname:short):%(upstream:short)'
 
 typeset -- curbranch
-git symbolic-ref HEAD 2>/dev/null | :assign curbranch
-((!$?))|| -die 'Not a %Sgit%s repository.'
+git symbolic-ref HEAD 2>&1 | :assign curbranch
+((!$?))|| return 1
+
+[[ $curbranch =~ 'Not a git repo' ]]&& return 2;
 
 [[ -z $curbranch ]]&& { print -n -- 'HEAD:'; return 0; }
 
@@ -17,5 +19,7 @@ git for-each-ref --format=$fmt $curbranch	\
 	| :assign info
 
 print -n -- "$info"
+
+return 0
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

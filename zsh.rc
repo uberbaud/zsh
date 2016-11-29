@@ -1,4 +1,4 @@
-# @(#)[:i9YoD[zsh.rc 2016/10/27 04:39:19 tw@csongor.lan];YXx!+76#lfL<k: 2016/11/04 09:48:38 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2016/11/29 03:21:30 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -41,6 +41,8 @@ path=( $path /usr/games )
 fpath=( $ZDOTDIR/usrfuncs.zwc $fpath )
 # Autoload all functions we compile into usrfuncs.zwc
 autoload -Uz $ZDOTDIR/functions/*(*:t)
+unalias run-help
+autoload -Uz run-help
 
 # the following should have the unique trait, but don't by default
 # Let's not create them, just mark them if they exist
