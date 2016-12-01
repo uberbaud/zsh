@@ -3,8 +3,8 @@
         Use [1mhelp [4mtopic[24m[1m(B[m.
 
 [1mUser Help Topics(B[m
-        glob		globmods	param		paramflags
-        twfuncs
+        conversion	glob		globmods	myfuncs
+        param		paramflags	test		zsh
 
 [1mSystem Help Topics(B[m
         alias		autoload	bg		bindkey

@@ -1,0 +1,12 @@
+
+  \e[1mConverting values in ZSH (or other shells)\e[22m
+
+  Decimal to Hex    =>  % \e[32mprintf '\\\\x%02x\\n' 65\e[0m
+                        \e[34m# 41\e[0m
+
+  ASCII to Decimal  =>  % \e[32mprintf '%d\\n' \\'A\e[0m
+                        \e[34m# 65\e[0m
+
+  Decimal to ASCII  =>  % \e[32mprintf "\\x$(printf '%x' 65)"\e[0m
+                        \e[34m# A\e[0m
+

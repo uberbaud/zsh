@@ -1,4 +1,4 @@
-# @(#)[:X*rE<fLZqlwVvd0[:X*rE<fLZqlwVvd0[:[user.zshrc 2016/11/04 05:30:45 tw@csongor.lan]EkW^X|n}S=KP,d+U%Vy: 2016/11/25 01:10:48 tw@csongor.lan]-nzw: 2016/11/28 07:07:16 tw@uberbaud.net]-nzw: 2016/11/28 07:07:27 tw@uberbaud.net]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2016/11/30 04:09:50 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -33,4 +33,4 @@ function radio { # play radio wazee {{{1
 alias find='noglob find'
 alias newest='noglob newest'
 alias p='noglob p'
-
+alias prn="printf '  |%s|\n'"
