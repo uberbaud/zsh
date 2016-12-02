@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/11/28 05:45:39 tw@csongor.lan]
+# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 03:52:21 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -47,7 +47,7 @@ typeset -a exen=(
   )
 
 Log 'Recompiling everything.'
-for x ($exen) $=x
+for x ($exen) $=x 2>/dev/null
 
 unset -f Log
 cd $OPWD

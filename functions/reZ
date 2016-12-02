@@ -1,4 +1,4 @@
-# @(#)[:4RZfgt[:4RZfgt_Vj(kNmd~yuNtv: 2016/12/02 03:41:52 tw@csongor.lan]Vj(kNmd~yuNtv: 2016/12/02 03:42:18 tw@csongor.lan]
+# @(#)[:rkWZN0*sxn9FJi=!1stg: 2016/12/02 03:52:29 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # wrapper for reZ.zsh
 
@@ -6,5 +6,6 @@ emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
 $ZDOTDIR/bin/reZ.zsh
+. $ZDOTDIR/bin/rezsh.zsh
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
