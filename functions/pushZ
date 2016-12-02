@@ -1,0 +1,61 @@
+#!/usr/bin/env zsh
+# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 02:58:27 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
+
+emulate -L zsh
+
+(($#))&& {
+	printf '  pushes changes from master merged with \e[36m$HOST:r\e[0m\n'
+	exit 0
+  }
+
+typeset -- OPWD=$PWD
+
+[[ -n ${ZDOTDIR:-} ]]|| -die '%S$ZDOTDIR%s is not defined.'
+cd $ZDOTDIR|| -die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
+
+function  Log { print -Pu 2 " %F{4}>>>%f" $@; }
+
+typeset -- branch=$( git rev-parse --abbrev-ref HEAD 2>/dev/null )
+[[ $branch == master ]]|| {
+	typeset -- changed=false
+
+	# update the index
+	git update-index -q --ignore-submodules --refresh
+
+	# add untracked and unignored files, if any
+	typeset -a untracked=( $(git ls-files --exclude-standard --others) )
+	(($#untracked))&& {
+		warn "Adding $untracked"
+		git add $untracked || { warn 'FAILED'; return 1; }
+	  }
+
+	# check for unstaged changes in the working tree
+	git diff-files --quiet --ignore-submodules -- || {
+		warn "Unstaged changes."
+		git diff-files --name-status -r --ignore-submodules --	\
+		| sed 's/^/        /' >&2
+		warn 'Staging changes'
+		git add --all || { warn 'FAILED'; return 1; }
+	  }
+
+	# check for uncommitted changes in the index
+	git diff-index --cached --quiet HEAD --ignore-submodules -- || {
+		warn "Uncommitted changes"
+		git diff-index --cached --name-status -r --ignore-submodules HEAD \
+		| sed 's/^/        /' >&2
+		warn 'Committing'
+		git commit -a || { warn 'FAILED'; return 1; }
+	  }
+  }
+
+git checkout master		|| { warn 'FAILED to %Bcheckout master%b'; return 1; }
+git merge $HOST:r		|| { warn "FAILED to %Bmerge ${HOST:r:gs/%/%%}%b."; return 1; }
+git push				|| { warn 'FAILED to %Bpush%b.'; return 1; }
+git checkout $HOST:r	|| { warn "FAILED to %Bcheckout ${HOST:r:gs/%/%%}%b."; return 1; }
+
+unset -f Log
+cd $OPWD
+return 0
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
