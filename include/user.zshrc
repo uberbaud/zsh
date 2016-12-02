@@ -1,20 +1,24 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2016/11/30 04:09:50 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2016/12/01 05:19:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
-export CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
-export EMAIL='tom@greyshirt.net'
-export LESS='-RcgiSw#8'
-export LESSHISTFILE='-'
-export LINODE_IP='69.164.216.170'
-export LINODE_IPv6='2600:3c03::f03c:91ff:fe96:e402'
-export LOGNAME='tw'
-export PAGER='/usr/bin/less'
-export TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"
-export TMPDIR="$XDG_DATA_HOME/temp"
-export UBERBAUD_NET="$LINODE_IP"
-export linode='li131-170.members.linode.com'
-export radio_wazee='http://wazee.org/128.pls'
+BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
+CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
+EMAIL='tom@greyshirt.net'
+LESS='-RcgiSw#8'
+LESSHISTFILE='-'
+linode='li131-170.members.linode.com'
+LINODE_IP='69.164.216.170'
+LINODE_IPv6='2600:3c03::f03c:91ff:fe96:e402'
+LOGNAME='tw'
+PAGER='/usr/bin/less'
+TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"
+TIMEFMT='    %*E real    %U user    %S system    %P cpu    %MMB mem'
+TMPDIR="$XDG_DATA_HOME/temp"
+UBERBAUD_NET="$LINODE_IP"
+radio_wazee='http://wazee.org/128.pls'
+
+export BC_ENV_ARG		LESS		PAGER		CALENDAR_DIR	LOGNAME
+export LESSHISTFILE		TMPDIR		EMAIL		TEMPLATES_FOLDER
 
 [[ $LESSHISTFILE =~ '^(-|/dev/null)$' ]]	\
 	|| [[ -d ${LESSHISTFILE%*/} ]]			\

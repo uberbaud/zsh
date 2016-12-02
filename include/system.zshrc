@@ -1,4 +1,4 @@
-# @(#)[system.zshrc 2016/09/22 04:06:22 tw@csongor.lan]
+# @(#)[:R88m?#+cJ1w!Kr4B,0Ax: 2016/12/01 04:44:46 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 function pkg { # {{{1
@@ -9,6 +9,7 @@ function pkg { # {{{1
 	shift
 	typeset -- binpath="/usr/sbin"
 	typeset -- bin="$binpath/pkg_${cmd}"
+	typeset -- pkghome="$HOME/.local/pkg-info/v${osv}"
 
 	typeset -- record=false
 	case $cmd in
@@ -16,8 +17,13 @@ function pkg { # {{{1
 		check)		$AsRoot $bin $@;							;;
 		delete)		$AsRoot $bin $@; record=true				;;
 		installed)	$binpath/pkg_info -mz;						;;
+		web|www)
+			typeset -a h=()
+			eval "h=( $pkghome/html/{${(j:,:)argv}}\* )"
+			open $~h
+			;;
 		grep|query)
-			typeset -- ndx="$HOME/.local/pkg-info/v${osv}/v${osv}.ndx"
+			typeset -- ndx="$pkghome/v${osv}.ndx"
 			perl -ne "print if m/$1/;" $ndx | column -s $'\t' -t
 			;;
 		-h|--help|help)
