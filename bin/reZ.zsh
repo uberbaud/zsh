@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 03:52:21 tw@csongor.lan]
+# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 03:54:18 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -42,7 +42,7 @@ else
 fi
 
 typeset -a exen=(
-	". $ZDOTDIR/bin/rezsh.zsh"
+	$ZDOTDIR/bin/rezsh.zsh
 	$ZDOTDIR/lib/rezcompall.zsh
   )
 
