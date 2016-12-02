@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 02:58:27 tw@csongor.lan]
+# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 03:34:33 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
