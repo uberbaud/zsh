@@ -58,6 +58,10 @@ function warnOrDie { #{{{1
 (( $# >= 2 ))	&& -die 'Too many arguments.' "Expected one (1) %Ufile-name%u."
 [[ -a $1 ]]		|| -die "No such file %B${1:gs/%/%%}%b."
 
+(){ # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	# wrap script guts in anonymous function so edits on the file don't 
+	# affect running instances.
+
 typeset -- f_fullpath
 if [[ -x $USRBIN/getTrueName ]]; then
 	f_fullpath="$( $USRBIN/getTrueName $1 )"
@@ -252,6 +256,8 @@ elif $hasmsg; then
 	-warn 'No %SRCS/%s but you wanted to use a %Tci%t message.'
 fi
 
-cd $start_wd
+#cd $start_wd # no need if 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+} $@ # run the script-as-anonymous-function
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

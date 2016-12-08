@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:$G5da0Wndx}{ND`#mdhs: 2016/11/25 19:55:08 tw@csongor.lan]
+# @(#)[:$G5da0Wndx}{ND`#mdhs: 2016/12/08 08:33:24 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -67,7 +67,7 @@ typeset -a lines=(
 	"setopt $script_sh_opts"
 	''
 	'fpath=( $USR_ZSHLIB/common_funcs.zwc $fpath )'
-	"autoload -Uz -- $funcs_to_compile"
+	"autoload -z -- $funcs_to_compile"
 	''
 	"alias on_error='((!\$?))||'"
 	"alias on-error='((!\$?))||'"

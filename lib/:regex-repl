@@ -1,0 +1,36 @@
+#!/usr/bin/env zsh
+# @(#)[:qfbRQn}m4$7?4E6qfa%S: 2016/12/02 20:46:53 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
+# ---
+# search and replace like sed or perl
+
+emulate -L zsh
+
+# separate out any sub-matches for replacement
+typeset -i i=0
+typeset -a R=()
+while [[ ${3:$i} =~ '\$\{?(\d+)\}?' ]]; do
+	R+=( "${3:$i:$((MBEGIN-1))}" $match[1] )
+	i=$((i+MEND))
+done
+[[ -n ${3:$i} ]]&& R+=( "${3:$i}" x )
+
+# do search bit
+REPLY=''
+i=0
+typeset const='' var=''
+while [[ ${1:$i} =~ $2 ]]; do
+	REPLY+=${1:$i:$((MBEGIN-1))}
+	for const var in $R; do
+		if [[ $var == 0 ]]; then
+			REPLY+=${const}${MATCH}
+		elif [[ $var == x ]]; then
+			REPLY+=${const}
+		else
+			REPLY+=${const}${match[var]:-}
+		fi
+	done
+	i=$((i+MEND))
+done
+REPLY+=${1:$i}
+REPLY=${REPLY:gs/\\&/\&}
