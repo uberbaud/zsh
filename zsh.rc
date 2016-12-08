@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2016/12/01 03:12:42 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2016/12/08 08:35:34 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -40,7 +40,7 @@ path=( $path /usr/games )
 
 fpath=( $ZDOTDIR/usrfuncs.zwc $fpath )
 # Autoload all functions we compile into usrfuncs.zwc
-autoload -Uz $ZDOTDIR/functions/*(*:t)
+autoload -z $ZDOTDIR/functions/*(*:t)
 unalias run-help
 autoload -Uz run-help
 
