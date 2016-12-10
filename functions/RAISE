@@ -1,0 +1,9 @@
+# @(#)[:V+9,R6ZYe67=U|*}tKV-: 2016/12/10 09:48:58 tw@csongor.lan]
+# vim: filetype=zsh
+
+emulate -L zsh
+
+typeset -g EXCEPTION="$1"
+readonly X;X= 2>/dev/null
+
+# Copied from @/zsh/5.2/functions/throw
