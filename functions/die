@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[die 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:2rW%W@XB#2MLgj9wxt2*: 2016/12/10 09:22:09 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -9,6 +9,13 @@ emulate -L zsh
 print -Plu 2 "  %F{1}FAILED%f: $1" "          ${(@)^argv[2,-1]}"
 
 errno=${errno:-1}
-kill -SIGINT $$
+
+# ZSHEXPN(1) excerpt
+#
+#   ${name:?word}
+#        … if name is both set and non-null, then substitute its value; 
+#        otherwise, print word and exit from the shell.  Interactive 
+#        shells instead return to the prompt.
+{ : ${:?DIE}; } 2>/dev/null
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
