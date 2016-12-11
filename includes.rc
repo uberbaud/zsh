@@ -1,4 +1,4 @@
-; @(#)[includes.rc 2016/10/27 05:25:36 tw@csongor.lan]
+; @(#)[:DDM!1ss78JH[includes.rc 2016/10/27 05:25:36 tw@csongor.lan]Gw[includes.rc 2016/10/27 05:25:36 tw@csongor.lan]!(crm: 2016/12/11 18:50:15 tw@csongor.lan]
 ; vim: ts=4 expandtab ft=twrc
 ;=========================================================================
 ;   This file is parsed by  to determine whether or not to include 
@@ -75,7 +75,7 @@
     c - - y  irc
     c - - y  backup
     c u - y  mail
-    c - - y  x11
+    c - s -  x11
     c - - y  fetchmail
 
 ; -----------------------------------------
