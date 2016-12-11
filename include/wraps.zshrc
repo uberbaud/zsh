@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2016/11/21 00:59:30 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2016/12/11 18:45:17 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -44,14 +44,12 @@ typeset -Ag	WRAP_COMMANDS=(
 	# 'clisp' "$SYSLOCAL/bin/clisp -i $clpath/init.lisp -lp $clpath/lib"
 
 	'cdcl' 'cd;clear'
-
-	'nifty' '/usr/local/bin/w3m http://nifty.nisusnet.com/nifty/gay; scrub'
 	#
 	'rsync' "$AskFirst rsync"
 	# 'sbcl'  "$SYSLOCAL/bin/sbcl --userinit $XDG_CONFIG_HOME/sbcl/sbcl.rc"
 	'scp' "$AskFirst scp"
 	'sftp' "$AskFirst sftp"
-	'sqlite3' '/usr/local/bin/sqlite3'
+	'sqlite3' "$SYSLOCAL/bin/sqlite3"
 	'ssh' "$AskFirst ssh \$@; csongor-colors"
 	#'tom' "$USRBIN/tweet.pl"
 
