@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:(|iT%Y!!qTd1{kCZI[pass-gen.zsh 2016/10/25 07:08:53 tw@csongor.lan]}o: 2016/12/06 18:15:10 tw@csongor.lan]
+# @(#)[:M7dUbt+qzxTO!nD}9M<g: 2016/12/19 06:33:35 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . "$USR_ZSHLIB/common.zsh"

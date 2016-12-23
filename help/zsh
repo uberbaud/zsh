@@ -1,21 +1,22 @@
 
-  MAN-TOC
+  \e[1mMAN-TOC\e[22m
 
-  All man topics start with "zsh". That prefix has been left off the 
-  following index for visual distinction.
+    Every man page listed begins with \e[1mzsh\e[22m. That prefix is greyed out here
+    for visual distinction.
 
-       roadmap     Informal introduction to the manual
-       misc        Anything not fitting into the other sections
-       expn        command and parameter expansion
-       param       parameters
-       options     options
-       builtins    built-in functions
-       zle         command line editing
-       compwid     completion widgets
-       compsys     completion system
-       compctl     completion control
-       modules     loadable modules
-       calsys      built-in calendar functions
-       tcpsys      built-in TCP functions
-       zftpsys     built-in FTP client
-       contrib     Additional zsh functions and utilities
+       \e[38;5;251mzsh\e[0mroadmap     Informal introduction to the manual
+       \e[38;5;251mzsh\e[0mmisc        Anything not fitting into the other sections
+       \e[38;5;251mzsh\e[0mexpn        command and parameter expansion
+       \e[38;5;251mzsh\e[0mparam       parameters
+       \e[38;5;251mzsh\e[0moptions     options
+       \e[38;5;251mzsh\e[0mbuiltins    built-in functions
+       \e[38;5;251mzsh\e[0mzle         command line editing
+       \e[38;5;251mzsh\e[0mcompwid     completion widgets
+       \e[38;5;251mzsh\e[0mcompsys     completion system
+       \e[38;5;251mzsh\e[0mcompctl     completion control
+       \e[38;5;251mzsh\e[0mmodules     loadable modules
+       \e[38;5;251mzsh\e[0mcalsys      built-in calendar functions
+       \e[38;5;251mzsh\e[0mtcpsys      built-in TCP functions
+       \e[38;5;251mzsh\e[0mzftpsys     built-in FTP client
+       \e[38;5;251mzsh\e[0mcontrib     Additional zsh functions and utilities
+

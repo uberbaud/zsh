@@ -1,4 +1,4 @@
-# @(#)[zsh-ux.zshrc 2016/10/31 06:21:09 tw@sam.lan]
+# @(#)[:S<27N7I=@tWFSmOls`Hu: 2016/12/23 06:52:42 tw@csongor.lan]
 # vim: tabstop=4 filetype=sh nowrap
 
 HISTFILE=~/.local/zsh/histfile
@@ -51,4 +51,10 @@ set_prompt
 # ─────────────────────── END: prompt  ────── }}}1
 
 function clear { print -f '\e[0;0H\e[2J\e[3J'; }
+
+zle_highlight=(
+	special:bg=254,fg=128
+	suffix:bg=189,fg=19
+	paste:bg=blue,fg=white
+  )
 
