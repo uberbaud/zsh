@@ -1,53 +1,81 @@
 #!/usr/bin/env zsh
-# @(#)[show 2016/10/25 07:47:28 tw@csongor.lan]
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# @(#)[:7,4Vj{r{)EKZYZ+!Qi@+: 2016/12/24 01:53:45 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
 
+# Because this function expects a variable *name* in $1, and that name 
+# could be anything, this function only uses positional variables which 
+# are aliases into $argv, $@, or $*. Plus, things that would normally be 
+# stuffed into variables for better documentation and easier maintenance 
+# are instead kept as literals, even when appearing at multiple places 
+# in the function.
+
+# VALIDATE ARGS
 [[ $# -eq 0 ]] && die 'Usage `show %Uvarname%u`'
-[[ $# -gt 1 ]] && die 'To many parameters, one (1) expected.'
-[[ $1 == <-> ]] && { s $@; return 0; }
-[[ ${1:0:1} == [[:digit:]] ]] && die 'Not a valid identifier.'
+[[ $# -gt 1 ]] && die 'Too many parameters, one (1) expected.'
+[[ $1 == <-> || $1 == 'argv' || $1 == \@ || $1 == \* ]]&& {
+	die '%BScript argv%b is not available within a function.'
+  }
+[[ ${1:0:1} =~ [^[:word:]] ]] && die 'Not a valid identifier.'
 
-[[ -z ${(Pt)1} ]] && die 'Variable %B'$1'%b is not set'
+# DO REAL WORK
+set $1 ${(Pt)1}
+[[ -z $2 ]] && die 'Variable %B'$1'%b is not set'
 
-if   [[ ${(Pt)1} == 'scalar'* ]]; then
-	print -P " %B$1%b is a %B${(Pt)1}%b with a value of:"
-	set $1 ${(PVqq)1}
-	if (( $#2 > $((COLUMNS-4)) )); then
-		print -r '  '${${(PVqq)1}:0:$COLUMNS-5}'…'
-	else
-		print -r "  ${(PVqq)1}"
-	fi
-elif [[ ${(Pt)1} == 'integer'* ]]; then
-	print -P " %B$1%b is an %B${(Pt)1}%b with a value of %B${(P)1}%b."
-elif [[ ${(Pt)1} == 'float'* ]]; then
-	print -P " %B$1%b is a %B${(Pt)1}%b with a value of %B${(P)1}%b."
-elif [[ ${(Pt)1} == 'array'* ]]; then
-	print -P " %B$1%b is an %B${(Pt)1}%b with %B${(P)#1}%b elements"
-	if [[ $1 == 'i' ]]; then
-		typeset -i x
-		for (( x=1; x<=${(P)#1}; x++ )); do
-			print -f ' %4d: %-*s\n' $x $((LINES-8)) ${(PVqq)1[$x]}
-		done
-	else
-		typeset -i i
-		for (( i=1; i<=${(P)#1}; i++ )); do
-			print -f ' %4d: %-*s\n' $i $((LINES-8)) ${(PVqq)1[$i]}
-		done
-	fi
-elif [[ ${(Pt)1} == 'association'* ]]; then
-	print -P " %B$1%b is an %B${(Pt)1}%b with %B${(P)#1}%b elements"
-	if [[ $1 == 'i' ]]; then
-		typeset -i x=${#${(PkO@)1//?/X}[1]}+2
-		print -f "   %-${x}s: %.$((COLUMNS-x-7))s\n" ${(PkvqqqV)1} | sort
-	else
-		typeset -i i=${#${(PkO@)1//?/X}[1]}+2
-		print -f "   %-${i}s: %.$((COLUMNS-i-7))s\n" ${(PkvqqqV)1} | sort
-	fi
-else
-	print -P " %B$1%b is of type %B${(Pt)1}%b (unknown format)."
-fi
+# var is a NUMBER
+[[ $2 =~ 'integer|float' ]]&& {
+	print -P " %B$1%b is an %B$2%b with a value of %B${(P)1}%b."
+	return 0
+  }
 
+# var is a STRING
+[[ $2 == 'scalar'* ]]&& {
+	print -P " %B$1%b is a %B$2%b with a value of:"
+	2=${(PVqq)1}
+	(( $#2 > (COLUMNS-2) ))&& 2=${2:0:$COLUMNS-3}$'\e[0;47;5;36m…\e[0m'
+	print -r '  '$2
+	return 0
+  }
+
+# var is a new unknown type
+[[ $2 =~ 'array|association' ]]|| {
+	print -P " %B$1%b is of type %B$2%b (unknown format)."
+	return 1
+  }
+
+# var is a CONTAINER
+3='elements,'
+((${(P)#1}==1))&& 3='element,'
+print -P " %B$1%b is an %B$2%b with %B${(P@)#1}%b "$3
+
+# container is an ARRAY
+[[ $2 == 'array'* ]]&& {
+	2=1
+	3=$((COLUMNS-8))
+	while (( $2<=${(P)#1} )); do
+		4=${(PVqq)1[$2]}
+		(($#4>$3))&& 4=${4:0:$3}$'\e[0;47;5;36m…\e[0m'
+		printf " %4d: %-${3}s\n" $2 $4
+		2=$(($2+1))
+	done
+	return 0
+  }
+
+# container is a DICTIONARY
+[[ $2 == 'association'* ]]&& {
+	# get the length of the longest key workaround, zsh has a bug that 
+	# keeps it from handling (P) on a positional name in multiple levels 
+	# of ${…} when we're also assigning to a positional, so use set 
+	# twice.
+	set $1 ${(PkO@)1//?/X}
+	set $1 $((COLUMNS-($#2+7))) "  %-$(( $#2 + 2 ))s: %s\n" key val
+	for 4 5 in "${(Pkv@)1}"; do
+		5=${(qqqV)5}
+		(($#5>$2))&& 5=${5:0:$2}$'\e[0;47;5;36m…\e[0m'
+		printf $3 ${(qqqV)4} $5
+	done | sort
+	return 0
+  }
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
