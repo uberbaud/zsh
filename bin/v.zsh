@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/11/19 05:10:44 tw@csongor.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/12/24 02:25:26 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh
@@ -139,7 +139,7 @@ cd $f_path || -die "Could not %F{2}cd%f to %B${f_path:gs/%/%%}%b."
 typeset -- has_rcs=false
 [[ -d RCS && -f RCS/$f_name,v ]] && {
 	has_rcs=true
-	rcsdiff ./$f_name
+	rcsdiff -q ./$f_name
 	co -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
   }
 
@@ -244,7 +244,7 @@ if [[ -d RCS ]]; then
 	typeset -a rcsopts=( -u )
 	if $has_rcs; then
 		$hasmsg && rcsopts+=( -m"$rcsmsg" )
-		rcsdiff ./$f_name
+		rcsdiff -q ./$f_name
 		ci -j $rcsopts ./$f_name
 	else
 		# without the dash at the beginning of rcsmsg, the message would 
