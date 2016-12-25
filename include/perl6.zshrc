@@ -20,7 +20,10 @@ function rakudobrew {
 
 	h1 "rakudobrew $*"
 	typeset -- log=$HOME/log/rakudobrew
-	[[ -f $log ]]&& gzip $log
+	[[ -f $log.3.gz ]]&& rm $log.3.gz
+	[[ -f $log.2.gz ]]&& mv $log.2.gz $log.3.gz
+	[[ -f $log.1.gz ]]&& mv $log.1.gz $log.2.gz
+	[[ -f $log ]]&& gzip -o $log.1.gz $log
 	date -u +'===| %Y-%m-%d %H:%M:%S Z |===' >$log
 	$rbrew $@ 2>&1 | tee -a $log
   }
