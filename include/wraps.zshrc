@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2016/12/11 18:45:17 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2016/12/30 22:24:00 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -53,9 +53,27 @@ typeset -Ag	WRAP_COMMANDS=(
 	'ssh' "$AskFirst ssh \$@; csongor-colors"
 	#'tom' "$USRBIN/tweet.pl"
 
+	# reshells
+	'bash'	'reshell bash'
+	'csh'	'reshell csh'
+	'dash'	'reshell dash'
+	'fish'	'reshell fish'
+	'ksh'	'reshell ksh'
+	'sh'	'reshell sh'
+	#'zsh'	'reshell zsh'
 )
 
+typeset -ga RESHELL_VARS=( DISPLAY TERM )
 
+function reshell { # give a clean shell experience {{{1
+	local s=$(getent shells $(which -p $1)); shift
+	(($#s))|| die "%B${s:gs/%/%%}%b is not a regognized shell."
+	printf "\e[1;43;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' $s # banner
+	typeset -a setenvs=()
+	for v ($RESHELL_VARS) [[ -n ${(P)v} ]]&& setenvs+=( $v="${(P)v}" )
+	/usr/bin/env -i $setenvs $s -l "$@"
+	printf "\e[1;43;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' $SHELL # banner
+} # }}}1
 function autopage { # pipes cmd to pager if output would scroll the screen. {{{1
 
     typeset -- htxt='-';
