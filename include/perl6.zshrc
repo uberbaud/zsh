@@ -1,4 +1,4 @@
-# @(#)[perl6.zshrc 2016/10/15 03:12:12 tw@csongor.lan]
+# @(#)[:lziK)#|bsfHc9}(mzgFZ: 2017/01/01 05:56:45 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 RAKUDO_HOME="$XDG_DATA_HOME/rakudobrew"
