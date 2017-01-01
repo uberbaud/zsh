@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/01/01 07:23:06 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/01/01 09:48:41 tw@uberbaud.net]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -13,7 +13,7 @@ typeset -U path
 typeset -TU HELPPATH helppath
 helppath=(
 		$ZDOTDIR/help
-		/usr/local/share/zsh/$ZSH_VERSION/help
+		$SYSLOCAL/share/zsh/$ZSH_VERSION/help
 	)
 export HELPPATH
 
