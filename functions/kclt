@@ -5,6 +5,8 @@
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
+needs :x11 curl display disown
+
 typeset -- graph_url='http://forecast.weather.gov/meteograms/Plotter.php'
 typeset -a graph_opts=(
 	lat='35.39'
