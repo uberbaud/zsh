@@ -1,4 +1,4 @@
-# @(#)[:;HpO7qiIgSKabPgE-abu: 2017/01/01 08:47:16 tw@csongor.lan]
+# @(#)[:;HpO7qiIgSKabPgE-abu: 2017/01/02 04:01:37 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # Tests for command existence and reports any not found.
 
@@ -10,17 +10,20 @@ typeset -A facilities=(
 	:x11	'%BDISPLAY%b is not set. No %BX11%b?'
   )
 
-function :x11 { (($+DISPLAY)); }
+function cap:x11 { (($+DISPLAY)); }
 
 for need; do
 	if (($+facilities[$need])); then
-		$need || cap_errs+=( $facilities[$need] )
+		cap$need || cap_errs+=( $facilities[$need] )
+		whence $need >/dev/null && {
+			-warn "%B${need:gs/%/%%}%b is a facility and a command."
+		}
 	elif ! whence $need >/dev/null; then
 		notfound+=($need);
 	fi
 done
 
-unset -f ${(k)facilities}
+unset -f "cap${(k)^facilities}"
 
 (($#notfound+$#cap_errs)) || return 0
 
