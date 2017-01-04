@@ -1,4 +1,4 @@
-# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/01/04 22:56:10 tw@csongor.lan]
+# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/01/04 23:16:44 tw@csongor.lan]
 # vim: tabstop=4 filetype=sh nowrap
 
 HISTFILE=~/.local/zsh/histfile
@@ -52,7 +52,7 @@ set_prompt
 
 function clear {
 	print -f '\e[0;0H\e[2J\e[3J';
-	(($#))&& {
+	((!$#))|| {
 		h1 "$*"
 		eval "$@"
 	  }
