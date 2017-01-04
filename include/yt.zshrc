@@ -1,4 +1,4 @@
-# @(#)[yt.zshrc 2016/10/31 06:18:43 tw@sam.lan]
+# @(#)[:LvGzAyJk$DKA,kZtJ;1[yt.zshrc 2016/10/31 06:18:43 tw@sam.lan]: 2017/01/04 22:54:04 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 # ────────────────────────────────── BEGIN: TERM Colors ───── {{{1
@@ -16,9 +16,7 @@ function yt-colors {
 yt-colors
 # ──────────────────────────────────── END: TERM Colors ───── }}}1
 
-# ──────────────────────────────────── BEGIN: PS1 Colors ───── {{{1
-
-function set_prompt { # set prompt {{{2
+function set_prompt { # set prompt {{{1
 	typeset -a prmpt=(
 		'%F{107}'	'['					# dark green [
 			'%F{1}'	'%n'				# dark red $USER
@@ -48,8 +46,5 @@ function set_prompt { # set prompt {{{2
 
 # ─────────────────────── END: prompt  ────── }}}1
 
-function clear { print -f '\e[0;0H\e[2J\e[3J'; }
-
-# ────────────────────────────────────── END: PS1 Colors ───── }}}1
 
 # Copyright (C) 2015 by Tom Davis <tom@tbdavis.com>.

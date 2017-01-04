@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2016/12/30 22:24:00 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/01/04 22:49:55 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -40,7 +40,6 @@ typeset -Ag	WRAP_COMMANDS=(
 	# ───────────────────────────────────────────────────────────────────
 	#  add default options or use specific path
 	'bc' '/usr/bin/bc $@ $BC_ENV_ARG'
-	'clear' "printf '\\e[0;0H\\e[2J\\e[3J'; eval"
 	# 'clisp' "$SYSLOCAL/bin/clisp -i $clpath/init.lisp -lp $clpath/lib"
 
 	'cdcl' 'cd;clear'
