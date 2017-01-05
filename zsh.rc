@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/01/01 09:48:41 tw@uberbaud.net]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/01/05 02:12:02 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -11,10 +11,6 @@ unsetopt auto_cd bang_hist prompt_bang mult_ios
 
 typeset -U path
 typeset -TU HELPPATH helppath
-helppath=(
-		$ZDOTDIR/help
-		$SYSLOCAL/share/zsh/$ZSH_VERSION/help
-	)
 export HELPPATH
 
 me=~/work/clients/me
@@ -34,11 +30,18 @@ export USR_ZSHLIB=$ZDOTDIR/lib
 [[ -n $USRBIN ]]&& export USRBIN
 [[ -n $LOCALBIN ]]&& export LOCALBIN
 
+# it's helpful for fpath to be adjusted *BEFORE* sourcing `.include` …
+fpath=( $ZDOTDIR/usrfuncs.zwc $Z/completions $fpath )
+. $ZDOTDIR/.include
+# … but paths that rely on SYSLOCAL need to happen *AFTER* `.include`
+#
 # reorder (path is array-unique-special) or set in order path
 path=( $SYSLOCAL/bin $path /usr/games )
-fpath=( $ZDOTDIR/usrfuncs.zwc $Z/completions $fpath )
+helppath=(
+		$ZDOTDIR/help
+		$SYSLOCAL/share/zsh/$ZSH_VERSION/help
+	)
 
-. $ZDOTDIR/.include
 
 # Autoload all functions we compile into usrfuncs.zwc
 autoload -Uz $ZDOTDIR/functions/*(.:t)

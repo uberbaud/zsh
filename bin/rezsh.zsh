@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:gfCr+Ry[rezsh.zsh 2016/10/27 04:49:41 tw@csongor.lan]<6wXwzgmasGj: 2016/12/09 06:50:49 tw@csongor.lan]
+# @(#)[:V8Sv{(5a-neqfLC!*jw#: 2017/01/05 02:03:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh

@@ -38,3 +38,4 @@ alias find='noglob find'
 alias newest='noglob newest'
 alias p='noglob p'
 alias prn="printf '  |%s|\n'"
+alias new='noglob new'

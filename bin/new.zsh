@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2016/11/25 06:43:39 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/01/05 02:02:21 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -30,7 +30,8 @@ typeset -a Usage=(
 	'  %T-z%t  Create a temporary file, the contents of which are copied to the'
 	'        clipboard after editing. Then the file is deleted.'
 	'  %Udesc%u Use this description for RCS log message, and'
-	'        IN the file (%BDESCRIPTION%b)'
+	'        IN the file (%BDESCRIPTION%b).'
+	'        The description is %Ball%b trailing words.'
 	' '
 	'%Tnew%t [%T-V%t] [%T-T%t]'
 	'  %T-V%t  list available variables and values'
@@ -231,10 +232,9 @@ if $USE_TMPFILE; then
 else
 	(( $# > 0 )) || -die 'No file given to create nor description.'
 	(( $# > 1 )) || -die 'Missing required %Bdescription%b.'
-	(( $# < 3 )) || -die 'Too many arguments on command line.'
 
-	cmdln_arg=$1
-	DESCRIPTION=$2
+	cmdln_arg=$1; shift
+	DESCRIPTION="$*"
 
 	[[ -e $cmdln_arg ]] && -die "%B${cmdln_arg:gs/%/%%}%b already exists."
 fi
