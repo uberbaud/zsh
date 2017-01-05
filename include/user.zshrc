@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/05 02:14:33 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/05 06:44:37 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -36,3 +36,4 @@ function radio { # play radio wazee {{{1
 
 for c ( find new newest p ) alias $c="noglob $c"
 alias prn="printf '  |%s|\n'"
+alias cls='noglob clear ls'

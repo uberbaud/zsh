@@ -1,9 +1,9 @@
-# @(#)[:NoAgU5z4RPRX6IO)iQ~$: 2016/11/29 09:50:35 tw@csongor.lan]
+# @(#)[:NoAgU5z4RPRX6IO)iQ~$: 2017/01/05 21:43:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
 
-(( $#<2 )) && { print -Pu 2 '  %F{1}BAD PROGRAMMER%f (--msgify:1)'; exit 254; }
+(( $#<2 )) && { print -rPu 2 '  %F{1}BAD PROGRAMMER%f (--msgify:1)'; exit 254; }
 
 typeset -- prefix_1=$1
 typeset -- prefix_N=$2
@@ -33,10 +33,10 @@ typeset -a CURPOS=()
 [[ -x $LOCALBIN/get-row-col ]]&& CURPOS=( $($LOCALBIN/get-row-col) )
 [[ ${CURPOS[2]:-1} -eq 1 ]]|| echo
 
-print -Pu 2 $prefix_1 $Message[1]
+print -rPu 2 $prefix_1 $Message[1]
 shift Message
 for line in $Message; do
-	print -Pu 2 $prefix_N $line
+	print -rPu 2 $prefix_N $line
 done
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
