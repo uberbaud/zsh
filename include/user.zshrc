@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/06 02:04:33 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/06 21:43:33 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -34,6 +34,12 @@ function radio { # play radio wazee {{{1
 	usr/local/bin/mplayer $opts $radio_wazee
 }; # }}}1
 
-for c ( clear find new newest p ) alias $c="noglob $c"
-alias prn="printf '  |%s|\n'"
+# noglob
+for c ( find new newest p pkg ) alias $c="noglob $c"
+# dealias next item too
+for c ( doas ) alias $c="$c "
+
+alias clear='noglob clear '
+compdef -d clear
 alias cls='noglob clear ls'
+alias prn="printf '  |%s|\n'"

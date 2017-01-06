@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/01/05 02:12:02 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/01/06 21:54:18 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -18,9 +18,12 @@ Z=$ZDOTDIR
 
 export USRLIB=$XDG_DATA_HOME/lib
 export USR_ZSHLIB=$ZDOTDIR/lib
+# reorder (path is array-unique-special) or set in order path
+# put things we install ahead of system bins in OUR path
+[[ -d /usr/local/bin ]]&& path=( /usr/local/bin $path )
 [[ -d $XDG_DATA_HOME/bin ]] && {
-	USRBIN=$XDG_DATA_HOME/bin
 	LOCALBIN=$XDG_DATA_HOME/bin
+	USRBIN=$LOCALBIN
 	path=( $USRBIN $path )
 }
 [[ -d ~/bin ]] && {
@@ -30,18 +33,17 @@ export USR_ZSHLIB=$ZDOTDIR/lib
 [[ -n $USRBIN ]]&& export USRBIN
 [[ -n $LOCALBIN ]]&& export LOCALBIN
 
-# it's helpful for fpath to be adjusted *BEFORE* sourcing `.include` …
+# it's helpful for paths to be adjusted *BEFORE* sourcing `.include` …
 fpath=( $ZDOTDIR/usrfuncs.zwc $Z/completions $fpath )
+path=( $path /usr/games )
+
 . $ZDOTDIR/.include
-# … but paths that rely on SYSLOCAL need to happen *AFTER* `.include`
-#
-# reorder (path is array-unique-special) or set in order path
-path=( $SYSLOCAL/bin $path /usr/games )
+
+# however, SYSLOCAL is defined in .include, so this happens after
 helppath=(
 		$ZDOTDIR/help
 		$SYSLOCAL/share/zsh/$ZSH_VERSION/help
 	)
-
 
 # Autoload all functions we compile into usrfuncs.zwc
 autoload -Uz $ZDOTDIR/functions/*(.:t)
