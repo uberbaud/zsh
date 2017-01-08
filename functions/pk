@@ -1,4 +1,4 @@
-# @(#)[:(2DMD-)}p4rmGSS$,!~e: 2017/01/08 01:09:49 tw@csongor.lan]
+# @(#)[:(2DMD-)}p4rmGSS$,!~e: 2017/01/08 01:14:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # safe replacement for pkill
 
@@ -13,6 +13,8 @@ typeset -a cbitems=()
 pgrep -lf $@ | while read -r p; do
 	cbitems+=(${p%% *} "${p#* }" on)
 done
+
+(($#cbitems))|| -die 'No matching processes.'
 
 dialog --keep-tite --stdout --checklist $title 0 0 0 $cbitems | read p
 
