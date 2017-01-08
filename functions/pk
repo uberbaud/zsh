@@ -1,4 +1,4 @@
-# @(#)[:(2DMD-)}p4rmGSS$,!~e: 2017/01/08 01:14:01 tw@csongor.lan]
+# @(#)[:(2DMD-)}p4rmGSS$,!~e: 2017/01/08 01:58:18 tw@uberbaud.net]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # safe replacement for pkill
 
@@ -6,15 +6,16 @@ emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
 needs dialog
-(($#))|| die 'Expected process name patterns as arguments.'
+(($#))|| die 'Expected process name pattern as an argument.'
+(($#==1))|| die 'Too many arguments. Expected one (1).'
 
 local p='' title='Kill, kill, kill!'
 typeset -a cbitems=() 
-pgrep -lf $@ | while read -r p; do
+pgrep -lf $1 | while read -r p; do
 	cbitems+=(${p%% *} "${p#* }" on)
 done
 
-(($#cbitems))|| -die 'No matching processes.'
+(($#cbitems))|| die 'No matching processes.'
 
 dialog --keep-tite --stdout --checklist $title 0 0 0 $cbitems | read p
 
