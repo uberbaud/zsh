@@ -1,5 +1,11 @@
 #!/usr/bin/env zsh
+## @(#)[:Kz2XX!aYV8(8@VXU*wAz: 2017/01/12 00:51:59 tw@csongor.lan]
 # vim: tabstop=4
+
+. $USR_ZSHLIB/common.zsh
+:needs apm xlock :log $XDG_DATA_HOME/bin/set_bg_per_battery.sh
+
+:log timesheet xlock begin || -warn $REPLY
 
 #================================================ Lock the Screen ======
 # lock the screen immediately, but don't stop there
@@ -49,7 +55,7 @@ typeset -i ffmpeg_pid
 
 [[ ${1:-} =~ '^-[SzZ]$' ]]&& {
 	sleep 0.5	# make sure xlock has had time to do its thing
-	/usr/sbin/apm $1
+	apm $1
   }
 
 
@@ -57,4 +63,7 @@ typeset -i ffmpeg_pid
 wait $xlock_pid
 
 $was_playing && $USRBIN/amuse play
-$XDG_DATA_HOME/bin/set_bg_per_battery.sh
+$XDG_DATA_HOME/bin/set_bg_per_battery.sh >> $HOME/log/battery-monitor
+
+:log timesheet xlock end || -warn $REPLY
+

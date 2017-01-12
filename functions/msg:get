@@ -1,9 +1,34 @@
 #!/usr/bin/env zsh
-# @(#)[msg:get 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/01/10 10:49:30 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo rematch_pcre null_glob
+
+function quit { readonly X;X=FATAL 2>/dev/null; }
+
+((${argv[(I)-h]}))&& {
+	typeset -a Usage=(
+		"  %F{4}Usage%f: %F{2}${${0##*/}:gs/%/%%}%f [%Uacct list%u]"
+		'            Downloads messages for the given accounts, or'
+		'            all accounts if none are given.'
+		"         %F{2}${${0##*/}:gs/%/%%} -l%f"
+		'            Lists available accounts.'
+		"         %F{2}${${0##*/}:gs/%/%%} -h%f"
+		'            Show this message.'
+	  )
+	print -Plu 2 $Usage
+	quit
+  }
+
+needs $XDG_CONFIG_HOME/fetchmail/listAccts.zsh
+
+((${argv[(I)-l]}))&& {
+	$XDG_CONFIG_HOME/fetchmail/listAccts.zsh
+	quit
+  }
+
+needs $XDG_CONFIG_HOME/fetchmail/accTofetch.zsh $SYSLOCAL/bin/fetchmail
 
 typeset -- re_mb_typ1='^(\d+) (messages?) \((\d+) seen\) for (.*) at (.*)\.$'
 typeset -- re_mb_typ2='^(\d+) (messages?) for (.*) at (.*)\.$'
