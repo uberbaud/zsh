@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[ƒ.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:D{?[ƒ.zsh 2016/10/25 07:09:12 tw@csongor.lan]#Xmt4Cuie6s5pPRz: 2017/01/14 20:36:58 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -10,7 +10,7 @@ typeset -- this_pgm=${0##*/}
 # %S/%s => special  (magenta fg)
 typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t [-l|-p %Iprnopts%i]"
-	  Performs a function from %B${USR_ZSHLIB:gs/%/%%}/common.zsh%b.|| exit 86
+	"  Performs a function from %B${USR_ZSHLIB:gs/%/%%}/common.zsh%b."
 	'  If the output is to a TTY, %S\0%s will be converted to %S\n%s.'
 	'  -p  options used for the %Tprint%t command.'
 	'  -l  list available functions.'
