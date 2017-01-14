@@ -5,7 +5,7 @@
 emulate -L zsh
 
 (($#))&& {
-	printf '  pulls changes and recompiles zsh.rc & common.zsh, etc\n'
+	printf '  pulls changes and recompiles zsh.rc & common.zsh, etc\n'|| exit 86
 	exit 0
   }
 

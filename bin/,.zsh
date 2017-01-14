@@ -2,7 +2,7 @@
 ## @(#)[:Kz2XX!aYV8(8@VXU*wAz: 2017/01/12 00:51:59 tw@csongor.lan]
 # vim: tabstop=4
 
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 :needs apm xlock :log $XDG_DATA_HOME/bin/set_bg_per_battery.sh
 
 :log timesheet xlock begin || -warn $REPLY

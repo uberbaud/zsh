@@ -5,7 +5,7 @@
 #		convert it to perl anyway.
 
 emulate -L zsh
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 # ======================================================================
 #   TEMPLATES DIRECTORY STUFF

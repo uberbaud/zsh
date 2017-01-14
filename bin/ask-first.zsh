@@ -2,7 +2,7 @@
 # @(#)[ask-first.zsh 2016/10/25 07:07:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-. "$USR_ZSHLIB/common.zsh"
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 typeset -A cmds;
 cmds=(

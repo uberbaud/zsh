@@ -2,7 +2,7 @@
 # @(#)[:G*EpG}m8g31H09A=,9||: 2017/01/03 06:49:38 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 typeset -- gdrive=$HOME'/hold/Google Drive'
 

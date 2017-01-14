@@ -2,7 +2,7 @@
 # @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/12/24 02:25:26 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 [[ -d $LOCALBIN ]] || -die '%F{6}$LOCALBIN%f is not set.'
 path+=( $LOCALBIN )

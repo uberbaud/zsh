@@ -3,7 +3,7 @@
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
-. "$USR_ZSHLIB/common.zsh"
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 
 typeset -- today=$(date +%d)

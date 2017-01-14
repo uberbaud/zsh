@@ -3,7 +3,7 @@
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
-. "$USR_ZSHLIB/common.zsh"
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 # Usage {{{1
 typeset -- this_pgm=${0##*/}

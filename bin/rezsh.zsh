@@ -2,7 +2,7 @@
 # @(#)[:V8Sv{(5a-neqfLC!*jw#: 2017/01/05 02:03:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 cd $ZDOTDIR
 

@@ -2,7 +2,7 @@
 # @(#)[:-V?26YLT;hfd6(0{QK7@: 2016/11/28 03:01:24 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-. "$USR_ZSHLIB/common.zsh"
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 # Usage {{{1
 typeset -- this_pgm=${0##*/}

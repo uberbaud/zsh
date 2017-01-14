@@ -2,7 +2,7 @@
 # @(#)[parse-twrc.zsh 2016/10/27 04:45:59 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 typeset -- incRC=$ZDOTDIR/includes.rc
 typeset -- incDIR=$ZDOTDIR/include

@@ -2,7 +2,7 @@
 # @(#)[upit.zsh 2016/10/25 07:09:12 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-. "$USR_ZSHLIB/common.zsh"
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 typeset -r SRMS='%USource Revision Management System%u'
 typeset -- bin="$SYSLOCAL/bin"

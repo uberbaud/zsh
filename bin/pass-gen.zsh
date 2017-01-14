@@ -2,7 +2,7 @@
 # @(#)[:M7dUbt+qzxTO!nD}9M<g: 2016/12/19 06:33:35 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-. "$USR_ZSHLIB/common.zsh"
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 typeset -i default_min=13
 typeset -i default_max=19

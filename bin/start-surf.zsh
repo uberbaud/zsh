@@ -3,7 +3,7 @@
 # vim: tabstop=4 textwidth=72 noexpandtab ft=zsh
 
 emulate -L zsh
-. $USR_ZSHLIB/common.zsh
+. $USR_ZSHLIB/common.zsh|| exit 86
 
 typeset -r homepage=$XDG_DATA_HOME/twSite/homepage.html
 typeset -- runpath
