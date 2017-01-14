@@ -1,4 +1,4 @@
-# $Id$
+# @(#)[:h[:h$Id$D0JIJQc$Id$t-L6r<PZ}x: 2017/01/13 07:06:56 tw@csongor.lan]D0JIJQc[:h$Id$D0JIJQc$Id$t-L6r<PZ}x: 2017/01/13 07:06:56 tw@csongor.lan]t-L6r<PZ}x: 2017/01/13 07:08:40 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -39,7 +39,7 @@ else
 		choice=$( umenu $1 *(/) )
 	fi
 	[[ -n $choice ]]|| return 1
-	new_dir $choice;
+	[[ -d $choice ]]|| new_dir $choice;
 fi
 
 [[ -n $choice ]]|| return 0
