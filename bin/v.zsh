@@ -72,6 +72,7 @@ fi
 
 [[ -n $f_fullpath ]]	|| -die 'Could not follow link.'
 [[ -f $f_fullpath ]]	|| -die "%B${1:gs/%/%%}%b is %Bnot%b a file."
+[[ $f_fullpath =~ *,v ]]|| warnOrDie "Seems to be an %BRCS archive%b file."
 [[ $( /usr/bin/file -b $f_fullpath ) =~ 'text|XML' ]]	\
 						|| warnOrDie "Does not seem to be a text file."
 
