@@ -140,7 +140,27 @@ cd $f_path || -die "Could not %F{2}cd%f to %B${f_path:gs/%/%%}%b."
 typeset -- has_rcs=false
 [[ -d RCS && -f RCS/$f_name,v ]] && {
 	has_rcs=true
-	rcsdiff -q ./$f_name
+	rcsdiff -q ./$f_name || { # Handle changed but not `RCS-co`ed {{{1
+		typeset -- N='\e[0;48;5;117;30m' B='\e[1;4;48;5;12;38;5;15m' F=''
+		F+=$N'  The file was changed after check-in. '
+		F+=$B'S'$N'ave or '
+		F+=$B'D'$N'iscard changes, or '
+		F+=$B'A'$N'bort edit?'
+		F+='  \e[0m\n'
+		printf $F
+		typeset -l key=''
+		while :; do
+			read -rsk key
+			[[ $key == [sda] ]]&& break
+			printf '  \e[4mS\e[24mave, \e[4mD\e[24miscard, or \e[4mA\e[24mbort (\e[1msda\e[22m).\n'
+		done
+		case $key in
+			s) rcs -l ./$f_name; ci -l ./$f_name; chmod a-w ./$f_name;	;;
+			d) rm ./$f_name; co -u ./$f_name;							;;
+			a) -warn 'Quitting.'; exit 0;								;;
+			*) -die "Bad Programmer. Key is %B${key:gs/%/%%}%b.";		;;
+		esac
+	} # }}}1
 	co -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
   }
 

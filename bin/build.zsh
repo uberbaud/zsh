@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2016/11/22 06:47:04 tw@csongor.lan]
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/01/17 03:50:45 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -169,7 +169,7 @@ function build-one { # {{{1
 		$actually_run_cmd || continue
 		eval "$cmd" 2>&1 | fold -sw 80 | tee -a "$bofile"
 		(($pipestatus[1]))&& {
-			-warn "${base:gs/%/%%} build failed"
+			-warn "${1:gs/%/%%} build failed"
 			return 1
 		  }
 	done
