@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[git 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:G@37~B={L|0egkHnImjz: 2017/01/18 09:02:09 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 emulate -L zsh
 
@@ -43,10 +43,10 @@ typeset -- marker=$( date +'%Y%m%d%H%M%S' )
 typeset -- before=$diffDir/$marker.before
 typeset -- after=$diffDir/$marker.after
 
-repoInfo > $before
+repoInfo "$@" > $before
 $SYSLOCAL/bin/git "$@"
 typeset -i rc=$?
-repoInfo > $after
+repoInfo "$@" > $after
 
 # don't keep them if we didn't do anything
 print -Pu 2 -- '  %F{4}>>>%f noting changes'
