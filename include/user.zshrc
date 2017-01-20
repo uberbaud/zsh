@@ -1,5 +1,5 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/18 09:08:25 tw@csongor.lan]
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/20 04:12:29 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
 CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
@@ -43,6 +43,6 @@ for c ( doas ) alias $c="$c "
 
 alias clear='noglob clear ';	compdef -d clear
 alias math='noglob math';		function math { bc <<<"$*"; }
-alias cowmath='noglob cowmath';	function cowmath { bc <<<"$*" | cowsay; }
+alias cowmath='noglob cowmath';	function cowmath { bc <<<"$*" | cowsay | lolcat; }
 alias cls='noglob clear ls'
 alias prn="printf '  |%s|\n'"
