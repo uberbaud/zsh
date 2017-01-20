@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
-# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/01/17 03:50:45 tw@csongor.lan]
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/01/19 08:13:41 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -49,6 +49,7 @@ shift $(($OPTIND - 1))
 typeset -- rx_sets_outfile=$'(^|[ \t])-[co][[:>:]]'
 typeset -- bofile='build.output'
 typeset -i totalerrs=0
+typeset -- XFILE=''
 
 print build $*  > $bofile
 print '----'   >> $bofile
@@ -75,8 +76,8 @@ function parse-warn { # {{{1
 function __nasm { REPLY="$2 $1"; }
 function __ld { REPLY="$2 ${1%.*}.o"; }
 function __CC { # {{{1
-	typeset -- bname=${1%.*}
-	typeset -- sname=$1
+	typeset -- sname=${XFILE:-$1}
+	typeset -- bname=${sname%.*}
 	typeset -- cc=${2[(w)1]}
 	typeset -- cc_opts=${2[(w)2,-1]}
 
@@ -87,15 +88,40 @@ function __CC { # {{{1
 } # }}}1
 function __clang { __CC $@; }
 function __gcc { __CC $@; }
+function __ragel { # {{{1
+	typeset -- bname=${1%.*} oext=c outopt=''
+	typeset -- cmd=$2
+	if [[ $cmd =~ '-o ([^ \t]+)' ]]; then
+		XFILE=$match
+	else
+		[[ $cmd =~ '-([CDJZR])\b' ]]&& {
+			case $match in
+				C) oext=c;		;;
+				D) oext=d;		;;
+				J) oext=java;	;;
+				Z) oext=go;		;;
+				R) oext=rb;		;;
+			esac
+		  }
+		[[ $1 =~ '.rh$' ]]&& oext=h
+		XFILE=${${1%.*}##*/}.$oext
+		outopt="-o $XFILE"
+	fi
+	REPLY="$cmd $outopt $1"
+  } # }}}1
+
 
 function build-one { # {{{1
 	file:exists $1		|| return 1
 	file:readable $1	|| return 1
 
+	# the +t turns off printing of variables which are already set
 	typeset +t -- SRC ln utest uflags uresp commented
 	typeset -- buildopts=()
 	typeset -i I=0
 	typeset -- headerfound=false
+	typeset -- fhead=${1%.*}
+	typeset -- fbase=${fhead##*/}
 
 	# PARSE HEADER {{{2
 	exec {SRC}<$1
