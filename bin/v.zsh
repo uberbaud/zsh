@@ -142,7 +142,7 @@ typeset -- has_rcs=false
 	has_rcs=true
 	rcsdiff -q ./$f_name || { # Handle changed but not `RCS-co`ed {{{1
 		typeset -- N='\e[0;48;5;117;30m' B='\e[1;4;48;5;12;38;5;15m' F=''
-		F+=' '$N'   The file was changed after check-in. '
+		F+=' '$N'  The file was changed after check-in. '
 		F+=$B'U'$N'se it anyway, '
 		F+=$B'R'$N'evert, or '
 		F+=$B'A'$N'bort edit?'
@@ -155,8 +155,8 @@ typeset -- has_rcs=false
 			printf '  \e[4mU\e[24mse it anyway, \e[4mR\e[24mevert, or \e[4mA\e[24mbort (\e[1mura\e[22m).\n'
 		done
 		case $key in
-			u) rcs -l ./$f_name; ci -l ./$f_name; chmod a-w ./$f_name;	;;
-			r) rm ./$f_name; co -u ./$f_name;							;;
+			u) (){ rcs -l $1; ci -l $1; chmod a-w,+X $1; } ./$f_name;	;;
+			r) (){ rm $1; co -u $1; } ./$f_name;						;;
 			a) -warn 'Quitting.'; exit 0;								;;
 			*) -die "Bad Programmer. Key is %B${key:gs/%/%%}%b.";		;;
 		esac
