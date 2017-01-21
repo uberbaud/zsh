@@ -162,8 +162,7 @@ typeset -- has_rcs=false
 					local mode=$(stat -f %Mp%Lp $v)
 					rcs -q -l $1	# allow a checkin
 					chmod $mode $v	# reset RCS version (rcs mucks it up)
-					ci -q -l $1		# checkin
-					chmod a-w $1	# remove any write so co is fine
+					ci -q -u $1		# checkin
 				  } ./$f_name;											;;
 			*) -die "Bad Programmer. Key is %B${key:gs/%/%%}%b.";		;;
 		esac
