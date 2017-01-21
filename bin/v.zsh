@@ -155,13 +155,20 @@ typeset -- has_rcs=false
 			printf '  \e[4mU\e[24mse it anyway, \e[4mR\e[24mevert, or \e[4mA\e[24mbort (\e[1mura\e[22m).\n'
 		done
 		case $key in
-			u) (){ rcs -l $1; ci -l $1; chmod a-w,+X $1; } ./$f_name;	;;
-			r) (){ rm $1; co -u $1; } ./$f_name;						;;
-			a) -warn 'Quitting.'; exit 0;								;;
+			'a') -warn 'Quitting.'; exit 0;								;;
+			'r') (){ rm $1; co -u $1; } ./$f_name;						;;
+			'u') (){
+					local v=RCS/$1,v
+					local mode=$(stat -f %Mp%Lp $v)
+					rcs -q -l $1	# allow a checkin
+					chmod $mode $v	# reset RCS version (rcs mucks it up)
+					ci -q -l $1		# checkin
+					chmod a-w $1	# remove any write so co is fine
+				  } ./$f_name;											;;
 			*) -die "Bad Programmer. Key is %B${key:gs/%/%%}%b.";		;;
 		esac
 	} # }}}1
-	co -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
+	co -q -l ./$f_name || -die "Could not %F{2}co -l%f %B${f_name:gs/%/%%}%b."
   }
 
 # different OSes have different ways of getting the sha384, and of 
