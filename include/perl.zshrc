@@ -1,4 +1,4 @@
-# @(#)[perl.zshrc 2016/05/10 05:58:03 tw@csongor.lan]
+# @(#)[:Y60M?doOzbx-Yy|`$9hZ: 2017/01/21 04:52:28 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 # ---------- local::lib Stuff ----------
@@ -35,6 +35,7 @@ typeset -x -m "PERLBREW_*"
 
 # ----8<---- Perl Stuff ----8<----
 
+PERL_UNICODE='AS'
 PERL5LIB="$USRLIB/perl"
 USR_PLIB="$PERL5LIB"
 
@@ -48,6 +49,6 @@ function cpan {
 # cpan behind a firewall, and sometimes other benefits
 FTP_PASSIVE="1 cpan -i Net::FTP"
 
-typeset -x PERL5LIB FTP_PASSIVE
+typeset -x PERL5LIB FTP_PASSIVE PERL_UNICODE
 
 # ---->8---- Perl Stuff ---->8----

@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/20 04:12:29 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/21 04:37:06 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -34,12 +34,12 @@ function radio { # play radio wazee {{{1
 	usr/local/bin/mplayer $opts $radio_wazee
 }; # }}}1
 function pkill { print -P '  Maybe use safe %Bpk%b? Or use %B=pkill%b.'; }
+function lolcow { cowsay "$@" | lolcat; }
 
 # noglob
 for c ( find new newest p pkg ) alias $c="noglob $c"
 # dealias next item too
 for c ( doas ) alias $c="$c "
-
 
 alias clear='noglob clear ';	compdef -d clear
 alias math='noglob math';		function math { bc <<<"$*"; }
