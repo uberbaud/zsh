@@ -1,4 +1,4 @@
-# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/01/06 02:20:09 tw@csongor.lan]
+# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/01/27 01:01:42 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 HISTFILE=~/.local/zsh/histfile
@@ -51,12 +51,12 @@ set_prompt
 # ─────────────────────── END: prompt  ────── }}}1
 
 function clear {
-	print -f '\e[0;0H\e[2J\e[3J';
+	print -f '\e[0;0H\e[2J\e[3J' >&2
 	((!$#))|| {
-		local banner="$*"
+		local banner="$*" exp=() p=''
 		(($#banner<(COLUMNS-6)))|| banner="${banner:0:$((COLUMNS-7))}…"
-		printf "\e[1;44;37m%${COLUMNS}s\r − %s −\e[0m\n" '' $banner
-		eval "$@"
+		printf "\e[1;44;37m%${COLUMNS}s\r − %s −\e[0m\n" '' $banner >&2
+		"$@"
 	  }
 }
 

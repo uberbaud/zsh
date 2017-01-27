@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/21 04:37:06 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/27 00:55:10 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -41,8 +41,8 @@ for c ( find new newest p pkg ) alias $c="noglob $c"
 # dealias next item too
 for c ( doas ) alias $c="$c "
 
-alias clear='noglob clear ';	compdef -d clear
+								compdef -d clear
 alias math='noglob math';		function math { bc <<<"$*"; }
 alias cowmath='noglob cowmath';	function cowmath { bc <<<"$*" | cowsay | lolcat; }
-alias cls='noglob clear ls'
+alias cls='clear ls'
 alias prn="printf '  |%s|\n'"

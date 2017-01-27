@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
-# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/01/10 10:49:30 tw@csongor.lan]
+# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/01/27 00:49:56 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
-setopt local_options local_traps pipe_fail bsd_echo rematch_pcre null_glob
+setopt local_options local_traps pipe_fail bsd_echo rematch_pcre
 
 function quit { readonly X;X=FATAL 2>/dev/null; }
 
@@ -39,7 +39,7 @@ typeset -- N W
 typeset -- P='      %F{4}─%f'
 
 print -Pu 2 '  %F{4}>>>%f Cleaning out %F{5}inbox%f.'
-for delf in $(mhpath)/,*; do rm $delf; done
+for delf ( $(mhpath)/,*(N) ) rm $delf
 
 print -Pu 2 '  %F{4}>>>%f Generating %F{5}fetchmailrc%f.'
 $XDG_CONFIG_HOME/fetchmail/accTofetch.zsh $@

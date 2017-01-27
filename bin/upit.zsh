@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[upit.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:B=,!,w1$)3gOt~?v=l1R: 2017/01/26 22:39:24 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -64,8 +64,7 @@ function versctrl { # {{{1
 } # }}}1
 function show-possibilities-and-die { # {{{1
 	typeset -a msg=( "Did not find a supported $SRMS." )
-	setopt null_glob
-	typeset -a doteds=( .* )
+	typeset -a doteds=( .*(N) )
 	(($#doteds))|| -die $msg 'There are %Bno dotted files%b.';
 
 	msg+=( '  possible %Ssrms%s control directories:' )

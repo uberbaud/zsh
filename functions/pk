@@ -1,4 +1,4 @@
-# @(#)[:(2DMD-)}p4rmGSS$,!~e: 2017/01/08 01:58:18 tw@uberbaud.net]
+# @(#)[:(2DMD-)}p4rmGSS$,!~e: 2017/01/24 03:24:22 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # safe replacement for pkill
 
@@ -20,8 +20,10 @@ done
 dialog --keep-tite --stdout --checklist $title 0 0 0 $cbitems | read p
 
 (($#p))|| return 1
+typeset -- fmt='Really kill these %d processes? '
+if (($#p==1)) fmt='Really kill this %d process? '
 
-printf 'Really kill these %d processes? ' ${(w)#p}
+printf $fmt ${(w)#p}
 read -sq || { echo; return 1; }
 
 echo

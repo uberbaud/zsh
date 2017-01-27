@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/01/05 02:02:21 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/01/26 22:38:09 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -318,14 +318,13 @@ function do-common { # {{{2
 }; # }}}2
 
 function handle-directory-template { #{{{2
-	setopt local_options null_glob
 	typeset -r	template="$1"
 	typeset -r	file_path="$2"
 	if [[ -a "$template/_.$extension" ]]; then
 		cp -p "$template/_.$extension" $file_path
 		on_error -die "Could not create %B${file_path:gs/%/%%}%b" "from %B${template:gs/%/%%}%b."
 	fi
-	typeset -a scripts=( $template/before* )
+	typeset -a scripts=( $template/before*(N) )
 	# the following scripts (before*, add_mods.[sh|pl], after*) will 
 	# exit THIS script on fail, as they are included using . and don't 
 	# run in a subshell
@@ -346,7 +345,7 @@ function handle-directory-template { #{{{2
 		get-mods-list $template mods_list
 		-die 'This template requires mods (%T-x %Umod%u%t)' "  ${^mods_list[@]}"
 	fi
-	scripts=( $template/after* );
+	scripts=( $template/after*(N) );
 	for script in $scripts; do
 		. $script $template $file_path
 	done
@@ -381,6 +380,7 @@ elif [[ -w RCS/ ]]; then
 		typeset -a ci_opts=(
 			-i	# initial check-in
 			-u	# unlock file (keep a copy checked out) after versioning
+			-q	# quietly (some messages)
 		)
 		[[ -n $DESCRIPTION ]] && ci_opts+=( "-t-'$DESCRIPTION'" )
 		# do the check-in

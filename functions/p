@@ -1,4 +1,4 @@
-# @(#)[:h[:h$Id$D0JIJQc$Id$t-L6r<PZ}x: 2017/01/13 07:06:56 tw@csongor.lan]D0JIJQc[:h$Id$D0JIJQc$Id$t-L6r<PZ}x: 2017/01/13 07:06:56 tw@csongor.lan]t-L6r<PZ}x: 2017/01/13 07:08:40 tw@csongor.lan]
+# @(#)[:aV`l=qOi1z-j7-#72R#J: 2017/01/27 01:03:53 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,14 +8,13 @@ cd ~/play
 (($#))|| return 0	# no directory given so we're done
 (($#>1))&&	{ print -Pu 2 '  %F{4}Usage%f: %F{2}p%f %Udir%u'; return 0; }
 
-setopt null_glob
 typeset -a possibles=()
 if [[ -d $1 ]]; then
-	possibles=( $1 )
+	possibles=( $1(N) )
 elif [[ $1 =~ '\*' ]]; then
-	eval 'possibles=( $1(/) )'
+	eval 'possibles=( $1(/N) )'
 else
-	eval 'possibles=( *$1*(/) )'
+	eval 'possibles=( *$1*(/N) )'
 fi
 
 function new_dir {
@@ -36,7 +35,7 @@ else
 	if (($#possibles)); then
 		choice=$( umenu $possibles )
 	else
-		choice=$( umenu $1 *(/) )
+		choice=$( umenu $1 *(/N) )
 	fi
 	[[ -n $choice ]]|| return 1
 	[[ -d $choice ]]|| new_dir $choice;

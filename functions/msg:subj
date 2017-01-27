@@ -1,16 +1,15 @@
 #!/usr/bin/env zsh
-# @(#)[msg:subj 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:P+Yu!**7ScJS<OH23nax: 2017/01/27 00:51:29 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
-setopt numeric_glob_sort null_glob
 
 typeset -ga MSGs=()
 typeset -- OLDPWD=$PWD
 cd $(mhpath)
 
-typeset -a msgList=( [1-9]* )
+typeset -a msgList=( [1-9]*(Nn) )
 (($#msgList))|| {
 	echo "msg:from: no message in $(folder -fast)" >&2
 	cd $OLDPWD
