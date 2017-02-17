@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/01/04 22:49:55 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/02/16 20:47:08 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -36,6 +36,7 @@ typeset -Ag	WRAP_COMMANDS=(
 	'pass' "$USRBIN/pass-gen"
 	#'off' ". $USRBIN/off.sh"
 	#'modver' "$USRBIN/modver.pl"	# get version of perl modules
+	'kindle' "$ZDOTDIR/bin/chrome-kindle.zsh"
 
 	# ───────────────────────────────────────────────────────────────────
 	#  add default options or use specific path

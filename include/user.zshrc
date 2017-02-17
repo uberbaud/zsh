@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/01/27 00:55:10 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/02/10 18:40:35 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -9,7 +9,7 @@ LESSHISTFILE='-'
 linode='li131-170.members.linode.com'
 LINODE_IP='69.164.216.170'
 LINODE_IPv6='2600:3c03::f03c:91ff:fe96:e402'
-LOGNAME='tw'
+LOGNAME=${LOGNAME:-tw}
 PAGER='/usr/bin/less'
 TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"
 TIMEFMT='    %*E real    %U user    %S system    %P cpu    %MMB mem'
@@ -45,4 +45,4 @@ for c ( doas ) alias $c="$c "
 alias math='noglob math';		function math { bc <<<"$*"; }
 alias cowmath='noglob cowmath';	function cowmath { bc <<<"$*" | cowsay | lolcat; }
 alias cls='clear ls'
-alias prn="printf '  |%s|\n'"
+alias prn="printf '  \e[35m｢\e[39m%s\e[35m｣\e[39m\n'"

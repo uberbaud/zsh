@@ -1,5 +1,8 @@
-# @(#)[:;D;F2<M+vG`6ZAW*r1=i: 2017/01/04 22:53:01 tw@csongor.lan]
+# @(#)[:;D;F2<M+vG`6ZAW*r1=i: 2017/02/10 18:41:28 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
+
+BROWSER='/home/tw/bin/start-firefox'
+export BROWSER
 
 # ────────────────────────────────── BEGIN: TERM Colors ───── {{{1
 

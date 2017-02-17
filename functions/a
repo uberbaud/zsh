@@ -1,0 +1,37 @@
+# @(#)[:I,Oat7oM^n[:I,Oat7oM^n_ONaegLwW*: 2017/02/17 04:15:48 tw@csongor.lan]ONaegLwW*: 2017/02/17 04:20:48 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# play some music files using amuse
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+typeset -- amuse=$me/util/amuse/amuse-master.zsh $P
+needs $amuse
+
+typeset -a music=(flac jpg m4a m4v mp3 mp4 wav)
+typeset -a P=()
+typeset -- x='' X=''
+while (($#)); do
+	x=$1
+	shift
+	# does it exist?
+	[[ -e $x ]] || {
+		warn "No fso %B${1:gs/%/%%}%b."
+		continue
+	}
+	# is it a directory
+	[[ -d $x ]] && {
+		set $@ $x/*
+		continue
+	}
+	# is it music
+	X=${x##*.}
+	((music[(I)$X])) || continue
+	# keep the music
+	P+=($x)
+done
+
+# play the music
+$amuse $P
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
