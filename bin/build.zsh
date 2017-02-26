@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/01/19 08:13:41 tw@csongor.lan]
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/02/17 19:09:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -84,7 +84,10 @@ function __CC { # {{{1
 	typeset -- outopt=''
 	[[ $cmd =~ $rx_sets_outfile ]] || outopt="-o '$bname' "
 
-	REPLY="$cc -Wall $outopt'$sname' $cc_opts"
+	typeset -- ALL='all'
+	[[ $cc == clang ]]&& ALL='everything'
+
+	REPLY="$cc -W$ALL $outopt'$sname' $cc_opts"
 } # }}}1
 function __clang { __CC $@; }
 function __gcc { __CC $@; }
