@@ -1,44 +1,51 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/01 07:08:35 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/01 08:11:49 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh|| exit 86
+zmodload zsh/datetime
 
 :needs /usr/bin/cal
 
-typeset -- today=$(date +%d)
+
+typeset -- today; strftime -s today %d $EPOCHSECONDS
 typeset -- search="${today/#0/ }\\>"
 typeset -- replace=$'\e[48;5;147m\\1\e[0m'
 typeset -- stdopts=(
 	-m		# week starts on Monday (not Sunday)
 )
-
-(($#))&& {
+(($#))&& { # with options, don't do the calendar bit {{{1
 	:needs /usr/bin/sed
 	/usr/bin/cal $stdopts $@ | /usr/bin/sed -E "s/($search)/$replace/g"
 	exit 0
-}
+} # }}}1
 
 :needs /usr/bin/calendar
 
 typeset -- nt=$'\n\t'	# multiline calendar events
-typeset -- day=''
-typeset -- ev='' e1='' pref=''
-typeset -a tuple=()
-typeset -a events=()
+typeset -- TODAY='' TOMORROW='' daystamp='' expectday='' ev='' pref=''
+typeset -a tuple=() events=()
 typeset -- calblob=$(
 	/usr/bin/cal $stdopts | /usr/bin/sed -E "s/($search)/$replace/g"
 	)
 typeset -- evblob=$(/usr/bin/calendar)
-integer evsize=$((COLUMNS-23))
+integer evsize=$((COLUMNS-23)) TS=$EPOCHSECONDS
 
-evblob=${evblob//$nt/ }
+
+strftime -s TODAY '%b %d ' $TS
+strftime -s TOMORROW '%b %d ' $((TS+86400))
+
+evblob=${evblob//$nt/ } # deformat multiline
 for ln in ${(f)evblob}; do
 	tuple=( ${(ps:\t:)ln} )
-	[[ $tuple[1] == $day ]]|| {
-		day=$tuple[1]
-		events+=( $'\e[1m'$day$'\e[22m' )
+	[[ $tuple[1] == $expectday ]]|| {
+		expectday=$tuple[1]
+		case $expectday in
+			$TODAY)		events+=( $'\e[1mtoday\e[22m' );			;;
+			$TOMORROW)	events+=( $'\e[1mtomorrow\e[22m' );			;;
+			*)			events+=( $'\e[1m'$expectday$'\e[22m' );	;;
+		esac
 	  }
 	ev=$tuple[2]
 	while (($#ev>evsize)); do
