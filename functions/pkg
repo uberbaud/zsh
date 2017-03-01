@@ -1,0 +1,74 @@
+# @(#)[:[:&y~1up<F(XDzlb|~3a6H: 2017/02/28 01:37:23 tw@csongor.lan]y~1up<F(XDzlb|~3a6H: 2017/02/28 02:00:56 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# Wrap various package facilities
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+local AsRoot='/usr/bin/doas'
+
+needs $AsRoot cat die
+
+(($#))|| set help
+
+local osv=$( uname -r )
+local cmd=$1
+shift
+local binpath="/usr/sbin"
+local bin="$binpath/pkg_${cmd}"
+local pkghome="$HOME/.local/pkg-info/v${osv}"
+
+local record=false
+case $cmd in
+	add) 		$AsRoot $bin -i $@; record=true				;;
+	check)		$AsRoot $bin $@;							;;
+	delete)		$AsRoot $bin $@; record=true				;;
+	installed)	$binpath/pkg_info -mz;						;;
+	web|www)
+		needs w3m
+		typeset -a h=()
+		eval "h=( $pkghome/html/{${(j:,:)argv}}\* )"
+		for u ($~h) w3m $u
+		;;
+	grep|query)
+		typeset -- ndx="$pkghome/v${osv}.ndx"
+		perl -ne "print if m/$1/;" $ndx | column -s $'\t' -t
+		;;
+	-h|--help|help)
+		(($#))&& {
+			cmd=$1; shift
+			bin="${bin%_*}_$cmd"
+			if [[ -x $bin ]]; then
+				$bin -h
+			else
+				die "No help for %T${cmd:gs/%/%%}%t."
+			fi
+			return
+		}
+		local T=$'\e[32m' S=$'\e[35m' U=$'\e[4m' N=$'\e[0m'
+		cat <<----
+		  ${T}pkg${N} ${S}cmd${N} ${U}args...${N}
+		      performs pkg_${S}cmd${N}, possibly using ${T}doas${N},
+		      possibly logging the action.
+		  ${T}pkg grep${N} ${S}regex${N}
+		  ${T}pkg query${N} ${S}regex${N}
+		      performs a ${B}perl5 regex${N} search on the index file
+		      example: ${T}pkg query '\\b(?^i:lisp)\\b'${N}
+		      performs a case insensitive word bounded search for
+		          ${S}lisp${N}.
+		  ${T}pkg installed${N}
+		      lists manually installed packages in a format which can be
+		      used by ${T}pkg_add -l${N} to do a best effort with flavors
+		      but not hampered by version.
+		  ${T}pkg web${N} ${S}globs …${N}
+		  ${T}pkg www${N} ${S}globs …${N}
+		      Shows the html information page using ${B}w3m${N}.
+		---
+		;;
+	*)
+		[[ -x $bin ]]|| die "Unknown command %S${cmd:gs/%/%%}%s."
+		$bin $@
+esac
+
+$record && print $cmd $@ >> $HOME/hold/$osv/pkg.log
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
