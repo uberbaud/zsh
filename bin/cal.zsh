@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/01 08:11:49 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 02:26:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -21,17 +21,19 @@ typeset -- stdopts=(
 	exit 0
 } # }}}1
 
-:needs /usr/bin/calendar
+:needs /usr/bin/calendar /usr/bin/sed
 
 typeset -- nt=$'\n\t'	# multiline calendar events
-typeset -- TODAY='' TOMORROW='' daystamp='' expectday='' ev='' pref=''
+typeset -- TODAY='' TOMORROW='' daystamp='' expectday='' ev='' H='' E=''
 typeset -a tuple=() events=()
 typeset -- calblob=$(
-	/usr/bin/cal $stdopts | /usr/bin/sed -E "s/($search)/$replace/g"
+		/usr/bin/cal $stdopts | /usr/bin/sed -E "s/($search)/$replace/g"
 	)
 typeset -- evblob=$(/usr/bin/calendar)
-integer evsize=$((COLUMNS-23)) TS=$EPOCHSECONDS
-
+integer TS=$EPOCHSECONDS		# use a single timestamp for everything,
+								# avoids a potential problem where TODAY 
+								# and TOMORROW are not contiguous
+integer evsize=$((COLUMNS-23))	# cal output (20) + both borders + gutter
 
 strftime -s TODAY '%b %d ' $TS
 strftime -s TOMORROW '%b %d ' $((TS+86400))
@@ -42,21 +44,26 @@ for ln in ${(f)evblob}; do
 	[[ $tuple[1] == $expectday ]]|| {
 		expectday=$tuple[1]
 		case $expectday in
-			$TODAY)		events+=( $'\e[1mtoday\e[22m' );			;;
-			$TOMORROW)	events+=( $'\e[1mtomorrow\e[22m' );			;;
-			*)			events+=( $'\e[1m'$expectday$'\e[22m' );	;;
+			$TODAY)		events+=( $'\e[1m   today\e[22m' );			;;
+			$TOMORROW)	events+=( $'\e[1m   tomorrow\e[22m' );			;;
+			*)			events+=( $'\e[1m   '$expectday$'\e[22m' );	;;
 		esac
 	  }
 	ev=$tuple[2]
+	if [[ $ev =~ '🎂' ]]; then
+		H=$'\e[48;5;225m'; E=$'\e[49m'; ev="$ev "
+	else
+		H=''; E=''
+	fi
 	while (($#ev>evsize)); do
-		T=${pref}${${ev:0:$evsize}% *}
+		T=${${ev:0:$evsize}% *}
 		while [[ $T == *' ' ]] { T=${T:0:-1} } # remove trailing spaces
-		events+=( $T )
-		pref='    '
+		events+=( $H$T$E )
 		ev=${ev:$#T}
 		while [[ $ev == ' '* ]] { ev=${ev:1} } # remove leading spaces
+		ev='    '$ev
 	done
-	events+=( ${pref}$ev )
+	events+=( $H$ev$E )
 	pref=''
 done
 
