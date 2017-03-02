@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 02:48:27 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 02:54:34 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -68,7 +68,7 @@ for ln in ${(f)evblob}; do
 	pref=''
 done
 
-typeset -a cal=( ${(f)calblob} )
+typeset -a cal=( ' ' ${(f)calblob} )
 
 # print calendar and events where it's one for one
 # the ANSI sequence \e[#G moves to the absolute column #
