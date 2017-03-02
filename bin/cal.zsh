@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 02:26:04 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 02:48:27 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -50,8 +50,9 @@ for ln in ${(f)evblob}; do
 		esac
 	  }
 	ev=$tuple[2]
-	if [[ $ev =~ '🎂' ]]; then
-		H=$'\e[48;5;225m'; E=$'\e[49m'; ev="$ev "
+	if [[ $ev =~ 'BIRTHDAY' ]]; then
+		H=$'\e[48;5;225m'; E=$'\e[0m'
+		ev=${ev:0:$((MBEGIN-1))}$'\e[48;5;128;38;5;226m🎂 '
 	else
 		H=''; E=''
 	fi
