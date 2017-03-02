@@ -1,43 +1,47 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 02:54:34 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 20:48:28 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh|| exit 86
-zmodload zsh/datetime
+zmodload zsh/datetime	|| exit 86
 
-:needs /usr/bin/cal
+# ───────────────────────────────────────────────────── GET CALENDAR ───
+:needs /usr/bin/cal /usr/bin/sed
 
-
-typeset -- today; strftime -s today %d $EPOCHSECONDS
+integer TS=$EPOCHSECONDS	# use a single timestamp for everything,
+							# avoiding a potential problem where TODAY 
+							# and TOMORROW are not contiguous,
+							# or TODAY ¬= today
+typeset -- today; strftime -s today %d $TS
 typeset -- search="${today/#0/ }\\>"
 typeset -- replace=$'\e[48;5;147m\\1\e[0m'
 typeset -- stdopts=(
 	-m		# week starts on Monday (not Sunday)
 )
-(($#))&& { # with options, don't do the calendar bit {{{1
-	:needs /usr/bin/sed
-	/usr/bin/cal $stdopts $@ | /usr/bin/sed -E "s/($search)/$replace/g"
-	exit 0
-} # }}}1
+typeset -a cal=( ${(f)"$(
+		/usr/bin/cal $stdopts $@ 2>&1	\
+		| /usr/bin/sed -E "s/($search)/$replace/g"
+	)"} )
+# remove last line if blank
+[[ $cal[-1] =~ '^ *$' ]]&& shift -p cal
 
-:needs /usr/bin/calendar /usr/bin/sed
+# with options, don't do the events bit
+(($#))&& { printf ' %s\n' $cal; exit 0; }
+
+# ───────────────────────────────────────────────────── GET  EVENTS ───
+:needs /usr/bin/calendar
 
 typeset -- nt=$'\n\t'	# multiline calendar events
 typeset -- TODAY='' TOMORROW='' daystamp='' expectday='' ev='' H='' E=''
 typeset -a tuple=() events=()
-typeset -- calblob=$(
-		/usr/bin/cal $stdopts | /usr/bin/sed -E "s/($search)/$replace/g"
-	)
 typeset -- evblob=$(/usr/bin/calendar)
-integer TS=$EPOCHSECONDS		# use a single timestamp for everything,
-								# avoids a potential problem where TODAY 
-								# and TOMORROW are not contiguous
 integer evsize=$((COLUMNS-23))	# cal output (20) + both borders + gutter
 
 strftime -s TODAY '%b %d ' $TS
 strftime -s TOMORROW '%b %d ' $((TS+86400))
 
+# ──────────────────────────────────────────── FORMAT events listing ───
 evblob=${evblob//$nt/ } # deformat multiline
 for ln in ${(f)evblob}; do
 	tuple=( ${(ps:\t:)ln} )
@@ -68,8 +72,15 @@ for ln in ${(f)evblob}; do
 	pref=''
 done
 
-typeset -a cal=( ' ' ${(f)calblob} )
+# ─────────────────────────────── HORIZONTALLY CENTER cal and events ───
+integer l=$(($#cal-$#events))
+if ((l<0)); then
+	repeat $((-l/2)) cal=( ' ' $cal )
+elif ((l>0)); then
+	repeat $((l/2)) events=( ' ' $events )
+fi
 
+# ──────────────────────────────────────────────────────────── PRINT ───
 # print calendar and events where it's one for one
 # the ANSI sequence \e[#G moves to the absolute column #
 while (($#cal&&$#events)); do
@@ -77,6 +88,7 @@ while (($#cal&&$#events)); do
 	shift cal events
 done
 
+# at most, one of these will happen
 for c ($cal) printf ' %s\n' $c				# print any remaining calendar
 for e ($events) printf '\e[23G %s\n' $e		# print any remaining events
 

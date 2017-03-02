@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/02/16 20:47:08 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/03/02 05:17:49 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -46,6 +46,7 @@ typeset -Ag	WRAP_COMMANDS=(
 	'cdcl' 'cd;clear'
 	#
 	'rsync' "$AskFirst rsync"
+	'remind' "$SYSLOCAL/bin/remind $XDG_CONFIG_HOME/calendar/reminders"
 	# 'sbcl'  "$SYSLOCAL/bin/sbcl --userinit $XDG_CONFIG_HOME/sbcl/sbcl.rc"
 	'scp' "$AskFirst scp"
 	'sftp' "$AskFirst sftp"
