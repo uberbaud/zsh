@@ -1,4 +1,4 @@
-# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/01/27 01:01:42 tw@csongor.lan]
+# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/03/03 21:08:48 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 HISTFILE=~/.local/zsh/histfile
@@ -20,7 +20,7 @@ autoload -Uz compinit && compinit
 # we have our own new, so don't want their completion! Plus, `fstat` 
 # tries to do some unOpenBSDish stuff, so completion doesn't work, get 
 # rid of that
-compdef -d new fstat
+compdef -d new fstat mcd
 # let's see what `completion` is doing
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:descriptions' format '  %K{194}%F{28}▌%f% %d %F{28}▐%f%k'
