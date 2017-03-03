@@ -1,4 +1,4 @@
-# @(#)[:[:&y~1up<F(XDzlb|~3a6H: 2017/02/28 01:37:23 tw@csongor.lan]y~1up<F(XDzlb|~3a6H: 2017/02/28 02:00:56 tw@csongor.lan]
+# @(#)[:n8qQ21CarxQZ7WP5}uL?: 2017/03/03 05:21:54 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # Wrap various package facilities
 
@@ -25,8 +25,9 @@ case $cmd in
 	installed)	$binpath/pkg_info -mz;						;;
 	web|www)
 		needs w3m
+		local f='' u=''
 		typeset -a h=()
-		eval "h=( $pkghome/html/{${(j:,:)argv}}\* )"
+		for f ($@) { h+=( $pkghome/html/$f* ); }
 		for u ($~h) w3m $u
 		;;
 	grep|query)
