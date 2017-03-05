@@ -1,4 +1,4 @@
-# @(#)[:set:A-minus-B 2016/05/11 18:04:46 tw@csongor.lan]
+# @(#)[:hwElvVCvpDT=`?;az6Q$: 2017/03/05 06:18:20 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -10,5 +10,6 @@ for a in ${(P)1}; do
 done
 
 print -N $only_A
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

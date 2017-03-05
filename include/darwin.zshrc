@@ -1,4 +1,4 @@
-# @(#)[darwin.zshrc 2016/10/31 07:15:35 tw@sam.lan]
+# @(#)[:7+dy!qH&nJSkC|Gra#dT: 2017/03/05 06:04:46 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 #
 # THIS FILE INCLUDES everything and anything that is specific to 
@@ -11,6 +11,7 @@ SYSLOCAL='/usr/local'
 LS_OPTIONS='-vbF'
 
 function ls { /bin/ls ${=LS_OPTIONS} $@; }
+
 function readlink {
 	# we only handle the -nf filename bits
 	(($#!=2))&&			{ /usr/bin/readlink $@; return $?; }

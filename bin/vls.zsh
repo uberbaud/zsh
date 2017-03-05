@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[vls.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:7`dJEfcR5Xy0cV2q,&=Z: 2017/03/05 06:20:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -60,5 +60,6 @@ for (( i=1; i<=n; i++ )); do
 	print -P "%BDesktop $i%b"
 	print -lD "  ${(@)^dirs}"
 done
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

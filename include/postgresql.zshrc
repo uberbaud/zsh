@@ -1,4 +1,4 @@
-# @(#)[postgresql.zshrc 2016/10/23 02:58:04 tw@csongor.lan]
+# @(#)[:Jnl5Rtp0Fd_I(4heCgMB: 2017/03/05 06:10:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 PSQL_HOME=$XDG_CONFIG_HOME/pg
@@ -12,3 +12,4 @@ function psql { # {{{1
 	/usr/bin/env LESS='-iMSx4 -FXc' $SYSLOCAL/bin/psql "$@"
 }
 
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

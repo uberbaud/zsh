@@ -1,4 +1,4 @@
-# @(#)[sam.zshrc 2016/10/31 05:36:20 tw@sam.lan]
+# @(#)[:ZiTVIP7V(6Hxb&oD#x$P: 2017/03/05 06:09:04 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 # THIS FILE CONTAINS
@@ -53,5 +53,6 @@ function set_prompt { # called from zsh-ux.zshrc
 }
 
 # ──────────────────────────────────── END: PS1 Colors ────── }}}1
+
 
 # Copyright (C) 2015 by Tom Davis <tom@tbdavis.com>.

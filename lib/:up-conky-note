@@ -1,4 +1,4 @@
-# @(#)[:up-conky-note 2016/05/04 21:21:32 tw@csongor.lan]
+# @(#)[:KM&sdh0=zzN3i,baTqSp: 2017/03/05 06:18:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -7,6 +7,5 @@ exec >$XDG_DATA_HOME/conky/conky.1
 
 print "TODO:"
 /usr/bin/cut -c 24- < $XDG_DATA_HOME/sysdata/todo.lst
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

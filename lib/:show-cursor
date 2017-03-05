@@ -1,8 +1,9 @@
-# @(#)[:show-cursor 2016/05/12 05:28:55 tw@csongor.lan]
+# @(#)[:3<Sv0H1t0e^u^?M&c886: 2017/03/05 06:17:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 
 /usr/bin/tput cnorm
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

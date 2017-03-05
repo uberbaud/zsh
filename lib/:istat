@@ -1,4 +1,4 @@
-# @(#)[:istat 2016/06/09 02:43:08 tw@csongor.lan]
+# @(#)[:2L`PeIV0{}F6-a@`29,=: 2017/03/05 06:17:30 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -6,5 +6,6 @@ emulate -L zsh
 typeset -- wifi='iwm0'
 
 /sbin/ifconfig $wifi | /usr/bin/awk -F': ' '/^\t+status: / {print $2;}'
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

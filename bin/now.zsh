@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[now.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:3gccJoE)9RJ6x{O,2Gx{: 2017/03/05 06:19:59 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 # helper functions {{{1
@@ -59,7 +59,6 @@ shift $(($OPTIND - 1))	; # ready to process non '-' prefixed arguments
 
 format="${date}"
 test $date_only -eq 1 || format+="${separator}${time}${tz}"
-
 
 /bin/date $opts +"$format"
 

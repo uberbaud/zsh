@@ -1,4 +1,4 @@
-# @(#)[:LvGzAyJk$DKA,kZtJ;1[yt.zshrc 2016/10/31 06:18:43 tw@sam.lan]: 2017/01/04 22:54:04 tw@csongor.lan]
+# @(#)[:02|rzI)I#8OuPIfX{2EQ: 2017/03/05 06:03:12 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 # ────────────────────────────────── BEGIN: TERM Colors ───── {{{1

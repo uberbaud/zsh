@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[help 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:P^lOBNj0Yjd|lq!rP`VY: 2017/03/05 05:43:28 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -67,6 +67,5 @@ if [[ -t 0 ]]; then
 else
 		dashes_to_underscore < $helpfile
 fi
-
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

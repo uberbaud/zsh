@@ -1,6 +1,5 @@
-# @(#)[rlwrap.zshrc 2016/04/24 04:42:40 tw@csongor.lan]
+# @(#)[:DW^27|v6k60DNOhgs|{|: 2017/03/05 06:08:11 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
-
 
 RLWRAP_HOME="$XDG_DATA_HOME/rlwrap"
 RLWRAP_EDITOR='/usr/local/bin/vim +%L'

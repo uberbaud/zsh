@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[twread.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:Lwm{d1yK(wS87mKew!$@: 2017/03/05 06:20:34 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -48,6 +48,5 @@ typeset -a opts=(
   )
 
 /usr/X11R6/bin/xmessage $opts -file $file
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

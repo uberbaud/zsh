@@ -1,4 +1,4 @@
-# @(#)[mail.zshrc 2016/10/15 07:17:19 tw@csongor.lan]
+# @(#)[:(EFr+JJk5yp-%<&CtQpC: 2017/03/05 06:08:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 MAILCHECK=-1
@@ -18,5 +18,6 @@ function prev { /usr/local/bin/prev | $fold | less; }
 function n    { /usr/local/bin/next | $fold | less; }
 function next { n $@; }
 function s    { /usr/local/bin/show $@ | $fold | less; }
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

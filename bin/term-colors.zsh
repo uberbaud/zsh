@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[term-colors.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:#;K$8%8)D`lsqLo&O=3t: 2017/03/05 06:20:12 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -i i j n
@@ -32,5 +32,6 @@ for j in 1 2 3; do
 	done
 done
 printf '\n'
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

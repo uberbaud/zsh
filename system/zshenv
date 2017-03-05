@@ -1,4 +1,4 @@
-# @(#)[zshenv 2016/10/23 22:48:24 tw@csongor.lan]
+# @(#)[:O|k_cRl#UUzvO{A*dk~u: 2017/03/05 06:25:19 tw@csongor.lan]
 # system wide ZSHELL file that is ALWAYS called
 
 if [[ -d ~/.config ]]; then
@@ -14,3 +14,4 @@ if [[ -d ~/.config ]]; then
 fi
 
 # vim: filetype=zsh ts=4
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

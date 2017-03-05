@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[newest.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:H;8+k8?+P)^Xm3{|$3,F: 2017/03/05 06:19:30 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -89,5 +89,6 @@ done
 [[ $(readlink -f $where) == $PWD ]] && tail=':t'
 
 eval "print -c $where/$glob(${ftype}om[1,$howmany]$tail)"
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

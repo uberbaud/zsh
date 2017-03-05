@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
-# @(#)[yt 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:5V,y(}-;oUC42~pl69?_: 2017/03/05 05:37:40 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
+
 
 (($#))&& warn 'Discarding all parameters.' "$*"
 

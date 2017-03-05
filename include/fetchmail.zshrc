@@ -1,4 +1,4 @@
-# @(#)[fetchmail.zshrc 2016/09/13 00:34:03 tw@csongor.lan]
+# @(#)[:Ad0IA<Kt*1hFR!4YSSI3: 2017/03/05 06:10:44 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 FETCHMAILHOME=$XDG_CONFIG_HOME/fetchmail
@@ -8,3 +8,5 @@ FETCHMAILHOME=$XDG_CONFIG_HOME/fetchmail
 #HOME_ETC
 
 typeset -x -m 'FETCHMAIL*'
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

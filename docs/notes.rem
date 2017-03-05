@@ -1,3 +1,4 @@
+% remark v1
 % ZSH initialization
 % Tom Davis
 % 2016-03-26
@@ -37,6 +38,7 @@ Variables
   |ZDOTDIR|
 
 
-
-> Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
-; @(#)[notes.rem 2016/03/26 20:17:11 tw@csongor.lan]
+---
+Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
+---
+; @(#)[:S~)|c%LK_7u3o_QK=~bA: 2017/03/05 06:23:32 tw@csongor.lan]

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[mnt:usb.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:xNbKN(UTGN@f`$1b~v|g: 2017/03/05 06:20:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -121,7 +121,5 @@ for d in $disknames; do
 done
 
 :rootness:finit
-
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

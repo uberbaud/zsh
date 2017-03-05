@@ -1,4 +1,4 @@
-# @(#)[:x11-get-winid-from-pid 2016/06/04 23:38:47 tw@csongor.lan]
+# @(#)[:c@|uUsCk!vk_lxuDQWTU: 2017/03/05 06:16:55 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -17,5 +17,6 @@ done
 
 print $wid
 return 0
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

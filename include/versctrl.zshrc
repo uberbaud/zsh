@@ -1,4 +1,4 @@
-# @(#)[versctrl.zshrc 2016/04/24 05:29:38 tw@csongor.lan]
+# @(#)[:jg$m_wm8FIVcl_NMn1x1: 2017/03/05 06:09:00 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 unset -m 'BZR*' 'CVS*' 'DARCS_*' 'GIT_*' 'HG*'
@@ -89,5 +89,6 @@ HGRCPATH="$XDG_CONFIG_HOME/hg"
 # }}}1
 
 typeset -x -m 'BZR*' 'CVS*' 'DARCS_*' 'GIT_*' 'HG*'
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

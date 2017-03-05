@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:D{?[ƒ.zsh 2016/10/25 07:09:12 tw@csongor.lan]#Xmt4Cuie6s5pPRz: 2017/01/14 20:36:58 tw@csongor.lan]
+# @(#)[:39ysde=EZ~S1jlT`0#5Y: 2017/03/05 06:19:43 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -55,5 +55,6 @@ else
 fi
 
 exit rc
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[sam 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:Yrzqz+R5Y8|?zZ^uwB80: 2017/03/05 05:45:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,5 +8,6 @@ emulate -L zsh
 
 # there's a function for that
 ssh sam.lan
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

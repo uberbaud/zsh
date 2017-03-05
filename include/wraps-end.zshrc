@@ -1,4 +1,4 @@
-# @(#)[:0=s)=lNCk8L99[:0=s)=lNCk8L99[:r[wraps-end.zshrc 2016/08/12 08:04:17 tw@csongor.lan]Oq`sYv$NUs[wraps-end.zshrc 2016/08/12 08:04:17 tw@csongor.lan]eoxOB;y: 2016/11/20 23:44:35 tw@csongor.lan]lKQ;OX: 2016/11/20 23:46:02 tw@csongor.lan]lKQ;OX: 2016/11/21 01:04:42 tw@csongor.lan]
+# @(#)[:KvI<T|sO={#X{JT*VLOh: 2017/03/05 05:50:15 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 
 whence $AsRoot >/dev/null || {

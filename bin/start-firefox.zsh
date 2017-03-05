@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[start-firefox.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:T}fx;N6;{V;iE4tyIG3%: 2017/03/05 06:20:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -48,7 +48,6 @@ on_error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
 [[ -d rxfer ]]			|| ln -s /home/tw/rxfer
 [[ -d hold ]]			|| mkdir hold
 
-
 for t in $tempFiles; do
 	F=${t#file://}
 	[[ -f $F ]]|| {
@@ -64,6 +63,5 @@ for t in $tempFiles; do
 done
 
 /usr/bin/nohup $SYSLOCAL/bin/$app $argv > log 2>&1 &
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

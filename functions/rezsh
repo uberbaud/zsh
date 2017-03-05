@@ -1,4 +1,4 @@
-# @(#)[rezsh 2016/10/28 08:06:00 tw@csongor.lan]
+# @(#)[:1@GM{{mCN*9R)DZjvp!2: 2017/03/05 05:44:02 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -22,5 +22,6 @@ print -Pu 2 '  %F{4}>>>%f %Bre-sourcing%b'
 # restore state
 set $sopts
 cd $OPWD
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

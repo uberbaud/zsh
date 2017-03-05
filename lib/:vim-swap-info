@@ -1,4 +1,4 @@
-# @(#)[:vim-swap-info 2016/09/15 04:20:46 tw@csongor.lan]
+# @(#)[:J`fHnLx(lPPRj;X{CtNm: 2017/03/05 06:17:42 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # checks a filename (possibly the name of a swap file) to see if vim is 
 # currently editing it.
@@ -38,6 +38,5 @@ typeset -a openers=( $( /usr/bin/fstat $swaps[1] ) )
 
 print $openers[13]
 return 0
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

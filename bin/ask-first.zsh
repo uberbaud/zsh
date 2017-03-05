@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[ask-first.zsh 2016/10/25 07:07:16 tw@csongor.lan]
+# @(#)[:QnB$-*jD)1?n5FMI2CiG: 2017/03/05 06:20:44 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -29,6 +29,5 @@ fi
 
 shift
 exec $cmd $@
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,9 +1,10 @@
-# @(#)[-die 2016/04/26 00:04:37 tw@csongor.lan]
+# @(#)[:hheFw)rvtsj?N,mE@3`b: 2017/03/05 06:17:06 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 
 --msgify '  %F{1}FAILED%f:' '         ' $@
 exit ${errno:-1}
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

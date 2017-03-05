@@ -1,4 +1,4 @@
-# @(#)[termio.zshrc 2016/09/18 01:39:00 tw@csongor.lan]
+# @(#)[:y%se23,6f2|WqGFX-9?g: 2017/03/05 06:08:24 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 CLICOLOR=1
@@ -41,5 +41,6 @@ function ruler { # prints a ruler the width of the term {{{1
 
 export CLICOLOR
 export INPUTRC=$XDG_CONFIG_HOME/init/input.rc
+
 
 # Copyright © 2015,2016 by Tom Davis <tom@greyshirt.net>.

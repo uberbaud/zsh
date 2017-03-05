@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[usage 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:<Kd-7|aF~Qu7)M`*f0ry: 2017/03/05 05:45:38 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -10,5 +10,6 @@ print -Plu 2 "  %F{4}Usage%f: $1" "         ${(@)^argv[2,-1]}"
 
 errno=0
 kill -SIGINT $$
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

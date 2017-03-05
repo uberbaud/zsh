@@ -1,4 +1,4 @@
-# @(#)[locale.zshrc 2016/05/27 05:48:38 tw@csongor.lan]
+# @(#)[:tnqElT6adkcyZHp#8p|!: 2017/03/05 06:08:48 tw@csongor.lan]
 # vim: tabstop=4 filetype=sh
 
 # LOCALIZATION & STANDARDIZATION
@@ -23,5 +23,6 @@ XCOMPOSEFILE=$XDG_CONFIG_HOME/x11/Compose.tw
 GTK_IM_MODULE='xim'
 QT_IM_MODULE='xim'
 XMODIFIERS='@im=none'
+
 
 typeset -x -m 'LC_*' -m 'ISO_*' TZ XCOMPOSEFILE '*_IM_MODULE' XMODIFIERS

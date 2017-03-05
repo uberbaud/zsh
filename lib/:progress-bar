@@ -1,4 +1,4 @@
-# @(#)[:progress-bar 2016/05/12 08:18:24 tw@csongor.lan]
+# @(#)[:$(&%_%C`Ec}wu~Z;WlV?: 2017/03/05 06:17:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -13,6 +13,5 @@ typeset -F 1 perc=$(( $1. / $2. * 100 ))
 typeset -i barlen=$(( ($perc / 2.) + 1 )) # +1 because the 1st char is frame
 typeset -- pb="${overlay:0:$barlen}${initial:$barlen}  $complete/$total  $perc%"
 print -n $pb$'\n\e[1A'
-
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

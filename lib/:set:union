@@ -1,4 +1,4 @@
-# @(#)[:set:union 2016/05/11 18:59:12 tw@csongor.lan]
+# @(#)[:z,CQ7#JYgon-4b|{_(QV: 2017/03/05 06:17:37 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -6,5 +6,6 @@ emulate -L zsh
 typeset -aU union=( ${(P)1} ${(P)2} )
 
 print -N $union
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

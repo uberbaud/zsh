@@ -1,4 +1,4 @@
-# @(#)[:git:on:master 2016/08/09 21:22:44 tw@csongor.lan]
+# @(#)[:<LEzeZyrE5;kx||Y*H_k: 2017/03/05 06:17:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -9,5 +9,6 @@ git name-rev --name-only HEAD 2>/dev/null | read -r branch
 [[ -z $branch ]]			&&	return 1	# NOT a git repo
 [[ $branch == 'master' ]]	&&	return 0	# ON master
 								return 1	# NOT on master
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

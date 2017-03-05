@@ -1,14 +1,12 @@
-# @(#)[:git:where:am:i 2016/09/24 06:07:20 tw@csongor.lan]
+# @(#)[:lQA_8^1o+yQhM`1xa0`o: 2017/03/05 06:18:27 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
-
 
 typeset -- branch
 git rev-parse --abbrev-ref HEAD 2>/dev/null		\
 	| :assign branch
 
 print -n -- "${branch:-# NOT A git REPO}"
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[todo.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:u;r(Tn^Gw?wTL4uQY^5X: 2017/03/05 06:20:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -49,5 +49,6 @@ else
 fi
 
 :up-conky-note
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

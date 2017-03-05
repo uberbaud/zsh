@@ -1,4 +1,4 @@
-# @(#)[uberbaud.zshrc 2016/10/23 02:34:38 tw@csongor.lan]
+# @(#)[:dnct){FG$*~yAfmtq;d8: 2017/03/05 06:08:37 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 # THIS FILE CONTAINS
@@ -50,5 +50,6 @@ function set_prompt { # called from zsh-ux.zshrc
 }
 
 # ──────────────────────────────────── END: PS1 Colors ────── }}}1
+
 
 # Copyright (C) 2015 by Tom Davis <tom@tbdavis.com>.

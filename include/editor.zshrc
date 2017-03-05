@@ -1,4 +1,4 @@
-# @(#)[editor.zshrc 2016/09/18 02:06:37 tw@csongor.lan]
+# @(#)[:zXW8*x@nISk=TD=$Tsig: 2017/03/05 06:08:55 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export EDITOR=$SYSLOCAL/bin/vim
@@ -31,5 +31,6 @@ function r { #{{{1
 # `r` is a zsh builtin related to fc (the history channel), so we need 
 # to remove that completion definition.
 compdef -d r
+
 
 # Copyright © 2015,2016 by Tom Davis <tom@greyshirt.net>.

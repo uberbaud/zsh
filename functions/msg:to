@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:!OSt3[msg:to 2016/10/25 07:47:28 tw@csongor.lan]4TnlwAER`BkOh): 2017/01/27 00:52:03 tw@csongor.lan]
+# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/03/05 05:44:43 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -37,9 +37,6 @@ typeset -a awkpgm=(
   )
 # if we get to the body without a match, show that, unless we're looking 
 # for a particular pattern, in which case no To doesn't match
-
-#print -r -- "$awkpgm"
-#return
 
 awk -F'[<>][ \t]*' "$awkpgm" $msgList | while read -r ln; do
 	echo "$ln"

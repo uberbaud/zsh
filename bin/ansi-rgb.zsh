@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[ansi-rgb.zsh 2016/10/25 07:07:16 tw@csongor.lan]
+# @(#)[:Ov^$raT);Z0gwNl5rYsF: 2017/03/05 06:19:55 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -77,5 +77,6 @@ printf $showme $ansi_code $ansi_code 'ABCDefghÉçþð' $fig[2]
 printf $showme $ansi_code $ansi_code '_0123456789-' $fig[3]
 printf $showme $ansi_code $ansi_code '!@#$%^&*([{|' $fig[4]
 printf '%17s %22s %s\n' "$ansi_code #$hexcode" ':'  $fig[5]
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

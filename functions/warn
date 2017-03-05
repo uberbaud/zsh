@@ -1,10 +1,11 @@
 #!/usr/bin/env zsh
-# @(#)[warn 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:-L?HaKK<H6U6ir|Lev@R: 2017/03/05 05:44:55 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 
 [[ $# -eq 0 ]] && set '%F{251}[No message provided.]%f'
+
 
 print -Plu 2 "  %F{172}warning%f: $1" "           ${(@)^argv[2,-1]}"
 

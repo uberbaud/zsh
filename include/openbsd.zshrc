@@ -1,3 +1,4 @@
+# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/03/05 06:12:31 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 #
 # THIS FILE INCLUDES everything and anything that is specific to 

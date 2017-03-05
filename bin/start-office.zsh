@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[start-office.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/03/05 06:21:31 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -48,6 +48,5 @@ on_error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
 [[ -d docs ]]			|| ln -s /home/tw/docs/soffice
 
 /usr/bin/nohup $SYSLOCAL/bin/$app $@ > log 2>&1 &
-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

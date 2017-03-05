@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[parse-twrc.zsh 2016/10/27 04:45:59 tw@csongor.lan]
+# @(#)[:GnctdQbez8ggee3hNz*r: 2017/03/05 06:19:26 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -180,7 +180,6 @@ typeset -- filename
 }
 
 zcompile -R $incGENERATE
-
 
 true # end on a good note
 

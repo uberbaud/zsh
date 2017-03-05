@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[wifi%.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:7j)wC-+Z4B3X$+U?IB7z: 2017/03/05 06:19:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 typeset -i signalstrength=0
@@ -8,5 +8,6 @@ typeset -i signalstrength=0
 # (%), so provide a number for that will return 0-100 to be stored.
 signalstrength=$(/sbin/ifconfig iwm0 | egrep -o '[0-9]+%' )128
 echo $signalstrength
+
 
 # Copyright (C) 2015 by Tom Davis <tom@greyshirt.net>.

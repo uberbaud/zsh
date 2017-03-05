@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[uberbaud 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:lqiGg2*{XZZn8Nx0qB=7: 2017/03/05 05:45:32 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,5 +8,6 @@ emulate -L zsh
 
 # there's a function for that
 ssh uberbaud.net
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

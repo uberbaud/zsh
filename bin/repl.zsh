@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[repl.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:)VnqL(zm1HA&2=Hq}0*^: 2017/03/05 06:20:29 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -50,5 +50,6 @@ while $LOCALBIN/watch-file $csrc; do
 	build $@
 	$=runcmd
 done
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

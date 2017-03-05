@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[mcd 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:P!|^r%8X!X@pHQ%-)=w6: 2017/03/05 05:45:14 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 emulate -L zsh
 
@@ -15,5 +15,6 @@ fi
 
 mkdir -p $1 || return 9
 cd $1
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

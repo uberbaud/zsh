@@ -1,9 +1,8 @@
 #!/usr/bin/env zsh
-# @(#)[:$G5da0Wndx}{ND`#mdhs: 2016/12/08 08:33:24 tw@csongor.lan]
+# @(#)[:$G5da0Wndx}{ND`#mdhs: 2017/03/05 06:14:21 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
-
 
 typeset -- save_wd=$PWD
 function TRAPEXIT { cd $save_wd; }
@@ -78,6 +77,5 @@ print -l "${lines[@]}" > $loader
 
 print -Pu 2 " %F{4}>>>%f Compiling: $loader"
 zcompile -Uz $loader
-
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

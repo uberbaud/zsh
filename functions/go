@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[go 2016/10/25 07:47:28 tw@csongor.lan]
+# @(#)[:i},+XCyQD(j,i(f!SLsl: 2017/03/05 05:45:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,5 +8,6 @@ emulate -L zsh
 [[ $PWD =~ ${2:-::} ]]&& { warn '$PWD matches. Doing nothing.'; return 1; }
 
 eval "$( $LOCALBIN/go $@ )"
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

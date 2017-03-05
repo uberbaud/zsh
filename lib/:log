@@ -1,4 +1,4 @@
-# @(#)[:%L}2tekyPz@vO#,bHC[:%L}2tekyPz@vO#,bHC[:[:&W-%WWLq$4<l}@y^o;A=: 2017/01/12 00:15:08 tw@csongor.lan]W-%WWLq$4<l}@y^o;A=: 2017/01/12 00:38:06 tw@csongor.lan]A: 2017/01/12 00:40:06 tw@csongor.lan]A: 2017/01/12 00:46:57 tw@csongor.lan]
+# @(#)[:)1$LIY@5Xg5uI){vF+Op: 2017/03/05 06:18:06 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 # Log to a file in $HOME/$1
 
@@ -24,5 +24,6 @@ shift
 printf '%s\t%s\n' "$(date -u +'%Y-%m-%d %H:%M:%S Z')" "$*" >> $log
 
 return 0
+
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

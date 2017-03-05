@@ -1,4 +1,4 @@
-# @(#)[:vim-swap-file-name 2016/09/18 01:13:47 tw@csongor.lan]
+# @(#)[:e;NFtNgHNyZ_9#faE2Sl: 2017/03/05 06:17:26 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -87,5 +87,6 @@ done
 print -nl $swaps
 
 return 0;
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

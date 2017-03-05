@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[highlight-window.zsh 2016/10/25 07:08:52 tw@csongor.lan]
+# @(#)[:6ZoGC1s^*eFZG9n(awN*: 2017/03/05 06:19:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -64,5 +64,6 @@ done
 
 rm $fout $fdsp
 rmdir $dout
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

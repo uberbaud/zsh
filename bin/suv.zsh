@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[suv.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:S=$*NT439jqyq{b2dNsO: 2017/03/05 06:19:34 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -137,5 +137,6 @@ else
 fi
 
 cleanup
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

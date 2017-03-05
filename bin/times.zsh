@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[times.zsh 2016/10/25 07:09:12 tw@csongor.lan]
+# @(#)[:f!J^qMoH|,;Z&&s8<A$$: 2017/03/05 06:21:20 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -65,5 +65,6 @@ chmod 0700 $xfile
 	rm $xfile
 	rmdir $xpath
   }
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

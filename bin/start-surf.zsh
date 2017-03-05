@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[start-surf.zsh 2016/10/25 07:08:53 tw@csongor.lan]
+# @(#)[:cD#a9b0Zv$n9<WKxWlO-: 2017/03/05 06:19:47 tw@csongor.lan]
 # vim: tabstop=4 textwidth=72 noexpandtab ft=zsh
 
 emulate -L zsh
@@ -57,5 +57,6 @@ function run {
 }
 
 run &
+
 
 # Copyright (C) 2010 by Tom Davis <tom@tbdavis.com>.

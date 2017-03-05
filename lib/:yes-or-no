@@ -1,4 +1,4 @@
-# @(#)[:yes-or-no 2016/06/07 05:34:11 tw@csongor.lan]
+# @(#)[:F=qn%~Zq;y0z=%a}!2jX: 2017/03/05 06:18:42 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -15,5 +15,6 @@ done
 
 [[ $go_on == 'y' ]] && return 0
 return 1
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,9 +1,10 @@
-# @(#)[:rootness:cmd 2016/06/06 02:38:12 tw@csongor.lan]
+# @(#)[:yR|&BF,y=H|YG;$ZL6cR: 2017/03/05 06:18:32 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 
 :rootness:filter:cmd echo $*
 return $?
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.

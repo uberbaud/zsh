@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[google.zsh 2016/10/25 07:07:16 tw@csongor.lan]
+# @(#)[:9go){JgHoqY)x$bWEG,e: 2017/03/05 06:21:02 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -50,5 +50,6 @@ else
 fi
 
 :rootness:finit
+
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
