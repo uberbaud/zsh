@@ -1,4 +1,4 @@
-# @(#)[:c}YOOD`Vq[:c}YOOD`Vq[:I,Oat7oM^n[:I,Oat7oM^n_ONaegLwW*: 2017/02/17 04:15:48 tw@csongor.lan]ONaegLwW*: 2017/02/17 04:20:48 tw@csongor.lan]t5`,5O6awx: 2017/02/19 01:20:56 tw@csongor.lan]t5`,5O6awx: 2017/02/19 01:25:23 tw@csongor.lan]
+# @(#)[:NcEh=XJ@!&0biZQO5&w!: 2017/03/05 05:24:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # play some music files using amuse
 
@@ -8,7 +8,7 @@ setopt local_options local_traps pipe_fail bsd_echo
 typeset -- amuse=$me/util/amuse/amuse-master.zsh $P
 needs $amuse
 
-typeset -a music=(flac jpg m4a m4v mp3 mp4 wav)
+typeset -a music=(flac m4a m4v mp3 mp4 wav)
 typeset -a P=()
 typeset -- x='' X=''
 while (($#)); do

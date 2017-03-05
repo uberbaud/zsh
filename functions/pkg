@@ -1,4 +1,4 @@
-# @(#)[:n8qQ21CarxQZ7WP5}uL?: 2017/03/03 05:21:54 tw@csongor.lan]
+# @(#)[:n8qQ21CarxQZ7WP5}uL?: 2017/03/04 18:36:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # Wrap various package facilities
 
@@ -24,15 +24,23 @@ case $cmd in
 	delete)		$AsRoot $bin $@; record=true				;;
 	installed)	$binpath/pkg_info -mz;						;;
 	web|www)
-		needs w3m
+		local opener==w3m
+		[[ -n $opener ]]|| opener==open
+		[[ -n $opener ]]|| needs w3m open
 		local f='' u=''
 		typeset -a h=()
 		for f ($@) { h+=( $pkghome/html/$f* ); }
-		for u ($~h) w3m $u
+		for u ($~h) $opener $u
 		;;
 	grep|query)
-		typeset -- ndx="$pkghome/v${osv}.ndx"
-		perl -ne "print if m/$1/;" $ndx | column -s $'\t' -t
+		local ndx="$pkghome/v${osv}.ndx"
+		local pkgblob="$( perl -ne "print if m/$1/;" $ndx )"
+		echo $pkgblob | column -s $'\t' -t
+		# save package names to global variable PKGs
+		PKGs=()
+		for p (${(f)pkgblob}) { PKGs+=( ${p%%$'\t'*} ); }
+		local G=$'\e[0;38;5;251m' B=$'\e[0;38;5;111m' N=$'\e[0m'
+		printf "\t${G}package names are in ${B}\$PKGs${G}.${N}\n"
 		;;
 	-h|--help|help)
 		(($#))&& {

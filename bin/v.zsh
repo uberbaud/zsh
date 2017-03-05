@@ -62,6 +62,8 @@ function warnOrDie { #{{{1
 	# wrap script guts in anonymous function so edits on the file don't 
 	# affect running instances.
 
+readonly clean_stemma=( sed -e 's#[_&\\]#\\&#g' )
+
 typeset -- f_fullpath
 if [[ -x $USRBIN/getTrueName ]]; then
 	f_fullpath="$( $USRBIN/getTrueName $1 )"
@@ -217,8 +219,9 @@ egrep -q '\$Id'': ' ./$f_name && { # previously checked in
 		printf '  \e[36m2. stemma set to %s\e[0m\n' $stemma >&2
 	}
 	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-		| sed -e 's#[_&\\]#\&#g'							\
+		| $clean_stemma										\
 		| :assign newid
+
 	sed "${(@)inplace}" -E '/@\(#\)/s_\[[^\]*\]_['$newid']_' ./$f_name
 	sed "${(@)inplace}" -E '/\$Id:[^$]+\$/s__@''(#)['$newid']_' ./$f_name
 }
@@ -229,7 +232,7 @@ egrep -q '\$Id''\$' ./$f_name && { # never been kissed
 		printf '  \e[36m3. stemma set to %s\e[0m\n' $stemma >&2
 	}
 	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-		| sed -e 's#[_&\\]#\&#g'							\
+		| $clean_stemma										\
 		| :assign newid
 	sed "${(@)inplace}" -E '/\$Id\$/s__@''(#)['$newid']_' ./$f_name
 }
@@ -241,7 +244,7 @@ typeset -- CKSUM=$(shaid $f_name)
 $newStemma && {
 	-warn 'Updating current file with new stemma.'
 	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-		| sed -e 's#[_&\\]#\&#g'							\
+		| $clean_stemma										\
 		| :assign newid
 	sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
 }
@@ -261,7 +264,7 @@ egrep -q '@''\(#\)\[' ./$f_name && {
 		}
 		# escape any of separator _, whole match &, or escape \
 		printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-			| sed -e 's#[_&\\]#\&#g'							\
+			| $clean_stemma										\
 			| :assign newid
 		sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
 	}
