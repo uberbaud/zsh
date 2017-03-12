@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/02 20:48:28 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/12 01:27:05 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-emulate -L zsh
 . $USR_ZSHLIB/common.zsh|| exit 86
 zmodload zsh/datetime	|| exit 86
 
@@ -72,7 +71,7 @@ for ln in ${(f)evblob}; do
 	pref=''
 done
 
-# ─────────────────────────────── HORIZONTALLY CENTER cal and events ───
+# ─────────────────────────────── VERTICALLY CENTER cal and events ───
 integer l=$(($#cal-$#events))
 if ((l<0)); then
 	repeat $((-l/2)) cal=( ' ' $cal )

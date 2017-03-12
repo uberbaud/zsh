@@ -1,0 +1,20 @@
+# @(#)[:F=qn%~Zq;y0z=%a}!2jX: 2017/03/05 06:18:42 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+typeset -- question='Yes or No'
+(( $# == 0 )) || question=$1
+
+typeset -l go_on='please'
+while [[ ! $go_on =~ [yn] ]]; do
+	print -u 2 -nP -- "  $question [y,n]?"
+	read  -rk go_on
+	print -u 2
+done
+
+[[ $go_on == 'y' ]] && return 0
+return 1
+
+
+# Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
