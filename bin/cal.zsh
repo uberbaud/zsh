@@ -52,7 +52,8 @@ for ln in ${(f)evblob}; do
 			*)			events+=( $'\e[1m   '$expectday$'\e[22m' );	;;
 		esac
 	  }
-	ev=$tuple[2]
+	ev="${tuple[2,-1]}"
+	while [[ $ev =~ '  +' ]] { ev=${ev:0:$MBEGIN}${ev:$MEND}; }
 	if [[ $ev =~ 'BIRTHDAY' ]]; then
 		H=$'\e[48;5;225m'; E=$'\e[0m'
 		ev=${ev:0:$((MBEGIN-1))}$'\e[48;5;128;38;5;226m🎂 '
