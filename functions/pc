@@ -1,0 +1,10 @@
+# @(#)[:G^Tj8nkw7waf1skW(C;K: 2017/03/13 18:46:50 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# Print arguments in columns
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+printf '%s\n' "$@" | column
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/03/13 21:45:47 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+typeset -ga MSGs=()
+typeset -- OLDPWD=$PWD
+cd $(mhpath)
+
+local field=$1 regex=$2
+shift 2
+
+typeset -a msgList=( [1-9]*(Nn) )
+(($#))&& msgList=${msgList:*argv}	# if any on command line, only those
+(($#msgList))|| {
+	echo "msg:from: no message in $(folder -fast)" >&2
+	cd $OLDPWD
+	return
+  }
+
+local m=''
+for m ($msgList) msg:headers $m $field $regex >/dev/null && MSGs+=( $m )
+
+cd $OLDPWD
+
+(($#MSGs))|| return 1
+
+scan $MSGs
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

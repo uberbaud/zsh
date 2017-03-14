@@ -1,48 +1,10 @@
 #!/usr/bin/env zsh
-# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/03/05 05:44:43 tw@csongor.lan]
+# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/03/13 21:58:34 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-typeset -ga MSGs=()
-typeset -- OLDPWD=$PWD
-cd $(mhpath)
-
-typeset -a msgList=( [1-9]*(Nn) )
-(($#msgList))|| {
-	echo "msg:from: no message in $(folder -fast)" >&2
-	cd $OLDPWD
-	return
-  }
-
-typeset -a showcmd=(
-	'if ($0!~/@/)'
-		'{INTO=1;}'
-	'else'
-		'{printf( "%-4s %s\n", FILENAME, $0 ); nextfile;}'
-  )
-typeset -- Q="${1:+ && /$1/}"
-typeset -- EOH=""
-(($#))||   EOH="${1:-printf(\"%-4s %s\n\",FILENAME,\"<X To:>\"); }"
-
-typeset -a awkpgm=(
-	'LASTFILE != FILENAME'	'{INTO=0;LASTFILE=FILENAME;}'
-	"/^To:/ && /</$Q"		'{$0=$2;'"$showcmd}"         # To: "X" <x@m.io>
-	"/^To:/$Q"				'{sub(/^To: */,"");'"$showcmd}" # To: x@m.io
-	'INTO && /^[A-Z]/'		"{${EOH/X/BAD}nextfile;}" # split header
-	'INTO && /^[ \t]/'		'{$0=$2;'"$showcmd}"      # split header
-	'INTO && /^$/'			"{${EOH/X/BAD}nextfile;}"
-	'/^$/'					"{${EOH/X/no}nextfile;}"
-  )
-# if we get to the body without a match, show that, unless we're looking 
-# for a particular pattern, in which case no To doesn't match
-
-awk -F'[<>][ \t]*' "$awkpgm" $msgList | while read -r ln; do
-	echo "$ln"
-	[[ $ln =~ [[:digit:]]+ ]]&& MSGs+=( $MATCH )
-done
-
-cd $OLDPWD
+msg:filter To $@
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

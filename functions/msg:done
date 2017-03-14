@@ -1,24 +1,25 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/01/27 00:41:30 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/03/14 00:29:54 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@yt.lan%f.'
-msg:from '@yt\.lan' 2>/dev/null
+print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}@yt.lan%f.'
+msg:filter From '@yt\.lan' $@ 2>/dev/null
 (($#MSGs))&& { refile -unlink $MSGs +yt.lan }
 
-print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@yt.lan%f.'
-msg:from 'root@csongor\.lan' 2>/dev/null
+print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@csongor.lan%f.'
+msg:filter From 'root@csongor\.lan' $@ 2>/dev/null
 (($#MSGs))&& { refile -unlink $MSGs +root@csongor.lan }
 
 print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}Notes to Self%f.'
-msg:to 'bgumm102@gmail\.com' 2>/dev/null
+msg:filter To 'bgumm102@gmail\.com' $@ 2>/dev/null
 (($#MSGs))&& { refile -unlink $MSGs +notes; }
 
 print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
-msg:from 2>/dev/null
+MSGs=( [1-9]*(Nn) )
+(($#))&& MSGs=( ${MSGs:*argv} )
 (($#MSGs))&& { rmm $MSGs; }
 
 print -Pu 2 ' %F{4}>>>%f %BCleaning%b mail workshop.'
