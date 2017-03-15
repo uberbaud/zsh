@@ -1,17 +1,18 @@
-# @(#)[:Yi}e6Hh)3rU?Za!_g,N&: 2017/03/14 00:26:30 tw@csongor.lan]
+# @(#)[:Yi}e6Hh)3rU?Za!_g,N&: 2017/03/15 03:03:41 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # expect `msg:headers _file_ _field-key_ _filter-regex_`
-(($#))||	die 'msg:headers: Missing %Bfile-name%b.'
+(($#))||	die 'msg:headers: Missing %Bmsg-number%b.'
 (($#>3))&&	die 'msg:headers: Too many arguments.'
 
-local TAB=$'\t' NL=$'\n' CRLF=$'\r\n' CR=$'\r' msg=$1 OLDPWD=$PWD
-cd $(mhpath)
+local TAB=$'\t' NL=$'\n' CRLF=$'\r\n' CR=$'\r' msg=$(mhpath)/$1
 
-local M=${${"$(< $msg)"//$CRLF/$NL}//$CR/$NL}	# canonicalize newlines
-M=${M%%$NL$NL*}
-M=${M//$TAB/ }									# tabs to spaces
-M=${M//$NL / }									# unwrap wrapped lines
+[[ -f $M ]]|| die "msg:headers: No such message %B$1%b."
+local M="$(< $msg)"
+M=${${M//$CRLF/$NL}//$CR/$NL}				# canonicalize newlines
+M=${M%%$NL$NL*}								# remove body (keep head)
+M=${M//$TAB/ }								# tabs to spaces
+M=${M//$NL / }								# unwrap wrapped lines
 
 (($#==1))&& { printf '%s\n' $M; return; }	# no field-key, so no filtering
 
@@ -37,7 +38,6 @@ fi
 
 for h (${(f)M}) { testfield $h && printf '%s: %s\n' $msg $h; }
 
-cd $OLDPWD
 $matched
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

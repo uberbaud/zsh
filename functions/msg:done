@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/03/14 00:29:54 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/03/15 01:38:31 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -18,7 +18,7 @@ msg:filter To 'bgumm102@gmail\.com' $@ 2>/dev/null
 (($#MSGs))&& { refile -unlink $MSGs +notes; }
 
 print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
-MSGs=( [1-9]*(Nn) )
+MSGs=( $(mhpath)/[1-9]*(Nn:t) )
 (($#))&& MSGs=( ${MSGs:*argv} )
 (($#MSGs))&& { rmm $MSGs; }
 
