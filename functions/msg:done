@@ -5,16 +5,18 @@
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
+exec 3>$HOME/log/msg-done
+
 print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}@yt.lan%f.'
-msg:filter From '@yt\.lan' $@ 2>/dev/null
+msg:filter From '@yt\.lan' $@ 2>&3
 (($#MSGs))&& { refile -unlink $MSGs +yt.lan }
 
 print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@csongor.lan%f.'
-msg:filter From 'root@csongor\.lan' $@ 2>/dev/null
+msg:filter From 'root@csongor\.lan' $@ 2>&3
 (($#MSGs))&& { refile -unlink $MSGs +root@csongor.lan }
 
 print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}Notes to Self%f.'
-msg:filter To 'bgumm102@gmail\.com' $@ 2>/dev/null
+msg:filter To 'bgumm102@gmail\.com' $@ 2>&3
 (($#MSGs))&& { refile -unlink $MSGs +notes; }
 
 print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
@@ -26,5 +28,7 @@ print -Pu 2 ' %F{4}>>>%f %BCleaning%b mail workshop.'
 typeset -- revert=false
 typeset -a files2delete=( $XDG_CACHE_HOME/mail/*(.N) )
 (($#files2delete))&& rm $files2delete
+
+exec 3>&-
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

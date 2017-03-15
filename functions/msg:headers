@@ -1,4 +1,4 @@
-# @(#)[:Yi}e6Hh)3rU?Za!_g,N&: 2017/03/15 03:03:41 tw@csongor.lan]
+# @(#)[:Yi}e6Hh)3rU?Za!_g,N&: 2017/03/15 03:19:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # expect `msg:headers _file_ _field-key_ _filter-regex_`
@@ -7,7 +7,7 @@
 
 local TAB=$'\t' NL=$'\n' CRLF=$'\r\n' CR=$'\r' msg=$(mhpath)/$1
 
-[[ -f $M ]]|| die "msg:headers: No such message %B$1%b."
+[[ -f $msg ]]|| die "msg:headers: No such message %B$1%b."
 local M="$(< $msg)"
 M=${${M//$CRLF/$NL}//$CR/$NL}				# canonicalize newlines
 M=${M%%$NL$NL*}								# remove body (keep head)
