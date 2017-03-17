@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/12 01:27:05 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/17 19:15:32 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -12,15 +12,15 @@ integer TS=$EPOCHSECONDS	# use a single timestamp for everything,
 							# avoiding a potential problem where TODAY 
 							# and TOMORROW are not contiguous,
 							# or TODAY ¬= today
-typeset -- today; strftime -s today %d $TS
-typeset -- search="${today/#0/ }\\>"
-typeset -- replace=$'\e[48;5;147m\\1\e[0m'
+integer today; strftime -s today %d $TS
+local search="\\<($today)\\>"; ((today<10))&& search=" $search"
+local replace=$'\e[48;5;147m\\1\e[0m'
 typeset -- stdopts=(
 	-m		# week starts on Monday (not Sunday)
 )
 typeset -a cal=( ${(f)"$(
 		/usr/bin/cal $stdopts $@ 2>&1	\
-		| /usr/bin/sed -E "s/($search)/$replace/g"
+		| /usr/bin/sed -E "s/$search/$replace/g"
 	)"} )
 # remove last line if blank
 [[ $cal[-1] =~ '^ *$' ]]&& shift -p cal
