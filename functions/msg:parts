@@ -1,4 +1,4 @@
-# @(#)[:KqLrMA8zj}Wnr`e=zL,V: 2017/03/08 22:57:25 tw@csongor.lan]
+# @(#)[:KqLrMA8zj}Wnr`e=zL,V: 2017/03/31 22:33:07 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -15,7 +15,7 @@ local forceHTML=false
 
 typeset -a before=( *(N) )
 
--notify "In %S${${work/#$HOME/~}:gs/%/%%}%s"
+printf 'In \e[35m%s\e[39m\n' ${${work/#$HOME/~}:gs/%/%%}
 /usr/local/bin/mhstore $argv
 typeset -a after=( *(N) )
 typeset -a new=()

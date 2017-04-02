@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/03/17 19:15:32 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/04/02 04:11:12 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -14,7 +14,7 @@ integer TS=$EPOCHSECONDS	# use a single timestamp for everything,
 							# or TODAY ¬= today
 integer today; strftime -s today %d $TS
 local search="\\<($today)\\>"; ((today<10))&& search=" $search"
-local replace=$'\e[48;5;147m\\1\e[0m'
+local replace=$'\e[48;5;147m&\e[0m'
 typeset -- stdopts=(
 	-m		# week starts on Monday (not Sunday)
 )
