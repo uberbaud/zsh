@@ -1,9 +1,8 @@
 #!/usr/bin/env zsh
-# @(#)[:DOJopgjq@V8T3(fNoa#V: 2017/01/21 06:36:35 tw@csongor.lan]
+# @(#)[:DOJopgjq@V8T3(fNoa#V: 2017/04/07 15:58:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
-zmodload zsh/mathfunc || exit 86
 
 # The $colors array was generated using the formula
 #   16 + (36*R) + (6*G) + B
@@ -28,7 +27,7 @@ typeset -a c2=(
   )
 typeset -a colors=( $c1 )
 
-typeset -i -- hue=0 cbc=2 C=$#colors bfg=38 shft=2
+typeset -i -- hue=0 cpc=2 C=$#colors bfg=38 shft=2
 typeset    -- dashopt=false
 
 function reqFloat {
@@ -53,7 +52,7 @@ typeset -a Usage=(
 	'  Rainbowify input.'
 	'  -i  Invert. Color background rather than foreground.'
 	'      This also forces the line length to %S$COLUMNS%s.'
-	"  -c  Characters per color. The default is %B${cbc}%b."
+	"  -c  Characters per color. The default is %B${cpc}%b."
 	"  -s  Shift or slope. Changes the color shift per line."
 	"      The default is %B${shft}%b."
 	"  -t  Use color %Btable 2%b. The default is %Btable 1%b."
@@ -71,7 +70,7 @@ function bad_programmer {	# {{{2
   };	# }}}2
 while getopts ':c:is:tu:h' Option; do
 	case $Option in
-		c)	reqInt $Option cbc $OPTARG;							;;
+		c)	reqInt $Option cpc $OPTARG;							;;
 		i)	bfg=48;typeset -L $COLUMNS ln='';					;;
 		s)	reqInt $Option shft $OPTARG;						;;
 		u)	reqInt $Option hue $OPTARG;							;;
@@ -89,7 +88,7 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
-((cpc>0))&&		-die '%Schars per color%s must be greater than %B0%b.'
+((cpc<0))&&		-die '%Schars per color%s must be greater than %B0%b.'
 ((hue<0))&&		-die "%Shue%s must be between %B0%b and %B$C%b (incl)."
 ((hue>C))&&		-die "%Shue%s must be between %B0%b and %B$C%b (incl)."
 
@@ -101,8 +100,8 @@ function rainbowify-line {
 	local -i i=0
 	integer ndx=$2
 	while ((i<$#1)); do
-		printf "\e[$bfg;5;${colors[ndx+1]}m%s" ${1:$i:$cbc}
-		i=$((i+cbc))
+		printf "\e[$bfg;5;${colors[ndx+1]}m%s" ${1:$i:$cpc}
+		i=$((i+cpc))
 		ndx=$(( ((ndx+1)%C) ))
 	done
 	printf '\e[0m\n'
