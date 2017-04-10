@@ -1,0 +1,16 @@
+# @(#)[:GLxM0$&}AaQBob(Y,*2H: 2017/04/10 06:35:29 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Prints a blue banner and text.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+if [[ -t 1 ]]; then
+	printf "\e[1;44;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' "$*"
+else
+	printf "===[[ %s ]]===  \n" "$*"
+fi
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
