@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/03/15 03:20:40 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/11 03:38:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -17,6 +17,10 @@ msg:filter From 'root@csongor\.lan' $@ 2>&3
 
 print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}Notes to Self%f.'
 msg:filter To 'bgumm102@gmail\.com' $@ 2>&3
+(($#MSGs))&& { refile -unlink $MSGs +notes; }
+
+print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}OpenBSD CVS Commits%f.'
+msg:filter To 'source-changes@openbsd\.org' $@ 2>&3
 (($#MSGs))&& { refile -unlink $MSGs +notes; }
 
 print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
