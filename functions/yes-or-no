@@ -1,4 +1,4 @@
-# @(#)[:F=qn%~Zq;y0z=%a}!2jX: 2017/03/05 06:18:42 tw@csongor.lan]
+# @(#)[:F=qn%~Zq;y0z=%a}!2jX: 2017/04/11 00:15:46 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -8,7 +8,7 @@ typeset -- question='Yes or No'
 
 typeset -l go_on='please'
 while [[ ! $go_on =~ [yn] ]]; do
-	print -u 2 -nP -- "  $question [y,n]?"
+	print -u 2 -nP -- "  $question [y,n]? "
 	read  -rk go_on
 	print -u 2
 done

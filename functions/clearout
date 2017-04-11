@@ -1,0 +1,28 @@
+# @(#)[:TH%4#Qht6LO?Ctn%eo<~: 2017/04/11 00:31:07 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Empties a directory, then removes it.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+local askperm=true
+(($#))&& {
+	[[ "$*" == '-f' ]] \
+		|| die  'Empties and removes current directory.' \
+				' %B-f%b to skip permission'
+	askperm=false
+  }
+
+local P=${PWD##*/}
+$askperm && {
+	h1 "Clean out ${PWD}?"
+	find . -type f | column
+	yes-or-no "Empty and remove %B${P:gs/%/%%}%b" || return 1
+}
+
+cd ..
+warn "Cleaning out and removing %B${P:gs/%/%%}%b."
+rm -rf ./$P
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
