@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
-# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/03/13 21:58:34 tw@csongor.lan]
+# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/04/13 04:25:15 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-msg:filter To $@
+msg:filter 'To|[Bb]?[Cc][Cc]' $@
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

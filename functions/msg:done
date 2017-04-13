@@ -1,37 +1,59 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/11 03:38:19 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/13 05:25:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
+folder +inbox
+
 exec 3>$HOME/log/msg-done
 
-print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}@yt.lan%f.'
-msg:filter From '@yt\.lan' $@ 2>&3
-(($#MSGs))&& { refile -unlink $MSGs +yt.lan }
+local who=''
+local M='\e[34m' P=' >>>' C='\e[0m' B='\e[1m' S='\e[35m'
+function printSkipMsg { # {{{1
+	printf "$M$P$B Skipping$S %s $C(no matching messages).\n" $1 >&2
+} # }}}1
+function printDoRefileMsg { # {{{1
+	printf "$M$P$B Refiling messages for $S%s$C.\n" $1 >&2
+} # }}}1
+function X { #{{{1
+	local filter=$1 who=$2 box=$3 msg=$4; shift 4
 
-print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}root@csongor.lan%f.'
-msg:filter From 'root@csongor\.lan' $@ 2>&3
-(($#MSGs))&& { refile -unlink $MSGs +root@csongor.lan }
+	msg:filter $filter $who $@ 2>&3
+	if (($#MSGs)); then
+		printDoRefileMsg $msg
+		refile -unlink $MSGs +$box
+	else
+		printSkipMsg $msg
+	fi
+} # }}}1
 
-print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}Notes to Self%f.'
-msg:filter To 'bgumm102@gmail\.com' $@ 2>&3
-(($#MSGs))&& { refile -unlink $MSGs +notes; }
+#  Key    Pattern                        mailbox       message          $@
+# ─────  ─────────────────────────────  ────────────  ────────────────  ──
+X From   '@yt\.lan'                     yt.lan        '@yt.lan'         $@
+X From   'root@csongor\.lan'            root@csongor  '@csongor'        $@
+X To     'bgumm102@gmail\.com'          notes         'Notes to Self'   $@
+X To     'source-changes@openbsd\.org'  obsd-cvs      'OpenBSD CVS'     $@
 
-print -Pu 2 ' %F{4}>>>%f %BRefiling%b %F{5}OpenBSD CVS Commits%f.'
-msg:filter To 'source-changes@openbsd\.org' $@ 2>&3
-(($#MSGs))&& { refile -unlink $MSGs +notes; }
 
-print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
+
 MSGs=( $(mhpath)/[1-9]*(Nn:t) )
 (($#))&& MSGs=( ${MSGs:*argv} )
-(($#MSGs))&& { rmm $MSGs; }
+if (($#MSGs)); then
+	print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
+	rmm $MSGs
+else
+	print -Pu 2 ' %F{4}>>>%f No messages to %Bremove%b.'
+fi
 
-print -Pu 2 ' %F{4}>>>%f %BCleaning%b mail workshop.'
-typeset -- revert=false
 typeset -a files2delete=( $XDG_CACHE_HOME/mail/*(.N) )
-(($#files2delete))&& rm $files2delete
+if (($#files2delete)); then
+	typeset -- revert=false
+	print -Pu 2 ' %F{4}>>>%f %BCleaning%b mail workshop.'
+	yes-or-no "Delete the mail parts which maybe you're using" \
+		&& rm $files2delete
+fi
 
 exec 3>&-
 
