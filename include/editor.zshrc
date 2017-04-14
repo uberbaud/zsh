@@ -1,4 +1,4 @@
-# @(#)[:zXW8*x@nISk=TD=$Tsig: 2017/03/05 06:08:55 tw@csongor.lan]
+# @(#)[:zXW8*x@nISk=TD=$Tsig: 2017/04/14 02:08:00 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 export EDITOR=$SYSLOCAL/bin/vim
@@ -12,6 +12,8 @@ function view { #{{{1
 		nolist						# don't show tabs, newlines, etc
 		nonumber norelativenumber	# no numbering lines
 		colorcolumn=				# no highlighting a margin column
+		conceallevel=2				# show cchar but mostly hide stuff
+		concealcursor=nc			# hide concealables when navigating
 	  )
 	$EDITOR -MR -c ":set $settings" -- $@
 } #}}}1
