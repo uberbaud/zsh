@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:B=,!,w1$)3gOt~?v=l1R: 2017/01/26 22:39:24 tw@csongor.lan]
+# @(#)[:B=,!,w1$)3gOt~?v=l1R: 2017/04/24 21:59:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -51,8 +51,8 @@ function versctrl { # {{{1
 	typeset -- versctrl_dscr=${1:?No VersCtrl description passed.}
 	typeset -- versctrl_cmd=${bin}/${2:?No VersCtrl command passed.}
 	[[ -a $versctrl_cmd ]]|| -die "Can not find command %T${1:gs/%/%%}%t."
-	[[ -x $versctrl_cmd ]]		\
-		|| -die "You do not have execute permission for ${1:gs/%/%%}%t."
+	[[ -x $versctrl_cmd ]]||
+		-die "You do not have execute permission for ${1:gs/%/%%}%t."
 
 	-notify "This is a %B${versctrl_dscr:gs/%/%%}%b repository."
 	shift; shift;
@@ -82,8 +82,8 @@ for d in bzr cvs darcs git hg svn; do
 done
 for f in fslckout rsyncup; do [[ -a .$f ]]&& SRMSc+=($f); done
 (($#SRMSc))|| show-possibilities-and-die
-(($#SRMSc==1))		\
-	|| -die 'Multiple %Ssrms%s possibilities:' "  %B${(@)^SRMSc:gs/%/%%}%b"
+(($#SRMSc==1))||
+	-die 'Multiple %Ssrms%s possibilities:' "  %B${(@)^SRMSc:gs/%/%%}%b"
 [[ $SRMSc[1] == git && -f .gitmodules ]]&& SRMSc=( gitmodules )
 
 

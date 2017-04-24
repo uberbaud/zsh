@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2016/12/24 02:25:26 tw@csongor.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/04/24 22:03:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -74,8 +74,8 @@ fi
 [[ -n $f_fullpath ]]	|| -die 'Could not follow link.'
 [[ -f $f_fullpath ]]	|| -die "%B${1:gs/%/%%}%b is %Bnot%b a file."
 [[ $f_fullpath == *,v ]]&& warnOrDie "Seems to be an %BRCS archive%b file."
-[[ $( /usr/bin/file -b $f_fullpath ) =~ 'text|XML' ]]	\
-						|| warnOrDie "Does not seem to be a text file."
+[[ $( /usr/bin/file -b $f_fullpath ) =~ 'text|XML' ]]||
+						warnOrDie "Does not seem to be a text file."
 
 # because we've `readlink`ed the arg, it's guaranteed to have at least 
 # one (1) forward slash ('/') as (and at) the root.
@@ -89,8 +89,9 @@ typeset -a edit_cmd=( ${EDITOR:-$SYSLOCAL/bin/vim} $f_fullpath )
 
 typeset -- swapinfo
 swapinfo=$( :vim-swap-info $f_fullpath )
-[[ -z $swapinfo || $swapinfo == <-> ]]	\
-	|| -die "${swapinfo:gs/%/%%} for %B${f_name:gs/%/%%}%b."
+[[ -z $swapinfo || $swapinfo == <-> ]]||
+	-die "${swapinfo:gs/%/%%} for %B${f_name:gs/%/%%}%b."
+
 if [[ -n $swapinfo ]]; then
 	typeset -i wid=0
 	wid=$( :x11-get-winid-from-pid $swapinfo )
@@ -217,9 +218,9 @@ egrep -q '\$Id'': ' ./$f_name && { # previously checked in
 		stemma=$(uuid85|tr '>' , )
 		printf '  \e[36m2. stemma set to %s\e[0m\n' $stemma >&2
 	}
-	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-		| $clean_stemma										\
-		| :assign newid
+	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST |
+		$clean_stemma |
+		:assign newid
 
 	sed "${(@)inplace}" -E '/@\(#\)/s_\[[^\]*\]_['$newid']_' ./$f_name
 	sed "${(@)inplace}" -E '/\$Id:[^$]+\$/s__@''(#)['$newid']_' ./$f_name
@@ -230,9 +231,9 @@ egrep -q '\$Id''\$' ./$f_name && { # never been kissed
 		stemma=$(uuid85|tr '>' , )
 		printf '  \e[36m3. stemma set to %s\e[0m\n' $stemma >&2
 	}
-	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-		| $clean_stemma										\
-		| :assign newid
+	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST |
+		$clean_stemma |
+		:assign newid
 	sed "${(@)inplace}" -E '/\$Id\$/s__@''(#)['$newid']_' ./$f_name
 }
 # END OF TEMPORARY
@@ -242,9 +243,9 @@ typeset -- CKSUM=$(shaid $f_name)
 # do the CKSUM before this to force a save
 $newStemma && {
 	-warn 'Updating current file with new stemma.'
-	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-		| $clean_stemma										\
-		| :assign newid
+	printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST |
+		$clean_stemma |
+		:assign newid
 	sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
 }
 
@@ -262,9 +263,9 @@ egrep -q '@''\(#\)\[' ./$f_name && {
 			printf '  \e[36m4. stemma set to %s\e[0m\n' $stemma >&2
 		}
 		# escape any of separator _, whole match &, or escape \
-		printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST	\
-			| $clean_stemma										\
-			| :assign newid
+		printf ':%s: %s %s %s@%s' $stemma $now $USERNAME $HOST |
+			$clean_stemma |
+			:assign newid
 		sed "${(@)inplace}" -e '/@''(#)/s_\[[^\]*\]_['$newid']_' ./$f_name
 	}
 }

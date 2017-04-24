@@ -1,4 +1,4 @@
-# @(#)[:TH%4#Qht6LO?Ctn%eo<~: 2017/04/11 00:31:07 tw@csongor.lan]
+# @(#)[:TH%4#Qht6LO?Ctn%eo<~: 2017/04/24 22:03:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Empties a directory, then removes it.
@@ -8,8 +8,8 @@ setopt local_options local_traps pipe_fail bsd_echo
 
 local askperm=true
 (($#))&& {
-	[[ "$*" == '-f' ]] \
-		|| die  'Empties and removes current directory.' \
+	[[ "$*" == '-f' ]] ||
+		die  'Empties and removes current directory.' \
 				' %B-f%b to skip permission'
 	askperm=false
   }

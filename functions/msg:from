@@ -1,10 +1,22 @@
 #!/usr/bin/env zsh
-# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/03/13 21:58:24 tw@csongor.lan]
+# @(#)[:gzsOkev_3vak{$X=p!Gt: 2017/04/24 19:49:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-msg:filter From $@
+(($#))|| die 'No %Bfrom%bs given'
+
+typeset -a  checklist=( -from $1 )
+for f in ${argv[2,-1]}; do
+	checklist+=( -or -from $f )
+done
+
+typeset -ga MSGs=( $( pick +inbox $checklist ) )
+# if `pick` finds no matching messages and the output is NOT to a tty, 
+# then pick will output the single illegal message number '0'.
+(( $MSGs[1] ))||  { MSGS=(); return 1 }
+
+scan +inbox $MSGs
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

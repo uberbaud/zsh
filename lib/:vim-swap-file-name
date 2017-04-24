@@ -1,4 +1,4 @@
-# @(#)[:e;NFtNgHNyZ_9#faE2Sl: 2017/03/05 06:17:26 tw@csongor.lan]
+# @(#)[:e;NFtNgHNyZ_9#faE2Sl: 2017/04/24 22:04:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -61,7 +61,7 @@ for d in $directories; do
 		# we're going to use (e) expansion, but vim would only do 
 		# environment variable (parameter) expansion, so bail if 
 		# someone's trying to force some other kind of expansion
-		[[ $p =~ '\$\(' ]]&&	\
+		[[ $p =~ '\$\(' ]]&&
 			-die 'Command or Arithmetic Expansion in directory!'
 		p=${(e)p}
 		case $action in

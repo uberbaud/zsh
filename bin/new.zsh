@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/02/18 20:55:20 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/04/24 21:59:22 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -133,9 +133,9 @@ function get-template-info { #{{{2
 	elif [[ -d $f_name ]]; then
 		sed -e '2,$s/^/	/' "$f_name/description.txt"
 	else
-		/usr/bin/rlog -t $f_name						\
-			| /usr/bin/awk "$awk_rlog2description"		\
-			| sed -E '2,$s/^/	/'
+		/usr/bin/rlog -t $f_name |
+			/usr/bin/awk "$awk_rlog2description" |
+			sed -E '2,$s/^/	/'
 	fi
 }; #}}}2
 function list-templates { # {{{2
@@ -192,8 +192,8 @@ function get-mods-list { # {{{2
 }; # }}}2
 if [[ -n $SHOW_MODS_FOR ]]; then
 	typeset template="$template_dir/_.$SHOW_MODS_FOR"
-	[[ -a $template	 ]]		\
-		|| -die "There is no template %B_.${SHOW_MODS_FOR:gs/%/%%}%b in %B${template_dir:gs/%/%%}%b."
+	[[ -a $template	 ]]||
+		-die "There is no template %B_.${SHOW_MODS_FOR:gs/%/%%}%b in %B${template_dir:gs/%/%%}%b."
 	[[ -d $template ]] || -die 'No mods for this template'
 	typeset -a mods_list
 	get-mods-list $template
@@ -262,8 +262,8 @@ if [[ $directory != '.' ]]; then
 	cd $directory || -die "Could not %Tcd%t to %B${directory:gs/%/%%}%b."
 	cmdln_arg=$file_name
 fi
-:git:on:master	\
-	&& warnOrDie 'new: This is the %B%Smaster%s branch%b of a %Bgit%b repo.'
+:git:on:master &&
+	warnOrDie 'new: This is the %B%Smaster%s branch%b of a %Bgit%b repo.'
 
 # ======================================================================
 #  DO THE TRANFORMATION                                            {{{1

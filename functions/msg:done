@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/13 05:25:25 tw@csongor.lan]
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/24 21:20:32 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -49,7 +49,6 @@ fi
 
 typeset -a files2delete=( $XDG_CACHE_HOME/mail/*(.N) )
 if (($#files2delete)); then
-	typeset -- revert=false
 	print -Pu 2 ' %F{4}>>>%f %BCleaning%b mail workshop.'
 	yes-or-no "Delete the mail parts which maybe you're using" \
 		&& rm $files2delete
