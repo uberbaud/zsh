@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/04/02 04:11:12 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/04/23 20:40:53 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -19,8 +19,8 @@ typeset -- stdopts=(
 	-m		# week starts on Monday (not Sunday)
 )
 typeset -a cal=( ${(f)"$(
-		/usr/bin/cal $stdopts $@ 2>&1	\
-		| /usr/bin/sed -E "s/$search/$replace/g"
+		/usr/bin/cal $stdopts $@ 2>&1			|
+		/usr/bin/sed -E "s/$search/$replace/g"
 	)"} )
 # remove last line if blank
 [[ $cal[-1] =~ '^ *$' ]]&& shift -p cal

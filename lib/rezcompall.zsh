@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:$G5da0Wndx}{ND`#mdhs: 2017/03/05 06:14:21 tw@csongor.lan]
+# @(#)[:$G5da0Wndx}{ND`#mdhs: 2017/04/23 20:38:59 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -68,10 +68,11 @@ typeset -a lines=(
 	'fpath=( $USR_ZSHLIB/common_funcs.zwc $fpath )'
 	"autoload -z -- $funcs_to_compile"
 	''
-	"alias on_error='((!\$?))||'"
-	"alias on-error='((!\$?))||'"
-	"alias if-no='((!\$?))||'"
-	"alias if-yes='((\$?))||'"
+	"alias on_error='((!\$?))||'	# better hacker documentation"
+	"alias on-error='((!\$?))||'	# \""
+	"alias if-no='((!\$?))||'		# \""
+	"alias if-yes='((\$?))||'		# \""
+	"alias ▷=' '					# a marker for pipe-continued lines"
   )
 print -l "${lines[@]}" > $loader
 
