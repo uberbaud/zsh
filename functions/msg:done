@@ -1,50 +1,50 @@
 #!/usr/bin/env zsh
-# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/24 21:20:32 tw@csongor.lan]
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# @(#)[:G+eduCMfuZ4~cz%gTH!C: 2017/04/25 01:45:54 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
+function Done { [[ -z $(flist +inbox -sequence marked -fast -noshowzero) ]]; }
 
+(($#))|| set all
+mark $@ +inbox -sequence marked 2>/dev/null
 folder +inbox
+Done && { printf '  Nothing to do.\n'; return; }
 
 exec 3>$HOME/log/msg-done
 
-local who=''
 local M='\e[34m' P=' >>>' C='\e[0m' B='\e[1m' S='\e[35m'
-function printSkipMsg { # {{{1
-	printf "$M$P$B Skipping$S %s $C(no matching messages).\n" $1 >&2
-} # }}}1
-function printDoRefileMsg { # {{{1
-	printf "$M$P$B Refiling messages for $S%s$C.\n" $1 >&2
-} # }}}1
+
+printCheckMsg()		printf "$M$P$B Checking$S %s$C ... "		$1	>&2
+printRefileMsg()	printf "    $B Refiling$C messages.\n"			>&2
+printSkipMsg()		printf "skipping (no matching messages).\n"	$1	>&2
 function X { #{{{1
-	local filter=$1 who=$2 box=$3 msg=$4; shift 4
+	local filter=$1 pattern=$2 box=$3 msg=$4
 
-	msg:filter $filter $who $@ 2>&3
-	if (($#MSGs)); then
-		printDoRefileMsg $msg
-		refile -unlink $MSGs +$box
-	else
+	printCheckMsg $msg
+	pick marked +inbox $filter $pattern -sequence picked 2>/dev/null
+	if (($?)); then
 		printSkipMsg $msg
+	else
+		printRefileMsg $msg
+		refile picked -unlink -src +inbox +$box
 	fi
+
+	Done && function X { printf "$M$P$B Skipping$S %s$C (no more messages)"; }
 } # }}}1
 
-#  Key    Pattern                        mailbox       message          $@
-# ─────  ─────────────────────────────  ────────────  ────────────────  ──
-X From   '@yt\.lan'                     yt.lan        '@yt.lan'         $@
-X From   'root@csongor\.lan'            root@csongor  '@csongor'        $@
-X To     'bgumm102@gmail\.com'          notes         'Notes to Self'   $@
-X To     'source-changes@openbsd\.org'  obsd-cvs      'OpenBSD CVS'     $@
+# X  Key    Pattern                        mailbox       message
+# ─ ─────  ─────────────────────────────  ────────────  ────────────────
+  X -from  '@yt\.lan'                     yt.lan        '@yt.lan'
+  X -from  'root@csongor\.lan'            root@csongor  '@csongor'
+  X -to    'bgumm102@gmail\.com'          notes         'Notes to Self'
+  X -to    'source-changes@openbsd\.org'  obsd-cvs      'OpenBSD CVS'
 
-
-
-MSGs=( $(mhpath)/[1-9]*(Nn:t) )
-(($#))&& MSGs=( ${MSGs:*argv} )
-if (($#MSGs)); then
-	print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
-	rmm $MSGs
-else
+if Done; then
 	print -Pu 2 ' %F{4}>>>%f No messages to %Bremove%b.'
+else
+	print -Pu 2 ' %F{4}>>>%f %BRemoving%b everything else.'
+	refile marked -unlink -src +inbox +deleted
 fi
 
 typeset -a files2delete=( $XDG_CACHE_HOME/mail/*(.N) )

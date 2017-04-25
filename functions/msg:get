@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/01/27 00:49:56 tw@csongor.lan]
+# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/04/25 05:37:05 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -38,8 +38,12 @@ typeset -- re_mb_empty='^fetchmail: No mail for (.*) at (.*)$'
 typeset -- N W
 typeset -- P='      %F{4}─%f'
 
-print -Pu 2 '  %F{4}>>>%f Cleaning out %F{5}inbox%f.'
-for delf ( $(mhpath)/,*(N) ) rm $delf
+typeset -- oneOrZero=( $(mhpath +inbox)/,*(N[1]) )
+(($#oneOrZero))&& (
+	cd $(mhpath +inbox)|| return
+	print -Pu 2 '  %F{172}warning%f: Cleaning out %F{5}inbox%f.'
+	rm ,*
+)
 
 print -Pu 2 '  %F{4}>>>%f Generating %F{5}fetchmailrc%f.'
 $XDG_CONFIG_HOME/fetchmail/accTofetch.zsh $@
