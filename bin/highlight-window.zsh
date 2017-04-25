@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
-# @(#)[:6ZoGC1s^*eFZG9n(awN*: 2017/03/05 06:19:39 tw@csongor.lan]
+# @(#)[:6ZoGC1s^*eFZG9n(awN*: 2017/04/25 20:42:30 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
+:needs xwd xdotool convert
 
 # Usage {{{1
 typeset -- this_pgm=${0##*/}
@@ -42,28 +43,36 @@ on_error -die "No such window %B${windowid:gs/%/%%}%b."
 
 typeset -i WINDOW X Y WIDTH HEIGHT SCREEN
 eval "$( xdotool getwindowgeometry --shell $windowid )"
-(( WINDOW == windowid )) || -die 'Weird window results.' windowid WINDOW
+(( WINDOW == windowid )) || -die 'Weird window results.' $windowid $WINDOW
 
 typeset -i win_dsktp=$( eval xdotool get_desktop_for_window $windowid )
 typeset -i cur_dsktp=$( eval xdotool get_desktop )
 (( win_dsktp == cur_dsktp )) || xdotool set_desktop $win_dsktp
 
 typeset -- dout=$( mktemp -d )
-typeset -- fout=$dout/$windowid.xwd
-typeset -- fdsp=$dout/$windowid.png
+trap "cd ~; rm -rf $dout;" EXIT
+cd $dout || -die "Could not %Tcd%t to %B${dout:gs/%/%%}%b."
 
-xwd -silent -id $windowid -out $fout
-convert -fill orange -opaque white $fout $fdsp
-#convert -negate $fout $fdsp
-for i in {1..3}; do
-	display -geometry +$X+$Y $fdsp &
-	sleep 0.3
-	kill $!
+typeset -- fimg=$windowid.xwd
+xwd -silent -id $windowid -out $fimg
+convert -size ${WIDTH}x${HEIGHT} canvas:orange orange.png
+convert $fimg -colorspace Gray mask.png
+convert $fimg orange.png mask.png -composite blent.png
+
+# do the display
+typeset -- imgname=${windowid}-${RANDOM}
+display -title $imgname -geometry +$X+$Y blent.png &
+typeset -- imgpid=$!
+sleep 0.3
+imgwinid=$(xdotool search --name $imgname)
+
+repeat 2; do
+	xdotool windowraise $windowid
 	sleep 0.2
+	xdotool windowraise $imgwinid
+	sleep 0.3
 done
-
-rm $fout $fdsp
-rmdir $dout
+kill $imgpid
 
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
