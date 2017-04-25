@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:6ZoGC1s^*eFZG9n(awN*: 2017/04/25 20:42:30 tw@csongor.lan]
+# @(#)[:6ZoGC1s^*eFZG9n(awN*: 2017/04/25 23:23:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -49,19 +49,18 @@ typeset -i win_dsktp=$( eval xdotool get_desktop_for_window $windowid )
 typeset -i cur_dsktp=$( eval xdotool get_desktop )
 (( win_dsktp == cur_dsktp )) || xdotool set_desktop $win_dsktp
 
-typeset -- dout=$( mktemp -d )
-trap "cd ~; rm -rf $dout;" EXIT
-cd $dout || -die "Could not %Tcd%t to %B${dout:gs/%/%%}%b."
-
-typeset -- fimg=$windowid.xwd
-xwd -silent -id $windowid -out $fimg
-convert -size ${WIDTH}x${HEIGHT} canvas:orange orange.png
-convert $fimg -colorspace Gray mask.png
-convert $fimg orange.png mask.png -composite blent.png
-
 # do the display
+typeset -a cnvrtopts=(
+	xwd:-
+	\( -clone 0 -fill orange -colorize 100% \)
+	\( -clone 0 -colorspace Gray \)
+	-composite
+	png:-
+  )
 typeset -- imgname=${windowid}-${RANDOM}
-display -title $imgname -geometry +$X+$Y blent.png &
+xwd -silent -id $windowid	|
+	convert $cnvrtopts		|
+	display -title $imgname -geometry +$X+$Y - &
 typeset -- imgpid=$!
 sleep 0.3
 imgwinid=$(xdotool search --name $imgname)
