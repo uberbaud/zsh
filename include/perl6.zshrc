@@ -1,14 +1,25 @@
-# @(#)[:lziK)#|bsfHc9}(mzgFZ: 2017/04/02 05:36:19 tw@csongor.lan]
-# vim: tabstop=4 filetype=zsh
+# @(#)[:lziK)#|bsfHc9}(mzgFZ: 2017/04/26 00:38:44 tw@csongor.lan]
+# vim: tabstop=4 filetype=zsh nowrap
 
 RAKUDO_HOME="$XDG_DATA_HOME/rakudobrew"
 RAKUDO_BIN="$RAKUDO_HOME/bin"
 POD_TO_TEXT_ANSI=1
 
 function rakudobrew {
+	[[ -n ${RAKUDO_HOME:-} ]]|| die '%BRAKUDO_HOME%b is not set.'
+	[[ -n ${RAKUDO_BIN:-} ]]|| die '%BRAKUDO_BIN%b is not set.'
+
 	local rbrew="$RAKUDO_BIN/rakudobrew"
-	[[ -f $rbrew ]] || die "No file %B$rbrew%b."
-	[[ -x $rbrew ]] || die "%B$rbrew%b is not executable."
+	local rbdspl=${${${rbrew/#$XDG_DATA_HOME/\$XDG_DATA_HOME}/#$HOME/\~}:gs/%/%%}
+	[[ -f $rbrew ]] || {
+		h1 'Installing rakudobrew'
+		needs git
+		git clone https://github.com/tadzik/rakudobrew $RAKUDO_HOME
+		[[ -f $rbrew ]]|| die "Did not install %B${rdbspl}%b."
+	  }
+
+	[[ -f $rbrew ]] || die "%B$rbdspl%b does not exist."
+	[[ -x $rbrew ]] || die "%B$rbdspl%b is not executable."
 	(($#))|| set build moar
 	[[ $1 == build ]]|| {
 		$rbrew $@
