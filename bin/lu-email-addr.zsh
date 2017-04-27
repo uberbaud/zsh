@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y;3WVD_tAV|!DQQ6m<Bq: 2017/04/27 06:06:51 tw@csongor.lan]
+# @(#)[:y;3WVD_tAV|!DQQ6m<Bq: 2017/04/27 17:13:53 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -39,7 +39,12 @@ typeset -- emailf=${XDG_DATA_HOME}/sysdata/emails.tsv
 [[ -f $emailf ]]|| -die "Can't find the email file."
 
 # lowercased, with anything between, and no punctuation etc
-typeset -- pattern=${(L)${(j:.*:)${(z)"${*//[[:punct:]]/}"}}}
+typeset -- pattern=${(L)${(j:.* :)${(z)"${*//[[:punct:]]/.*}"}}}
+
+[[ -z $pattern ]]&&			return 1
+[[ $pattern == '.*' ]]&&	return 1
+
+pattern='(^| )'$pattern
 
 typeset -a awkpgm=(
 	'{'
