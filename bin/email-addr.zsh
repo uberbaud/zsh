@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y;3WVD_tAV|!DQQ6m<Bq: 2017/04/27 01:33:00 tw@csongor.lan]
+# @(#)[:y;3WVD_tAV|!DQQ6m<Bq: 2017/04/27 06:06:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -39,16 +39,16 @@ typeset -- emailf=${XDG_DATA_HOME}/sysdata/emails.tsv
 [[ -f $emailf ]]|| -die "Can't find the email file."
 
 # lowercased, with anything between, and no punctuation etc
-typeset -- pattern=${(L)${(j:.*:)${*//[[:punct:]]/}}}
+typeset -- pattern=${(L)${(j:.*:)${(z)"${*//[[:punct:]]/}"}}}
 
 typeset -a awkpgm=(
-	'{l=tolower($1)}'		# look for lowercased bits
+	'{'
+		'l=tolower($1);'			# look for lowercased bits,
+		'gsub("[[:punct:]]","",l)'	# no punctuation
+	'}'
 	"l~/${pattern}/" '{print "\""$1"\" <"$2">"}'
   )
 
 awk -F'\t' "$awkpgm" $emailf
-
-
-
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
