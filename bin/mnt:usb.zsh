@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:xNbKN(UTGN@f`$1b~v|g: 2017/03/05 06:20:08 tw@csongor.lan]
+# @(#)[:xNbKN(UTGN@f`$1b~v|g: 2017/04/28 01:07:40 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -53,7 +53,8 @@ shift $(($OPTIND - 1))
 # );} '
 #}}}1
 
-:rootness:init
+#:rootness:init
+doas true || -die 'Could not %Brootify%b.'
 
 typeset -a fatopts=( #{{{1
 	-t msdos
@@ -72,14 +73,15 @@ function mnt-fs {
 
 	df | egrep -q "^$dev " && return 0
 
-	[[ -d $mntpnt ]]|| :rootness:cmd mkdir $mntpnt
-	:
+	#[[ -d $mntpnt ]]|| :rootness:cmd mkdir $mntpnt
+	[[ -d $mntpnt ]]|| doas mkdir $mntpnt
 	on-error {
 		-warn "Could not %Tmkdir%t %S${$mntpnt:gs/%/%%}%s."
 		return 1
 	}
 	echo mount $@ $dev $mntpnt
-	:rootness:cmd mount $@ $dev $mntpnt
+	#:rootness:cmd mount $@ $dev $mntpnt
+	doas mount $@ $dev $mntpnt
 	on-error {
 		-warn "Could not %Tmount%t %S${dev:gs/%/%%}%s."
 		#:rootness:cmd rmdir $mntpnt
@@ -117,9 +119,10 @@ function mnt-drv {
 typeset -a disknames=( ${(s.,.)$( sysctl -n hw.disknames )} )
 for d in $disknames; do
 	[[ $d =~ '^sd0:' ]]&& continue
+	-notify "Trying to mount %B${d:gs/%/%%}%b."
 	mnt-drv ${d%%:*} ${d#*:}
 done
 
-:rootness:finit
+#:rootness:finit
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

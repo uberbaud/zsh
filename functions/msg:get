@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/04/25 06:08:11 tw@csongor.lan]
+# @(#)[:86XhN<3rNGtlDaQ#Mt%-: 2017/04/28 21:51:05 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -87,6 +87,23 @@ typeset -i msgCount=$(egrep -c '^From ' /var/mail/tw)
 
 print -Pnu 2 '  %F{4}>>>%f '
 $SYSLOCAL/bin/inc -nochangecur
+
+typeset -A groups=()
+typeset -a nots=()
+function group {
+	x=${${$(pick +inbox -sequence $@ 2>/dev/null):-0}% *}
+	y=${${$(pick +inbox $1 brandnew -nolist 2>/dev/null):-0}% *}
+	((x))&& nots+=( not$1 )
+	groups+=( $1 "new $y, total $x" )
+}
+
+group obsd		--list-id 'source-changes\.openbsd\.org'
+group zsh-wrk	--list-id 'zsh-workers\.zsh\.org'
+group drgfly	--list-id 'users\.dragonflybsd\.org'
+scan +inbox $nots
+printf '  %-8s: %s\n' ${(kv)groups}
+
+unset -f group
 
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
