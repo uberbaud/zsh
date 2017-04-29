@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/04/29 07:20:27 tw@csongor.lan]
+# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/04/29 15:20:30 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -110,14 +110,14 @@ function group {
 	x=${${"$(pick +inbox -sequence x -sequence $@)":-0}% *}
 	mark +inbox -sequence x -delete oldhat
 	y=${${"$(pick +inbox x -nolist)":-0}% *}
-	groups+=( $1 "new $y, total $x" )
-	mark +inbox -sequence lists -add $1
+	groups+=( $1':' "new $y, total $x" )
+	mark +inbox -sequence L -add $1
 } 2>/dev/null
 
 group obsd		--list-id 'source-changes\.openbsd\.org'
 group zshwork	--list-id 'zsh-workers\.zsh\.org'
 group drgfly	--list-id 'users\.dragonflybsd\.org'
-scan +inbox notlists
-printf '  %-8s: %s\n' ${(kv)groups}
+scan +inbox notL
+printf '                    %-9s %s\n' ${(kv)groups}
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
