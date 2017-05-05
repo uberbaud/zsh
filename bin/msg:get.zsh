@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/04/29 15:20:30 tw@csongor.lan]
+# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/05/01 04:06:02 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -43,7 +43,7 @@ shift $(($OPTIND - 1))
 # /options }}}1
 
 typeset -- accToFetch=${XDG_CONFIG_HOME}/fetchmail/accTofetch.zsh
-:needs $accToFetch fetchmail inc pick scan
+:needs $accToFetch fetchmail inc pick scan mark
 
 typeset -- re_mb_typ1='^(\d+) (messages?) \((\d+) seen\) for (.*) at (.*)\.$'
 typeset -- re_mb_typ2='^(\d+) (messages?) for (.*) at (.*)\.$'
@@ -100,7 +100,7 @@ typeset -i msgCount=$(egrep -c '^From ' /var/mail/tw)
 
 (($msgCount))|| { -notify "Nothing more to do, quitting."; return 0; }
 
-mark +inbox all -sequence oldhat
+mark +inbox all -sequence oldhat 2>/dev/null
 -notify 'Incorporating new mail'
 inc -nochangecur >/dev/null
 
