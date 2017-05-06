@@ -1,4 +1,4 @@
-# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/06 19:31:57 tw@csongor.lan]
+# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/06 19:51:02 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: handle mail from the "OpenBSD CVS change list" specially.
@@ -6,7 +6,8 @@
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-needs =show fold awk
+typeset -- P=${PAGER:-less}
+needs =show fold awk $P cat
 
 typeset -a filter=(
 	# |>>> inbox: 5
@@ -36,11 +37,17 @@ typeset -a refold=(
 	'{printf "%-'$W's%s\n", X, $0; X="";}'
   )
 
-=show obsd						|
-	awk "$filter"				|
-	fold -s -w $((COLUMNS-W-2))	|
-	awk "$refold"				|
-	less
+typeset -a OUTPUT=( ${(f)"$(\
+	=show obsd						|
+		awk "$filter"				|
+		fold -s -w $((COLUMNS-W-2))	|
+		awk "$refold"
+	)"} )
+
+[[ -t 1 ]]&&			P=cat
+(($#OUTPUT<$LINES))&&	P=cat
+
+for l ($OUTPUT) { echo $l }|$P
 
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
