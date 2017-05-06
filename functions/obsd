@@ -1,0 +1,46 @@
+# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/06 19:31:57 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: handle mail from the "OpenBSD CVS change list" specially.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+needs =show fold awk
+
+typeset -a filter=(
+	# |>>> inbox: 5
+	'/^>>> [a-z]+:[0-9]+$/' '{ N=$2; p=0; }'
+	# from start of log message excluding the header
+	'/^Log message:/'
+		'{'
+			'B=0;'
+			'p=1;'
+			'printf( "%s%s\n", L, N);'
+			'L = "\n";'
+			'next;'
+		'}'
+	# until a blank line
+	'p==0'						'{next;}'
+	'/^$/'						'{B=1; next}'
+	# |ok kettenis@[ dhill@]
+	'/^[Oo][Kk]( [a-z]+@)+$/'	'{next;}'
+	'B==1'				'{printf( "\n\n" ); B=0;}'
+	# always
+						'{printf( "%s ", $0 );}'
+  )
+
+typeset -- W=10
+typeset -a refold=(
+	'/^[a-z]+:[0-9]+$/' '{X=$0;next}'
+	'{printf "%-'$W's%s\n", X, $0; X="";}'
+  )
+
+=show obsd						|
+	awk "$filter"				|
+	fold -s -w $((COLUMNS-W-2))	|
+	awk "$refold"				|
+	less
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
