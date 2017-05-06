@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/05/01 04:06:02 tw@csongor.lan]
+# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/05/06 19:37:05 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -117,7 +117,7 @@ function group {
 group obsd		--list-id 'source-changes\.openbsd\.org'
 group zshwork	--list-id 'zsh-workers\.zsh\.org'
 group drgfly	--list-id 'users\.dragonflybsd\.org'
-scan +inbox notL
+scan +inbox ¬L
 printf '                    %-9s %s\n' ${(kv)groups}
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
