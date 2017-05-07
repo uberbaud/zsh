@@ -1,4 +1,4 @@
-# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/07 01:12:23 tw@csongor.lan]
+# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/07 19:01:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: handle mail from the "OpenBSD CVS change list" specially.
@@ -10,13 +10,15 @@ typeset -- P=${PAGER:-less}
 needs =show fold awk $P cat
 
 typeset -a filter=(
-	# |>>> inbox: 5
+	# |>>> inbox:5          ← when there's more than one (1) message
 	'/^>>> [a-z]+:[0-9]+$/' '{ N=$2; p=0; }'
+	# |(Message inbox:5)    ← when there's only one (1) message
+	'/^\(Message [a-z]+:[0-9]+\)$/' '{ sub("\\)",""); N=$2; p=0; }'
 	# from start of log message excluding the header
-	'/^Log message:/'
+	'/^Log [Mm]essage:/'
 		'{'
-			'B=0;'
 			'p=1;'
+			'B=0;'
 			'printf( "%s%s\n", L, N);'
 			'L = "\n";'
 			'next;'
@@ -25,7 +27,7 @@ typeset -a filter=(
 	'p==0'						'{next;}'
 	'/^$/'						'{B=1; next}'
 	# |ok kettenis@[ dhill@]
-	'/^[Oo][Kk]( [a-z]+@)+$/'	'{next;}'
+	'/^[Oo][Kk]( [a-z]+@,?)+$/'	'{next;}'
 	'B==1'				'{printf( "\n\n" ); B=0;}'
 	# always
 						'{printf( "%s ", $0 );}'
