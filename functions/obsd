@@ -1,4 +1,4 @@
-# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/06 19:51:02 tw@csongor.lan]
+# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/05/07 01:12:23 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: handle mail from the "OpenBSD CVS change list" specially.
@@ -44,8 +44,8 @@ typeset -a OUTPUT=( ${(f)"$(\
 		awk "$refold"
 	)"} )
 
-[[ -t 1 ]]&&			P=cat
-(($#OUTPUT<$LINES))&&	P=cat
+[[ -t 1 ]]||			P=cat
+(($#OUTPUT<LINES))&&	P=cat
 
 for l ($OUTPUT) { echo $l }|$P
 
