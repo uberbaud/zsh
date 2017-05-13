@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:7,4Vj{r{)EKZYZ+!Qi@+: 2016/12/24 01:53:45 tw@csongor.lan]
+# @(#)[:7,4Vj{r{)EKZYZ+!Qi@+: 2017/05/13 01:29:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -33,7 +33,7 @@ set $1 ${(Pt)1}
 [[ $2 == 'scalar'* ]]&& {
 	print -P " %B$1%b is a %B$2%b with a value of:"
 	2=${(PVqq)1}
-	(( $#2 > (COLUMNS-2) ))&& 2=${2:0:$COLUMNS-3}$'\e[0;47;5;36m…\e[0m'
+	(( (COLUMNS-2)<$#2 ))&& 2=${2:0:$COLUMNS-3}$'\e[0;47;5;36m…\e[0m'
 	print -r '  '$2
 	return 0
   }
@@ -55,7 +55,7 @@ print -P " %B$1%b is an %B$2%b with %B${(P@)#1}%b "$3
 	3=$((COLUMNS-8))
 	while (( $2<=${(P)#1} )); do
 		4=${(PVqq)1[$2]}
-		(($#4>$3))&& 4=${4:0:$3}$'\e[0;47;5;36m…\e[0m'
+		(($3<$#4))&& 4=${4:0:$3}$'\e[0;47;5;36m…\e[0m'
 		printf " %4d: %-${3}s\n" $2 $4
 		2=$(($2+1))
 	done
@@ -72,7 +72,7 @@ print -P " %B$1%b is an %B$2%b with %B${(P@)#1}%b "$3
 	set $1 $((COLUMNS-($#2+7))) "  %-$(( $#2 + 2 ))s: %s\n" key val
 	for 4 5 in "${(Pkv@)1}"; do
 		5=${(qqqV)5}
-		(($#5>$2))&& 5=${5:0:$2}$'\e[0;47;5;36m…\e[0m'
+		(($2<$#5))&& 5=${5:0:$2}$'\e[0;47;5;36m…\e[0m'
 		printf $3 ${(qqqV)4} $5
 	done | sort
 	return 0

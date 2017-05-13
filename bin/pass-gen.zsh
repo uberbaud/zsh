@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
-# @(#)[:M7dUbt+qzxTO!nD}9M<g: 2016/12/19 06:33:35 tw@csongor.lan]
+# @(#)[:M7dUbt+qzxTO!nD}9M<g: 2017/05/13 01:25:43 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
 
-typeset -i default_min=13
-typeset -i default_max=19
-typeset -- default_alphabet='SNCL'
-typeset -i default_count=7
+typeset -i defaultMin=13
+typeset -i defaultMax=19
+typeset -- defaultAlphabet='SNCL'
+typeset -i defaultCount=7
 
 # Usage {{{1
 typeset -- this_pgm=${0##*/}
@@ -25,10 +25,10 @@ typeset -a pwd_opts=( #{{{2
 	'[%T-c%t %Uhow many%u]'
   ) #}}}2
 typeset -a pwd_defaults=( #{{{2
-	"%Umin len%u=%B${default_min:gs/%/%%}%b,"
-	"%Umax len%u=%B${default_max:gs/%/%%}%b,"
-	"%Ualphabet%u=%B${default_alphabet:gs/%/%%}%b,"
-	"%Uhow many%u=%B${default_count:gs/%/%%}%b"
+	"%Umin len%u=%B${defaultMin:gs/%/%%}%b,"
+	"%Umax len%u=%B${defaultMax:gs/%/%%}%b,"
+	"%Ualphabet%u=%B${defaultAlphabet:gs/%/%%}%b,"
+	"%Uhow many%u=%B${defaultCount:gs/%/%%}%b"
   ) #}}}2
 typeset -a retention=( #{{{2
 	'[%T-e%t %Uemail addr%u]'
@@ -61,67 +61,67 @@ typeset -a Usage=(
 	'  Show this help message.'
 ); # }}}1
 # process -options {{{1
-function bad_programmer {	# {{{2
+function bad-programmer {	# {{{2
 	-die '%BProgrammer error%b:' "  No %Tgetopts%t action defined for %T-$1%t."
   };	# }}}2
 ### process args declarations
-typeset -i count=$default_count
-typeset -- alphabet_is_set=false
-typeset -- info_is_set=false
+typeset -i count=$defaultCount
+typeset -- alphabetIsSet=false
+typeset -- infoIsSet=false
 # start with impossible values so we can check later
-typeset -i max_len=-1
-typeset -i min_len=-1
-typeset -i require_length=0
-typeset -- allowed_chars=''
-typeset -a required_chars=()
+typeset -i maxLen=-1
+typeset -i minLen=-1
+typeset -i requireLength=0
+typeset -- allowedChars=''
+typeset -a requiredChars=()
 typeset -- verbose=false
 typeset -- quiet=false
 
 ### process args helper function
-function set_alphabet { #{{{2
+function set-alphabet { #{{{2
 	(( $# == 1 ))|| -die '%Uset alphabet%u expects exactly one (1) arg.'
-	typeset -- req_alphabet=$1
-	[[ -n $req_alphabet ]]|| -die '%Ualphabet%u cannot be %Bempty%b.'
+	typeset -- reqAlphabet=$1
+	[[ -n $reqAlphabet ]]|| -die '%Ualphabet%u cannot be %Bempty%b.'
 
-	typeset -- allow_UC=false
-	typeset -- allow_LC=false
-	typeset -- allow_SYM=false
-	typeset -- allow_DIG=false
+	typeset -- allowUC=false
+	typeset -- allowLC=false
+	typeset -- allowSYM=false
+	typeset -- allowDIG=false
 
-	typeset -- require_UC=false
-	typeset -- require_LC=false
-	typeset -- require_SYM=false
-	typeset -- require_DIG=false
+	typeset -- requireUC=false
+	typeset -- requireLC=false
+	typeset -- requireSYM=false
+	typeset -- requireDIG=false
 
 	typeset -a ALPHA=()
 	typeset -- c='-'
 
-	for (( i=0; i<$#req_alphabet; i++ )); do
-		c=${req_alphabet:$i:1}
+	for (( i=0; i<$#reqAlphabet; i++ )); do
+		c=${reqAlphabet:$i:1}
 		case $c in
-			S|P) require_SYM=true;			;&
-			s|p) allow_SYM=true;			;;
-			N|D) require_DIG=true;			;&
-			n|d) allow_DIG=true;			;;
-			C|U) require_UC=true;			;&
-			c|u) allow_UC=true;				;;
-			L)   require_LC=true;			;&
-			l)   allow_LC=true;				;;
+			S|P) requireSYM=true;			;&
+			s|p) allowSYM=true;			;;
+			N|D) requireDIG=true;			;&
+			n|d) allowDIG=true;			;;
+			C|U) requireUC=true;			;&
+			c|u) allowUC=true;				;;
+			L)   requireLC=true;			;&
+			l)   allowLC=true;				;;
 			*)   -die "Unknown alphabet specifier %U${c:gs/%/%%}%u."
 		esac
 	done
 
-	$allow_SYM	&& allowed_chars+='[:punct:]'
-	$allow_DIG	&& allowed_chars+='[:digit:]'
-	$allow_UC	&& allowed_chars+='[:upper:]'
-	$allow_LC	&& allowed_chars+='[:lower:]'
+	$allowSYM	&& allowedChars+='[:punct:]'
+	$allowDIG	&& allowedChars+='[:digit:]'
+	$allowUC	&& allowedChars+='[:upper:]'
+	$allowLC	&& allowedChars+='[:lower:]'
 
-	$require_SYM  && { required_chars+=('punct'); ((require_length++)); }
-	$require_DIG  && { required_chars+=('digit'); ((require_length++)); }
-	$require_UC   && { required_chars+=('upper'); ((require_length++)); }
-	$require_LC   && { required_chars+=('lower'); ((require_length++)); }
+	$requireSYM  && { requiredChars+=('punct'); ((requireLength++)); }
+	$requireDIG  && { requiredChars+=('digit'); ((requireLength++)); }
+	$requireUC   && { requiredChars+=('upper'); ((requireLength++)); }
+	$requireLC   && { requiredChars+=('lower'); ((requireLength++)); }
 
-	alphabet_is_set=true
+	alphabetIsSet=true
 
 } #}}}2
 function posint { #{{{2
@@ -132,65 +132,65 @@ function posint { #{{{2
 
 	[[ $2 == <-> ]]|| -die $errmsg
 	posint=$2
-	(( $posint >= 1 ))|| -die $errmsg
+	((1<=$posint))|| -die $errmsg
 
 	typeset -gi $varname=$posint
   } #}}}2
-function add_id { #{{{2
+function add-id { #{{{2
 	(( $# == 2 ))|| -die "%BBad Arguments%b: expected %B2%b, found %B$#%b."
-	typeset -l id_type=$1
+	typeset -l idType=$1
 	typeset -- id=$2
-	ids+=( "$id_type: $id" )
-	info_is_set=true
+	ids+=( "$idType: $id" )
+	infoIsSet=true
 } #}}}2
-function add_custom_id { #{{{2
+function add-custom-id { #{{{2
 	(( $# == 1 ))|| -die "%BBad Arguments%b: expected %B1%b, found %B$#%b."
 	typeset -l key=${1%%:*}
 	typeset -- val=${1:$#key+1}
 	[[ -n $val ]]|| -die "Bad %Ucustom id%u format for %B${1:gs/%/%%}%b."
-	add_id $key $val
+	add-id $key $val
 } # }}}2
 while getopts ':a:c:n:x:e:u:O:vqh' Option; do
 	case $Option in
-		a)	set_alphabet $OPTARG;								;;
+		a)	set-alphabet $OPTARG;								;;
 		c)	posint count $OPTARG;								;;
-		n)	posint min_len $OPTARG;								;;
-		x)	posint max_len $OPTARG;								;;
-		e)	add_id 'eml' $OPTARG;								;;
-		u)	add_id 'usr' $OPTARG;								;;
-		O)	add_custom_id $OPTARG;								;;
+		n)	posint minLen $OPTARG;								;;
+		x)	posint maxLen $OPTARG;								;;
+		e)	add-id 'eml' $OPTARG;								;;
+		u)	add-id 'usr' $OPTARG;								;;
+		O)	add-custom-id $OPTARG;								;;
 		v)	verbose=true;										;;
 		q)	quiet=true;											;;
 		h)	-usage $Usage;										;;
 		\?)	-die "Invalid option: '-$OPTARG'.";					;;
 		\:)	-die "Option '-$OPTARG' requires an argument.";		;;
-		*)	bad_programmer "$Option";							;;
+		*)	bad-programmer "$Option";							;;
 	esac
 done
 # cleanup
-unset -f bad_programmer
+unset -f bad-programmer
 shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 
 $quiet && $verbose && -die 'Cannot do %Bquiet%b AND %Bverbose%b.'
 
 ### after cleanup, set defaults
-$alphabet_is_set || set_alphabet $default_alphabet
+$alphabetIsSet || set-alphabet $defaultAlphabet
 
 # max MUST come before min so that -1 won't be kept for min
-if (( $max_len == -1 )); then
-	max_len=$min_len
-	(( $max_len < $default_max ))&& max_len=$default_max
+if ((maxLen == -1)); then
+	maxLen=$minLen
+	((maxLen<defaultMax))&& maxLen=$defaultMax
 fi
-if (( $min_len == -1 )); then
-	min_len=$max_len
-	(( $min_len > $default_min ))&& min_len=$default_min
+if ((minLen == -1)); then
+	minLen=$maxLen
+	((defaultMin<minLen))&& minLen=$defaultMin
 fi
 
-(( $max_len >= $min_len ))|| -die '%Uminum%u %Bmust%b be less than %Bmaximum%b.'
-(( $max_len >= $require_length ))|| -die 'There are more %Brequired%b characters than %Umax_length%u allows.'
+((minLen <= maxLen))|| -die '%Uminum%u %Bmust%b be less than %Bmaximum%b.'
+((requireLength  <= maxLen))|| -die 'There are more %Brequired%b characters than %UmaxLength%u allows.'
 
-(( $min_len > $require_length ))|| min_len=$require_length
+((requireLength<minLen))|| minLen=$requireLength
 
 # /options }}}1
 
@@ -198,51 +198,51 @@ fi
 typeset -l domain=''
 (($#))&& domain=$1
 
-if $info_is_set; then
+if $infoIsSet; then
 	[[ -n $domain ]]|| -die '%Udomain%u is required to %Brecord%b %Uinfo%u.'
 elif [[ -n $domain ]]; then
 	-die '%Uemail addr%u, %Uuser name%u, or some other %Uid%u must be supplied' \
 		 'when saving to %Udomain%u.pwd'
 fi
 
-typeset -r pwd_file="$HOME/.local/secrets/${domain}.pwd"
-[[ -a $pwd_file ]]&& -die "Password file for %B${domain:gs/%/%%}%b already exists."
+typeset -r pwdFile="$HOME/.local/secrets/${domain}.pwd"
+[[ -a $pwdFile ]]&& -die "Password file for %B${domain:gs/%/%%}%b already exists."
 
 ### verbose
 if $verbose; then # ${{{1
 	typeset -- password_s='password'
-	(( $count > 1 )) && password_s+='s'
-	typeset -- min_max_phrase="between %B$min_len%b and %B$max_len%b"
-	(( $min_len == $max_len )) && min_max_phrase="exactly %B$min_len%b"
+	((1<count)) && password_s+='s'
+	typeset -- min_max_phrase="between %B$minLen%b and %B$maxLen%b"
+	(( $minLen == $maxLen )) && min_max_phrase="exactly %B$minLen%b"
 	typeset -a msg=(
 		"Generating %B$count%b $password_s,"
 		"$min_max_phrase ascii characters long."
-		"%BAllowed%b characters match '$allowed_chars'."
+		"%BAllowed%b characters match '$allowedChars'."
 	  )
-	if (( $#required_chars == 0 )); then
+	if (( $#requiredChars == 0 )); then
 		msg+=( 'There are %Bno%b required classes.' )
 	else
-		msg+=( "%BRequired%b classes are $required_chars." )
+		msg+=( "%BRequired%b classes are $requiredChars." )
 	fi
 	-notify $msg
 fi; #}}}1
 
 ### choose password setup
-typeset -i wiggleroom=$(( max_len - min_len + 1 ))
-function get_a_len_between_min_and_max { #{{{1
-	echo $(( min_len + (RANDOM % wiggleroom) ))
+typeset -i wiggleroom=$(( maxLen - minLen + 1 ))
+function get-a-len-between-min-and-max {
+	echo $(( minLen + (RANDOM % wiggleroom) ))
 } #}}}1
 
 typeset -a passwords=()
 typeset -i generated=0
 while :; do
-	typeset -i len=$( get_a_len_between_min_and_max )
+	typeset -i len=$( get-a-len-between-min-and-max )
 	typeset -- pass="$(
-		tr -cd $allowed_chars < /dev/urandom \
-		| dd bs=$len count=1 status=none
+		tr -cd $allowedChars < /dev/urandom |
+		dd bs=$len count=1 status=none
 	  )"
 	# check against every required and redo while if any are missing
-	for class in $required_chars; do
+	for class in $requiredChars; do
 		[[ $pass =~ [[:$class:]] ]] || continue 2
 	done
 	# passed test, so keep it and count it toward requested count
@@ -260,7 +260,7 @@ else
 
 	echo -n $password | $SYSLOCAL/bin/xclip -selection clipboard -in
 	-notify 'Your new %Bpassword%b has been copied to the %Bclipboard%b.'
-	add_id 'pwd' $password
+	add-id 'pwd' $password
 	if [[ -n $domain ]]; then
 		-notify "It is also saved in %B${pwd_file:gs/%/%%}%b."
 		for ln in $ids; do echo $ln; done | tee -a $pwd_file

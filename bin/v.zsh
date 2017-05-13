@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/04/24 22:03:08 tw@csongor.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/05/13 01:24:07 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -54,8 +54,8 @@ function warnOrDie { #{{{1
 	esac
 } # }}}1
 
-(( $# == 0 ))	&& -die 'Missing required argument %Ufile-name%u.'
-(( $# >= 2 ))	&& -die 'Too many arguments.' "Expected one (1) %Ufile-name%u."
+(($#))||	-die 'Missing required argument %Ufile-name%u.'
+((2<=$#))&&	-die 'Too many arguments.' "Expected one (1) %Ufile-name%u."
 [[ -a $1 ]]		|| -die "No such file %B${1:gs/%/%%}%b."
 
 (){ # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

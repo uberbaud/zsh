@@ -1,5 +1,5 @@
 #!/usr/local/bin/zsh
-# @(#)[:bwUW;}EezCL~Uv-{BbhH: 2017/02/18 20:55:25 tw@csongor.lan]
+# @(#)[:bwUW;}EezCL~Uv-{BbhH: 2017/05/13 00:57:57 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -34,7 +34,7 @@ unset -f bad-programmer
 shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 
-(($#>1))&& -die 'Unexpected arguments. Only wanted %Ufile name%u.'
+((1<$#))&& -die 'Unexpected arguments. Only wanted %Ufile name%u.'
 # /options }}}1
 
 if $make_new; then

@@ -1,4 +1,4 @@
-# @(#)[:aV`l=qOi1z-j7-#72R#J: 2017/01/27 01:03:53 tw@csongor.lan]
+# @(#)[:aV`l=qOi1z-j7-#72R#J: 2017/05/13 01:28:41 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -6,7 +6,7 @@ setopt local_options local_traps pipe_fail bsd_echo
 
 cd ~/play
 (($#))|| return 0	# no directory given so we're done
-(($#>1))&&	{ print -Pu 2 '  %F{4}Usage%f: %F{2}p%f %Udir%u'; return 0; }
+((1<$#))&&	{ print -Pu 2 '  %F{4}Usage%f: %F{2}p%f %Udir%u'; return 0; }
 
 typeset -a possibles=()
 if [[ -d $1 ]]; then

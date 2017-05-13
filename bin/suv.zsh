@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:S=$*NT439jqyq{b2dNsO: 2017/03/05 06:19:34 tw@csongor.lan]
+# @(#)[:S=$*NT439jqyq{b2dNsO: 2017/05/13 01:22:41 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -38,8 +38,8 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
-(( $# == 0 )) && -die 'Missing expected parameter %Ufile name%u.'
-(( $# > 1 ))  && -die 'Too many arguments. Expected one (1) %Ufile name%u.'
+(($#))||	-die 'Missing expected parameter %Ufile name%u.'
+((1<$#))&&	-die 'Too many arguments. Expected one (1) %Ufile name%u.'
 
 typeset -r realname=$(readlink -fn $1)
 [[ -n $realname ]]|| -die 'Could not get actual file name (bad link?).'

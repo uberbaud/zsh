@@ -1,9 +1,9 @@
-# @(#)[:Yi}e6Hh)3rU?Za!_g,N&: 2017/03/15 03:19:17 tw@csongor.lan]
+# @(#)[:Yi}e6Hh)3rU?Za!_g,N&: 2017/05/13 01:28:21 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # expect `msg:headers _file_ _field-key_ _filter-regex_`
 (($#))||	die 'msg:headers: Missing %Bmsg-number%b.'
-(($#>3))&&	die 'msg:headers: Too many arguments.'
+((3<$#))&&	die 'msg:headers: Too many arguments.'
 
 local TAB=$'\t' NL=$'\n' CRLF=$'\r\n' CR=$'\r' msg=$(mhpath)/$1
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:ztFaiaY~++hLvnDfRYGl: 2017/03/20 22:51:17 tw@csongor.lan]
+# @(#)[:ztFaiaY~++hLvnDfRYGl: 2017/05/13 01:21:43 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -46,7 +46,7 @@ shift $(($OPTIND - 1))
 # /options }}}1
 
 (($#<1))&&	-die 'Missing required argument %Sin-file%s.'
-(($#>2))&&	-die 'Too many arguments. Expected one or two (1-2).'
+((2<$#))&&	-die 'Too many arguments. Expected one or two (1-2).'
 
 :needs pdfcrop
 

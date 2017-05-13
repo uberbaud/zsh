@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:H;8+k8?+P)^Xm3{|$3,F: 2017/03/05 06:19:30 tw@csongor.lan]
+# @(#)[:H;8+k8?+P)^Xm3{|$3,F: 2017/05/13 01:04:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -54,7 +54,7 @@ while getopts ':adlpsxvh' Option; do
 		*)	bad_programmer "$Option";							;;
 	esac
 done
-(( ftc > 1 )) && -die 'Too many %Sonly show this type%s flags.'
+((1<ftc))&& -die 'Too many %Sonly show this type%s flags.'
 # cleanup
 unset -f bad_programmer
 # remove already processed arguments

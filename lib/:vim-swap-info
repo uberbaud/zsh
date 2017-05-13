@@ -1,4 +1,4 @@
-# @(#)[:J`fHnLx(lPPRj;X{CtNm: 2017/03/05 06:17:42 tw@csongor.lan]
+# @(#)[:J`fHnLx(lPPRj;X{CtNm: 2017/05/13 01:28:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # checks a filename (possibly the name of a swap file) to see if vim is 
 # currently editing it.
@@ -32,9 +32,9 @@ else
 fi
 
 typeset -a openers=( $( /usr/bin/fstat $swaps[1] ) )
-(( $#openers == 10 ))	&& { :vim-recover-file $fname;		return $?; }
-(( $#openers % 10 ))	&& -die 'Unexpected %Tfstat%t info'
-(( $#openers > 20 ))	&& { print 'multiple openers';		return 2; }
+(($#openers == 10))	&& { :vim-recover-file $fname;		return $?; }
+(($#openers % 10))	&& -die 'Unexpected %Tfstat%t info'
+((20 < $#openers))	&& { print 'multiple openers';		return 2; }
 
 print $openers[13]
 return 0

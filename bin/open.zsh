@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:-V?26YLT;hfd6(0{QK7@: 2016/11/28 03:01:24 tw@csongor.lan]
+# @(#)[:-V?26YLT;hfd6(0{QK7@: 2017/05/13 01:04:49 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -122,7 +122,7 @@ function open-one-file {
 		"with %T${filehandler:gs/%/%%}%t."
 	  )
 
-	if ((${#${(F)note}}>$COLUMNS)); then
+	if ((COLUMNS<${#${(F)note}})); then
 		note[2]="    ${note[2]}"
 		-notify $note
 	else

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/02/17 19:09:25 tw@csongor.lan]
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/05/13 00:56:26 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -214,7 +214,7 @@ for sourcefile in $@; do
 done
 
 typeset -i LINES=$(tput lines)
-if (( $(wc -l < $bofile) >= $((LINES - 2)) )); then
+if (( $((LINES-2)) <= $(wc -l < $bofile) )); then
 	clear
 	less $bofile
 else

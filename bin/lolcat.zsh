@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:DOJopgjq@V8T3(fNoa#V: 2017/04/07 15:58:17 tw@csongor.lan]
+# @(#)[:DOJopgjq@V8T3(fNoa#V: 2017/05/13 00:58:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -90,7 +90,7 @@ shift $(($OPTIND - 1))
 
 ((cpc<0))&&		-die '%Schars per color%s must be greater than %B0%b.'
 ((hue<0))&&		-die "%Shue%s must be between %B0%b and %B$C%b (incl)."
-((hue>C))&&		-die "%Shue%s must be between %B0%b and %B$C%b (incl)."
+((C<hue))&&		-die "%Shue%s must be between %B0%b and %B$C%b (incl)."
 
 ((shft<0))&& shft=$((shft%C)) # handle shft with large negative magnitude
 

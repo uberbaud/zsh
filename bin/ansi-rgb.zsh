@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Ov^$raT);Z0gwNl5rYsF: 2017/03/05 06:19:55 tw@csongor.lan]
+# @(#)[:Ov^$raT);Z0gwNl5rYsF: 2017/05/13 00:54:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -54,9 +54,9 @@ typeset -i B=$3
 
 errmsg=( "$rgb values MUST be %B0%b, %B1%b, %B2%b, %B3%b, %B4%b, or %B5%b." )
 # greater than or equal to 0
-(($R>=0))|| -die  $errmsg
-(($G>=0))|| -die  $errmsg
-(($B>=0))|| -die  $errmsg
+((0<=$R))|| -die  $errmsg
+((0<=$G))|| -die  $errmsg
+((0<=$B))|| -die  $errmsg
 # less than or equal to 5
 (($R<=5))|| -die  $errmsg
 (($G<=5))|| -die  $errmsg

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/04/23 20:40:53 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/05/13 00:57:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -60,7 +60,7 @@ for ln in ${(f)evblob}; do
 	else
 		H=''; E=''
 	fi
-	while (($#ev>evsize)); do
+	while ((evsize<$#ev)); do
 		T=${${ev:0:$evsize}% *}
 		while [[ $T == *' ' ]] { T=${T:0:-1} } # remove trailing spaces
 		events+=( $H$T$E )
@@ -76,7 +76,7 @@ done
 integer l=$(($#cal-$#events))
 if ((l<0)); then
 	repeat $((-l/2)) cal=( ' ' $cal )
-elif ((l>0)); then
+elif ((0<l)); then
 	repeat $((l/2)) events=( ' ' $events )
 fi
 

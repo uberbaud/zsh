@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GnctdQbez8ggee3hNz*r: 2017/03/05 06:19:26 tw@csongor.lan]
+# @(#)[:GnctdQbez8ggee3hNz*r: 2017/05/13 01:05:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -87,7 +87,7 @@ while read -ru $fINC ln; do
 	}
 done
 
-(($#keycode>1))&&	-die 'Multiple %Skeycodes%s matched:' $codematches
+((1<$#keycode))&&	-die 'Multiple %Skeycodes%s matched:' $codematches
 (($#keycode))||		-die "No match %Skeycode%s match for %S${USER:gs/%/%%}@${HOST:gs/%/%%}%s."
 for k v in ${(kv)codework}; do
 	((v==1))||		-die "Keycode %S${k:gs/%/%%}%s was used %B$v%b times."

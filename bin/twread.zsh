@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Lwm{d1yK(wS87mKew!$@: 2017/03/05 06:20:34 tw@csongor.lan]
+# @(#)[:Lwm{d1yK(wS87mKew!$@: 2017/05/13 01:23:14 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -33,8 +33,8 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
-(($# == 0))&& -die 'Missing required parameter, %Ufile name%u.'
-(($# >= 2))&& -die 'Too many parameters. Expected one (1).'
+(($#))||	-die 'Missing required parameter, %Ufile name%u.'
+((2<=$#))&&	-die 'Too many parameters. Expected one (1).'
 
 typeset -- file=$1
 [[ -a $file ]]|| -die "%B${file:gs:/%/%%}%b does not exist."

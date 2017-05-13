@@ -1,4 +1,4 @@
-# @(#)[:R*db+Qohd}_,@zmO&#CH: 2017/03/05 06:17:57 tw@csongor.lan]
+# @(#)[:R*db+Qohd}_,@zmO&#CH: 2017/05/13 01:26:48 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -16,9 +16,9 @@ typeset -i b=1
 for s in ${setA}; do
 	[[ $s < ${setB[b]} ]] && continue
 	while [[ $s > ${setB[b]} ]]; do
-		(( ++b > maxb )) && break
+		((maxb<++b)) && break
 	done
-	(( b > maxb )) && break
+	((maxb<b)) && break
 	[[ $s == ${setB[b]} ]] && { intersection+=( $s ); (( b++ )); }
 done
 print -N $intersection
