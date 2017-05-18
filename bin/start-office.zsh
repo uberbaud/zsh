@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/03/05 06:21:31 tw@csongor.lan]
+# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/05/18 20:56:42 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -37,16 +37,20 @@ shift $(($OPTIND - 1))
 # /options }}}1
 
 typeset -- app=soffice
+typeset -- appbin=$SYSLOCAL/bin/$app
+:needs $appbin xdotool
+#:needs mkdir nohup ln
 
 HOME=$XDG_DATA_HOME/run/$app
-[[ -d $HOME ]] || mkdir /bin/mkdir -p $HOME
+[[ -d $HOME ]] || mkdir -p $HOME
 cd $HOME
-on_error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
+on-error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
 
 [[ -f .Xauthority ]]	|| ln -s /home/tw/.Xauthority || -die 'Bad .Xauthority'
 [[ -d rxfer ]]			|| ln -s /home/tw/rxfer
 [[ -d docs ]]			|| ln -s /home/tw/docs/soffice
 
-/usr/bin/nohup $SYSLOCAL/bin/$app $@ > log 2>&1 &
+xdotool set_desktop ${dskFULLSCREEN:-6}
+nohup $appbin $@ > log 2>&1 &!
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
