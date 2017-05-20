@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/04/21 01:44:18 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/05/20 18:52:17 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -64,17 +64,6 @@ typeset -Ag	WRAP_COMMANDS=(
 	#'zsh'	'reshell zsh'
 )
 
-typeset -ga RESHELL_VARS=( DISPLAY TERM )
-
-function reshell { # give a clean shell experience {{{1
-	local s=$(getent shells $(which -p $1)); shift
-	(($#s))|| die "%B${s:gs/%/%%}%b is not a regognized shell."
-	printf "\e[1;43;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' $s # banner
-	typeset -a setenvs=()
-	for v ($RESHELL_VARS) [[ -n ${(P)v} ]]&& setenvs+=( $v="${(P)v}" )
-	/usr/bin/env -i $setenvs $s -l "$@"
-	printf "\e[1;43;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' $SHELL # banner
-} # }}}1
 function autopage { # pipes cmd to pager if output would scroll the screen. {{{1
 
     typeset -- htxt='-';

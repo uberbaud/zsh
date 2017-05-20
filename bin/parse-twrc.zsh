@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GnctdQbez8ggee3hNz*r: 2017/05/13 01:05:19 tw@csongor.lan]
+# @(#)[:GnctdQbez8ggee3hNz*r: 2017/05/20 20:36:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -39,9 +39,9 @@ shift $(($OPTIND - 1))
 
 [[ -f $incRC ]]||	-die 'Could not find %S$ZDOTDIR%s%B/includes.rc%b.'
 [[ -r $incRC ]]||	-die 'Could not read %S$ZDOTDIR%s%B/includes.rc%b.'
-[[ -d $incDIR ]]||		-die 'Could not find directory %S$ZDOTDIR/include%s.'
-[[ -r $incDIR ]]||		-die 'Can not read directory %S$ZDOTDIR/include%s.'
-[[ -x $incDIR ]]||		-die 'Can not search directory %S$ZDOTDIR/include%s.'
+[[ -d $incDIR ]]||	-die 'Could not find directory %S$ZDOTDIR/include%s.'
+[[ -r $incDIR ]]||	-die 'Can not read directory %S$ZDOTDIR/include%s.'
+[[ -x $incDIR ]]||	-die 'Can not search directory %S$ZDOTDIR/include%s.'
 
 typeset -i incLINENO=0
 
