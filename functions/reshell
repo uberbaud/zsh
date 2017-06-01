@@ -1,4 +1,4 @@
-# @(#)[:%=cM@&J?*$Pf!Do}|sJ5: 2017/05/20 21:18:52 tw@csongor.lan]
+# @(#)[:%=cM@&J?*$Pf!Do}|sJ5: 2017/05/22 03:38:23 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Give a clean shell experience
@@ -7,6 +7,10 @@ emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
 needs =getent readlink /usr/bin/env
+typeset -a RESHELL_VARS=(
+	DISPLAY TERM WINDOWID WINDOWPATH
+	SSH_AGENT_PID SSH_AUTH_SOCK
+	)
 
 local s=$(=getent shells $(which -p $1))
 (($#s))|| die "%B${1:gs/%/%%}%b is not a recognized shell."
@@ -15,12 +19,9 @@ shift
 # we're entering the new shell so let the user know
 printf "\e[1;43;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' $s # banner
 
-typeset -a RESHELL_VARS=( DISPLAY TERM )
 local ENV=${XDG_CONFIG_HOME:-$HOME/.config}/${s##*/}/env
-echo '  : ' $ENV
 [[ -f $ENV ]]&& {
 	ENV=$(readlink -fn $ENV)
-echo '  : ' $ENV
 	if [[ -f $ENV ]]; then
 		RESHELL_VARS+=( ENV )
 	else
@@ -30,7 +31,6 @@ echo '  : ' $ENV
 
 typeset -a setenvs=( )
 for v ($RESHELL_VARS) [[ -n ${(P)v} ]]&& setenvs+=( $v="${(P)v}" )
-printf '  > %s\n' $setenvs
 
 /usr/bin/env -i $setenvs $s -l "$@"
 

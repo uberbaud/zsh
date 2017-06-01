@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:*|=n6Nh+Y~3f?}a5iiM): 2017/04/24 18:20:41 tw@csongor.lan]
+# @(#)[:*|=n6Nh+Y~3f?}a5iiM): 2017/05/23 01:12:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -55,6 +55,8 @@ typeset -a graph_opts=(
 
 typeset -- runPath=$XDG_DATA_HOME/run/weather.zsh
 [[ -d $runPath ]]||
+	mcd -p $runPath
+[[ -d $runPath ]]||
 	-die "No such directory %B\$XDG_DATA_HOME/run/weather.zsh%b."
 cd $runPath ||
 	-die "Could not %Tcd%t to %B\$XDG_DATA_HOME/run/weather.zsh%b."
@@ -70,8 +72,7 @@ integer O=$edgeOffset
 
 typeset -- infoImg='downloading-chart.png'
 [[ -f $infoImg ]]||
-	-die "No such image file %B${infoImg:gs/%/%%}%b."
-
+	-warn "No such image file %B${infoImg:gs/%/%%}%b."
 
 function get-img-w-h { identify -format "w %[fx:w] h %[fx:h]" $1 }
 

@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/02/10 18:40:35 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/06/01 17:29:52 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -43,6 +43,7 @@ for c ( doas ) alias $c="$c "
 
 								compdef -d clear
 alias math='noglob math';		function math { bc <<<"$*"; }
-alias cowmath='noglob cowmath';	function cowmath { bc <<<"$*" | cowsay | lolcat; }
+alias cowmath='noglob cowmath';	function cowmath { cowsay "$* = $(bc <<<"$*")" | lolcat; }
 alias cls='clear ls'
+alias cal='clear cal'
 alias prn="printf '  \e[35m｢\e[39m%s\e[35m｣\e[39m\n'"
