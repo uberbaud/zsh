@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/05/13 00:57:04 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/06/02 17:04:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -34,7 +34,7 @@ typeset -a cal=( ${(f)"$(
 typeset -- nt=$'\n\t'	# multiline calendar events
 typeset -- TODAY='' TOMORROW='' daystamp='' expectday='' ev='' H='' E=''
 typeset -a tuple=() events=()
-typeset -- evblob=$(/usr/bin/calendar)
+typeset -- evblob=$(/usr/bin/calendar -A 1)
 integer evsize=$((COLUMNS-23))	# cal output (20) + both borders + gutter
 
 strftime -s TODAY '%b %d ' $TS
