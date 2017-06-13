@@ -1,5 +1,5 @@
 #!/usr/local/bin/zsh
-# @(#)[:%DIN7z;r!@#QZ%A2a)=H: 2017/06/12 20:01:29 tw@csongor.lan]
+# @(#)[:%DIN7z;r!@#QZ%A2a)=H: 2017/06/13 21:03:39 tw@csongor.lan]
 
 HOME=${(@)${(s.:.)$(getent passwd $(logname))}[6]}
 
@@ -36,7 +36,7 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
-typeset -- dfPath=${XDG_DATA_HOME}/disfree
+typeset -- dfPath=${XDG_DOCUMENTS_DIR}/disFree
 typeset -- fName="$*"
 
 [[ $fName == */* ]]&& { # there's a directory attached, so use that
