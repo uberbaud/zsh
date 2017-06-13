@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/05/13 01:03:14 tw@csongor.lan]
+# @(#)[:X93vVX5NB~Yr|@$29V(n: 2017/06/12 19:09:16 tw@csongor.lan]
 # vim: ts=4 tw=72 noexpandtab
 # TODO: this script calls perl to do the replace, so maybe we should
 #		convert it to perl anyway.
@@ -384,8 +384,8 @@ elif [[ -w RCS/ ]]; then
 		)
 		[[ -n $DESCRIPTION ]] && ci_opts+=( "-t-'$DESCRIPTION'" )
 		# do the check-in
-		echo /usr/bin/ci $ci_opts \"$file_name\"
-		/usr/bin/ci $ci_opts -- $file_name
+		echo /usr/bin/ci $ci_opts \"./$file_name\"
+		/usr/bin/ci $ci_opts ./$file_name
 	fi
 elif ! $RUN_DONT_RCS; then
 	# we didn't say DONT_RCS (-d) but there's no RCS/ writable directory

@@ -1,5 +1,5 @@
 #!/usr/local/bin/zsh
-# @(#)[:%DIN7z;r!@#QZ%A2a)=H: 2017/02/19 01:15:24 tw@csongor.lan]
+# @(#)[:%DIN7z;r!@#QZ%A2a)=H: 2017/06/12 20:01:29 tw@csongor.lan]
 
 HOME=${(@)${(s.:.)$(getent passwd $(logname))}[6]}
 
@@ -36,27 +36,44 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
+typeset -- dfPath=${XDG_DATA_HOME}/disfree
+typeset -- fName="$*"
 
-[[ -n ${1:-} ]]|| {
-	readonly dfPath=$data/disfree
-	[[ -a $dfPath ]]|| -die 'Could %Bnot%b find DF path:' "    %U$dfPath%u"
-	[[ -d $dfPath ]]|| -die "%U$dfPath%u is %Bnot%b a directory."
+[[ $fName == */* ]]&& { # there's a directory attached, so use that
+	dfPath=${fName%/*}
+	fName=${fName##*/}
+}
+
+[[ -a $dfPath ]]|| {
+	mkdir -p $dfPath ||
+		-die 'Could %Bnot%b %Tmkdir%t DF path:' "    %U$dfPath%u"
   }
+[[ -d $dfPath ]]|| -die "%U$dfPath%u is %Bnot%b a directory."
+cd $dfPath || -die 'Could %Bnot%b %Tcd%t to:' "    %U$dfPath%u"
 
-readonly dfVimRc=$XDG_CONFIG_HOME/vim/disfree.rc
+readonly dfVimRc=${XDG_CONFIG_HOME}/vim/disfree.rc
 [[ -a $dfVimRc ]]|| -die "Could not find %B$dfVimRc%b"
 [[ -f $dfVimRc ]]|| -die "%B$dfVimRc%b is not a file."
 
-readonly sakuraHome=$XDG_CONFIG_HOME/sakura
+readonly sakuraHome=${XDG_CONFIG_HOME}/sakura
 [[ -a $sakuraHome ]]|| -die "Could not find %B$sakuraHome%b"
 [[ -d $sakuraHome ]]|| -die "%B$sakuraHome%b is not a directory."
 
 readonly sakuraRc=disFree.conf
-[[ -a $sakuraHome/$sakuraRc ]]|| -die "Could not find %B$sakuraRc%b"
-[[ -f $sakuraHome/$sakuraRc ]]|| -die "%B$sakuraRc%b is not a file."
+[[ -a ${sakuraHome}/$sakuraRc ]]|| -die "Could not find %B$sakuraRc%b"
+[[ -f ${sakuraHome}/$sakuraRc ]]|| -die "%B$sakuraRc%b is not a file."
 
-typeset -- dfCurrent=${1:-$( omenu $dfPath/*(.) )}
-[[ -n $dfCurrent ]]|| { -warn Quitting; return 0; }
+[[ -n $fName ]]|| {
+	fName=$( umenu *(.) '<new>' )
+	[[ -n $fName ]]|| { -warn Quitting; return 0; }
+}
+
+[[ $fName == '<new>' ]]&& {
+	read -r fName'?  New file name: '
+  }
+[[ -n $fName ]]|| { -warn Quitting; return 0; }
+
+[[ $fName == *.* ]]|| fName=$fName.rem
 
 typeset -a term_opts=(
 	--config-file $sakuraRc
@@ -75,11 +92,13 @@ typeset -a term_opts=(
 	#--rows		25
 
 	# vim options
-	-e 'vim' $dfCurrent
+	#-e "v  '$fName' '${fName#.rem}'"
+	-e "v '$fName'"
   )
 
-export VIMINIT="so $dfVimRc"
+[[ -a $fName ]]|| new -n $fName ${fName%.*}
 
-sakura $term_opts 1>$HOME/log/disFree.log 2>&1 &!
+export VIMINIT="so $dfVimRc"
+sakura $term_opts 1>>${HOME}/log/disFree.log 2>&1 &!
 
 # vim: ts=4 filetype=zsh noexpandtab

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/05/13 01:24:07 tw@csongor.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/06/12 19:05:33 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -164,7 +164,7 @@ typeset -- has_rcs=false
 					local mode=$(stat -f %Mp%Lp $v)
 					rcs -q -l $1	# allow a checkin
 					chmod $mode $v	# reset RCS version (rcs mucks it up)
-					ci -q -u $1		# checkin
+					ci -q $1		# checkin
 				  } ./$f_name;											;;
 			*) -die "Bad Programmer. Key is %B${key:gs/%/%%}%b.";		;;
 		esac

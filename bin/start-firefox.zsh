@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:T}fx;N6;{V;iE4tyIG3%: 2017/03/05 06:20:25 tw@csongor.lan]
+# @(#)[:T}fx;N6;{V;iE4tyIG3%: 2017/06/08 09:07:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -37,9 +37,11 @@ shift $(($OPTIND - 1))
 # /options }}}1
 
 typeset -- app=firefox
+typeset -- appbin==$app
+:needs $appbin
 
 HOME=$XDG_DATA_HOME/run/$app
-[[ -d $HOME ]] || mkdir /bin/mkdir -p $HOME
+[[ -d $HOME ]] || mkdir -p $HOME
 cd $HOME
 on_error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
 
@@ -62,6 +64,6 @@ for t in $tempFiles; do
 	argv+=( file://$H )
 done
 
-/usr/bin/nohup $SYSLOCAL/bin/$app $argv > log 2>&1 &
+nohup $appbin $argv > log 2>&1 &!
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

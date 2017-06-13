@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/06/08 09:04:08 tw@csongor.lan]
+# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/06/11 04:48:09 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -11,7 +11,7 @@ typeset -- this_pgm=${0##*/}
 # %S/%s => special  (magenta fg)
 typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t"
-	'  %T-v%t  verbose and %Sspecial%s.'
+	'  Starts or switches to %BIRC%b client.'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
 ); # }}}1
@@ -36,21 +36,22 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
-typeset -- app=soffice
+typeset -- app=hexchat
 typeset -- appbin==$app # =$appbin is the executable path
 :needs $appbin xdotool
 #:needs mkdir nohup ln
 
-HOME=$XDG_DATA_HOME/run/$app
-[[ -d $HOME ]] || mkdir -p $HOME
-cd $HOME
-on-error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
+exec  >> ${HOME}/log/$app 2>&1
 
-[[ -f .Xauthority ]]	|| ln -s /home/tw/.Xauthority || -die 'Bad .Xauthority'
-[[ -d rxfer ]]			|| ln -s /home/tw/rxfer
-[[ -d docs ]]			|| ln -s /home/tw/docs/soffice
+xdotool set_desktop ${dskWIDGIT:-6}
 
-xdotool set_desktop ${dskFULLSCREEN:-6}
-nohup $appbin $@ > log 2>&1 &!
+pgrep -q \^$app\$ && {
+	printf "### ${app:gs/%/%%} is already running.\n\tpid: "
+	pgrep \^$app\$
+	return 0
+  }
+
+printf "### Starting ${app:gs/%/%%}."
+nohup $appbin $@ &!
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

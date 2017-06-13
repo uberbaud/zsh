@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:M7dUbt+qzxTO!nD}9M<g: 2017/05/13 01:25:43 tw@csongor.lan]
+# @(#)[:M7dUbt+qzxTO!nD}9M<g: 2017/06/11 15:07:39 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -262,8 +262,8 @@ else
 	-notify 'Your new %Bpassword%b has been copied to the %Bclipboard%b.'
 	add-id 'pwd' $password
 	if [[ -n $domain ]]; then
-		-notify "It is also saved in %B${pwd_file:gs/%/%%}%b."
-		for ln in $ids; do echo $ln; done | tee -a $pwd_file
+		-notify "It is also saved in %B${pwdFile:gs/%/%%}%b."
+		for ln in $ids; do echo $ln; done | tee -a $pwdFile
 	else
 		for ln in $ids; do echo $ln; done
 	fi

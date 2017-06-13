@@ -1,5 +1,5 @@
-# @(#)[:Y60M?doOzbx-Yy|`$9hZ: 2017/06/03 19:45:11 tw@csongor.lan]
-# vim: tabstop=4 filetype=zsh
+# @(#)[:Y60M?doOzbx-Yy|`$9hZ: 2017/06/04 04:46:15 tw@csongor.lan]
+# vim: tabstop=4 filetype=zsh nowrap
 
 
 # ---------- local::lib Stuff ----------
@@ -20,50 +20,52 @@ PERLBREW_LIB=''
 typeset -x -m "PERLBREW_*"
 
 [[ -f $PERLBREW_ROOT/etc/bashrc ]] && {
-	FINIT: "source $PERLBREW_ROOT/etc/bashrc"
+	FINIT: "source ${PERLBREW_ROOT}/etc/bashrc"
+	# the above sets MANPATH, but we don't need or want it
+	FINIT: 'unset MANPATH'
+	# the alias MUST come after the above bashrc as it uses the
+	# perlbrew () form of the function declaration, which means the 
+	# alias is expanded and the aliased value is used as the function 
+	# name.
+	FINIT: 'alias perlbrew=perlbrew-wrap'
 }
 
-# perlbrew sets MANPATH, which on OpenBSD replaces the standard path, so 
-# unset it.
-unset MANPATH
-# then, use the `man` option -m to append the perlbrew set environment 
-# variable to the path rather than replacing it.
-#===================================
-# perlbrew on OpenBSD apparently puts man pages in /usr/share/man
-# function man { /usr/bin/man -m "$PERLBREW_MANPATH" "$@"; }
-
-function perlbrew { #{{{1
-	: ${PERLBREW_HOME:?} ${PERLBREW_BIN:?}
+function perlbrew-wrap { #{{{1
+	: ${PERLBREW_HOME:?}
 	OLDBREW=$PERLBREW_PERL
-	typeset -a MODLIST= ( $( perlbrew list-modules | egrep -v '^Perl$' ) )
-	local pbrew="$PERLBREW_BIN/rakudobrew"
+	local pbrew="$PERLBREW_HOME/bin/perlbrew"
 	local pbdspl=${${${pbrew/#$XDG_DATA_HOME/\$XDG_DATA_HOME}/#$HOME/\~}:gs/%/%%}
+
 	[[ -f $pbrew ]] || {
 		h1 'Installing perlbrew'
 		local xi=${HOME}/hold/upsys/bin/install-perlbrew.zsh
 		needs $xi
 		$xi
 		[[ -f $pbrew ]]|| die "Did not install %B${pdbspl}%b."
+		unset xi
 	  }
 
 	[[ -f $pbrew ]] || die "%B$pbdspl%b does not exist."
 	[[ -x $pbrew ]] || die "%B$pbdspl%b is not executable."
-	(($#))|| set install --switch stable
+	(($#))|| set -- install --switch stable
 	[[ $1 == install ]]|| {
-		$pbrew $@
+		perlbrew $@
 		return $?
 	  }
 
 	h1 'Updating `perlbrew`' >&2
-	$pbrew self-upgrade
+	perlbrew self-upgrade
+
+	h1 'Getting current module list'
+	typeset -a MODLIST= ( $( perlbrew list-modules | egrep -v '^Perl$' ) )
 
 	h1 "perlbrew $*"
-	$pbrew $@
+	perlbrew $@
 
 	local cpanm=${PERLBREW_HOME}/bin/cpanm
 	[[ -f $cpanm ]]|| {
 		h1 "perlbrew install-cpanm"
-		$pbrew install-cpanm
+		perlbrew install-cpanm
 	}
 
 	[[ $OLDBREW == $PERLBREW_PERL ]]&& return 0
