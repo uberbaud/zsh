@@ -1,4 +1,4 @@
-# @(#)[:aV`l=qOi1z-j7-#72R#J: 2017/05/13 01:28:41 tw@csongor.lan]
+# @(#)[:aV`l=qOi1z-j7-#72R#J: 2017/06/16 20:07:37 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -11,37 +11,26 @@ cd ~/play
 typeset -a possibles=()
 if [[ -d $1 ]]; then
 	possibles=( $1(N) )
-elif [[ $1 =~ '\*' ]]; then
+elif [[ $1 == *\** ]]; then
 	eval 'possibles=( $1(/N) )'
+	(($#possibles))|| return 1	# glob symbols but no match, just quit
 else
 	eval 'possibles=( *$1*(/N) )'
 fi
 
-function new_dir {
-	typeset -- makedir
-	printf '  Make a \e[1mnew\e[22m directory \e[32m%s\e[0m? ' $choice
-	read -rsq makedir
-	echo
-	[[ $makedir == y ]]|| return 0
-	mkdir -p $1
-}
-
 typeset -- choice='-'
 if (($#possibles==1)); then
 	choice=$possibles[1]
-	[[ -d $choice ]] && { cd $possibles; return $?; }
-	new_dir $choice;
+elif (($#possibles)); then
+	choice=$( umenu $possibles )
 else
-	if (($#possibles)); then
-		choice=$( umenu $possibles )
-	else
-		choice=$( umenu $1 *(/N) )
-	fi
-	[[ -n $choice ]]|| return 1
-	[[ -d $choice ]]|| new_dir $choice;
+	choice=$( umenu "<$1>" *(/N) )
+	[[ $choice == "<$1>" ]]&& choice=$1
 fi
 
-[[ -n $choice ]]|| return 0
+[[ -n $choice ]]|| return
+[[ -d $choice ]]|| mkdir -p $choice;
+
 cd $choice
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
