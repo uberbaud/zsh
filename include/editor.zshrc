@@ -1,8 +1,10 @@
-# @(#)[:zXW8*x@nISk=TD=$Tsig: 2017/04/14 02:08:00 tw@csongor.lan]
+# @(#)[:zXW8*x@nISk=TD=$Tsig: 2017/06/20 05:01:03 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-export EDITOR=$SYSLOCAL/bin/vim
-export VIMINIT="so $XDG_CONFIG_HOME/vim/vimrc"
+export EDITOR=${SYSLOCAL}/bin/vim
+export MYVIM=${XDG_CONFIG_HOME}/vim
+export MYVIMRC=${MYVIM}/vimrc
+export VIMINIT="so $MYVIMRC"
 
 # override general view without (re)moving anything so any system 
 # expectations are not mishandled.

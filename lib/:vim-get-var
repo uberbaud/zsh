@@ -1,0 +1,32 @@
+# @(#)[:tuSph@Q4muv0P^$lLQ?s: 2017/06/20 14:58:34 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Output the value of a vim variable
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+:needs vim
+
+typeset -- TMPFILE=$(mktemp)
+
+typeset -a vimopts=(
+	-X				# no X11 terminal window title changes, etc
+	--not-a-term	# don't complain when input isn't a terminal
+	-e				# Ex mode
+	-s				# silent (in Ex mode)
+	-u NONE			# don't use any init RC, don't load pluggins
+	$TMPFILE
+  )
+
+vim $vimopts >/dev/null 2>&1 <<----
+	put =${1}
+	1d
+	write
+	quit!
+	---
+
+cat $TMPFILE
+rm $TMPFILE
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

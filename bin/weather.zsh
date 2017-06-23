@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:*|=n6Nh+Y~3f?}a5iiM): 2017/05/23 01:12:19 tw@csongor.lan]
+# @(#)[:*|=n6Nh+Y~3f?}a5iiM): 2017/06/23 15:53:23 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -48,9 +48,17 @@ typeset -a graph_opts=(
 	unit='0'
 	tinfo='EY5'
 	ahour='0'
-	pcmd='11100011101110000000000000000000000000000000000000000000000'
+   #pcmd='11100011101110000000000000000000000000000000000000000000000'
+   #pcmd='11000111100000000000000000000000000000000000000000000000000'
+    pcmd='11000111101110000000000000000000000000000000000000000000000'
 	lg='en'
-	indu='1'
+	#indu='1'
+	indu='1!1!1!'
+	dd=''
+	bw=''
+	hrspan='48'
+	pqpfhr='6'
+	psnwhr='6'
   )
 
 typeset -- runPath=$XDG_DATA_HOME/run/weather.zsh
