@@ -1,0 +1,110 @@
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/06/25 01:46:40 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Create all of the needed variables and functions.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+needs sqlite3 egrep autopage awk sort sed mv
+
+(($+amuse_home)) || amuse_home=${me}/util/amuse
+(($+amuse_db))   || amuse_db=${amuse_home}/amuse.db
+(($+music_dir))  || music_dir=${HOME}/media/music
+(($+music_list)) || music_list=${music_dir}/togo.lst
+
+test -d $amuse_home || die "No such directory %B${amuse_home:gs/%/%%}%b."
+test -f $amuse_db   || die "No such file %B${amuse_db:gs/%/%%}%b."
+test -d $music_dir  || die "No such directory %B${music_dir:gs/%/%%}%b."
+
+typeset -xm amuse_\* music_\*
+
+function d {
+	typeset -- key="$*"
+	# escape quotes for SQL
+	key="${key//\'/\'\'}"
+
+	sqlite3 $amuse_db <<----
+		SELECT printf( '%s (%s) %d', title, performer, duration / 1000 )
+		  FROM mediainfo
+		 WHERE title LIKE '%${key}%'
+		;
+	---
+}
+
+function t {
+	needs ${amuse_home}/prac/time-played
+	echo
+	echo
+	${amuse_home}/prac/time-played
+}
+
+function p {
+	t=( ${(f)"$(<$music_list)"} )
+	a $t
+  }
+
+function m {
+	typeset -a comments=( ${(f)"$(egrep '^;' $music_list)"} )
+	printf '%s\n' $argv $comments > "$music_list"
+}
+
+function l {
+	typeset -a pgm=(
+		'/^[^;]/'	'{ print $7 "/" $8; }'
+		'/^; =.=/'	'{ print " " substr( $0, 2 ); }'
+	  )
+	autopage awk -F'/' "${pgm[*]}"  "$music_list"
+}
+
+function _LG {
+	declare -a get_groups_awk_pgm=(
+		'/^[^;]/'	'{ bands[$6]; }'
+		'END'		'{ for (b in bands) print b; }'
+	  )
+	awk -F/ "$get_groups_awk_pgm" $music_list | sort
+}
+function lg { autopage _LG; }
+function L { m ${music_dir}/${1}*/*/*; }
+
+function N {
+	typeset -- marker='^; =.=$'
+	typeset -- current="$( awk -F= "/$marker/ { print \$2; }" $music_list )"
+	typeset -i asc=$(( $(printf '%d' \'$current) + 1 ))
+	typeset -- next=$( printf "\x$(printf '%x\n' $asc)" )
+	L $next
+	typeset -- sponge=$(sed -e "s/$marker/; =$next=/" $music_list)
+	cat <<<$sponge  >$music_list
+	lg
+}
+
+function v {
+	vim $music_list
+	lg
+}
+
+function u {
+	unset -f L N _LG d h l lg m p t u v
+	PS1=$prompt
+}
+
+function h {
+	cat <<-'---'
+	  a  => play songs given on command line.
+	  d  => show info for song on command line.
+	  t  => show time info for song playing.
+	  p  => play songs in *togo.lst*.
+	  m  => make a new *togo.lst* from the songs given on command line
+	  L  => make a new *togo.lst* from \${music_dir}/\${1}*/*/*
+	  N  => make a new *togo.lst* using *next* letter in alphabet for `L`
+	  l  => list songs in *togo.lst*
+	  lg => list groups in *togo.lst*
+	  v  => edit *togo.lst*
+	  u  => unset all of the special amuse bits
+	---
+}
+
+PS1='%K{3} amuse %k%s '
+cd $music_dir
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
