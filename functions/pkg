@@ -1,4 +1,4 @@
-# @(#)[:n8qQ21CarxQZ7WP5}uL?: 2017/03/04 18:36:52 tw@csongor.lan]
+# @(#)[:n8qQ21CarxQZ7WP5}uL?: 2017/06/26 01:04:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # Wrap various package facilities
 
@@ -19,10 +19,11 @@ local pkghome="$HOME/.local/pkg-info/v${osv}"
 
 local record=false
 case $cmd in
-	add) 		$AsRoot $bin -i $@; record=true				;;
-	check)		$AsRoot $bin $@;							;;
-	delete)		$AsRoot $bin $@; record=true				;;
-	installed)	$binpath/pkg_info -mz;						;;
+	add) 		$AsRoot $bin -i $@; record=true							;;
+	check)		$AsRoot $bin $@;										;;
+	delete)		$AsRoot $bin $@; record=true							;;
+	install)	die 'Did you mean %F{2}add%f or %F{2}install%Ued%u%f?';	;;
+	installed)	$binpath/pkg_info -mz;									;;
 	web|www)
 		local opener==w3m
 		[[ -n $opener ]]|| opener==open

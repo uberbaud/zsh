@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/06/25 01:56:34 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/06/25 21:25:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -16,6 +16,9 @@ needs sqlite3 egrep autopage awk sort sed mv
 test -d $amuse_home || die "No such directory %B${amuse_home:gs/%/%%}%b."
 test -f $amuse_db   || die "No such file %B${amuse_db:gs/%/%%}%b."
 test -d $music_dir  || die "No such directory %B${music_dir:gs/%/%%}%b."
+test -f $music_list || cat > $music_list <<----
+	; vim: nospell ft=commented
+	---
 
 typeset -xm amuse_\* music_\*
 
@@ -101,6 +104,7 @@ function h {
 	  N  => make a new *togo.lst* using *next* letter in alphabet for `L`
 	  l  => list songs in *togo.lst*
 	  lg => list groups in *togo.lst*
+	  r  => reload/update all of the special amuse bits
 	  v  => edit *togo.lst*
 	  u  => unset all of the special amuse bits
 	---
