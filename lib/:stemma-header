@@ -1,0 +1,19 @@
+# @(#)[:Uv8MgFVxW&g~J,=BzE$U: 2017/06/26 03:30:48 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: marker+stemma+date+user@machine
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+:needs uuid85 date id uname
+
+printf '%s[:%s: %s %s@%s]'				\
+	$'\x40\x28\x23\x29'					\
+	"$(uuid85)"							\
+	"$(date -u +'%Y/%m/%d %H:%M:%S')"	\
+	"$(id -un)"							\
+	"$(uname -n)"
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

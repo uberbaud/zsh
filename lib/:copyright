@@ -1,0 +1,17 @@
+# @(#)[:Yd),q5XEBDJtkECeu~9n: 2017/06/26 04:17:43 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Prints a copyright statement.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+printf 'Copyright © %s by %s%s.\n'				\
+	"${(%)${:-%D{%Y}}}"							\
+	"${ORGANIZATION:-${AUTHOR:-${${${(ps.:.)$(
+		getent passwd $USERNAME)}[5]}%%,*}}}"	\
+	"${EMAIL:+ <${EMAIL}>}"
+
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
