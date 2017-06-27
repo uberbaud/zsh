@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:*|=n6Nh+Y~3f?}a5iiM): 2017/06/23 15:53:23 tw@csongor.lan]
+# @(#)[:*|=n6Nh+Y~3f?}a5iiM): 2017/06/27 20:45:51 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh || exit 86

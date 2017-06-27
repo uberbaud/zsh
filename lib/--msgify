@@ -1,7 +1,33 @@
-# @(#)[:NoAgU5z4RPRX6IO)iQ~$: 2017/03/02 01:14:59 tw@csongor.lan]
+# @(#)[:NoAgU5z4RPRX6IO)iQ~$: 2017/06/27 20:45:11 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
+
+# is stderr `/dev/null`?
+typeset -- STDERR=''
+[[ $(fstat -p $$ | awk '$4==2 {print $9}') == null ]]&& {
+	typeset -- xdlog=$(which Xdialogs)
+	if [[ $xdlog != /* ]]; then
+		exec {STDERR}>&2
+		typeset errpath=${(@)${(s.:.)$(getent passwd $(logname))}[6]}
+		typeset errfile=msg-$$-$(date -u +%s)
+		exec 2>${errpath}/${errfile}
+		print -u 2 $ZSH_ARGZERO
+		date -u +'%Y-%m-%d %H:%M:%S %z' >&2
+		print -u 2 'PWD:' $PWD
+		print -u 2 -- '-------'
+	else
+		(($#<2))&& {
+			$xdlog --backtitle 'BAD PROGRAMMER' --no-cancel --msgbox 'Missing arguments!'
+			return
+		}
+		typeset -- title="${${${1//\%[BbGgIiSsTtUufk]/}//\%%/\%}//\%[FK]\{*\}/}"
+		shift 2 # we aren't using $2 in this path
+		typeset -- msg="${${${${(F)@}//\%[BbGgIiSsTtUufk]/}//\%%/\%}//\%[FK]\{*\}/}"
+		$xdlog --backtitle $title --no-cancel --msgbox $msg 0 0
+		return
+	fi
+}
 
 (( $#<2 )) && { print -rPu 2 '  %F{1}BAD PROGRAMMER%f (--msgify:1)'; exit 254; }
 
@@ -9,7 +35,7 @@ typeset -- prefix_1=$1
 typeset -- prefix_N=$2
 shift 2
 
-[[ $# -eq 0 ]] && set '%F{251}[No message provided.]%f'
+(($#))|| set '%F{251}[No message provided.]%f'
 
 typeset -a Message=( $@ )
 
@@ -29,9 +55,11 @@ Message=( ${Message//\%s/%f} )
 Message=( ${Message//\%G/%F\{251\}} )
 Message=( ${Message//\%g/%f} )
 
-typeset -a CURPOS=()
-[[ -x $LOCALBIN/get-row-col ]]&& CURPOS=( $($LOCALBIN/get-row-col) )
-[[ ${CURPOS[2]:-1} -eq 1 ]]|| echo
+[[ -t 2 ]]&& {
+	typeset -a CURPOS=()
+	[[ -x $LOCALBIN/get-row-col ]]&& CURPOS=( $($LOCALBIN/get-row-col) )
+	[[ ${CURPOS[2]:-1} -eq 1 ]]|| echo
+  }
 
 print -rPu 2 -- $prefix_1 $Message[1]
 shift Message
@@ -40,9 +68,10 @@ while (($#Message)); do
 	shift Message
 done
 
-#for line in $Message; do
-	#printf '%s' $line
-	#print -rPu 2 -- $prefix_N "<$line>"
-#done
+((STDERR))&& {
+	exec 2>&$STDERR
+	exec $STDERR>&-
+}
+
 
 # Copyright (C) 2016 by Tom Davis <tom@greyshirt.net>.
