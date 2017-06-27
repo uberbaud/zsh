@@ -1,4 +1,4 @@
-# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/06/23 18:05:14 tw@csongor.lan]
+# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/06/27 04:30:50 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: handle mail from the "OpenBSD CVS change list" specially.
@@ -9,7 +9,7 @@ setopt local_options local_traps pipe_fail bsd_echo
 typeset -- P=${PAGER:-less}
 needs =show fold awk $P cat
 # arbitray number after which the file list will be represented by "*"
-typeset -i MAXFILES=${OBSD_MAXFILE_LIST:-17}
+typeset -i MAXFILES=${OBSD_MAXFILE_LIST:-7}
 (($MAXFILES))|| warn 'OBSD_MAXFILE_LIST is set to 0, no files listed.'
 
 typeset -a filter=(
