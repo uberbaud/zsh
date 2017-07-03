@@ -1,0 +1,19 @@
+# @(#)[:-ajeccH+6JiMMej$r;R4: 2017/07/02 04:10:14 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Wrapper if stdout is a terminal
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+needs fortune
+
+if [[ -t 1 ]]; then
+	needs cowsay lolcat
+	command fortune "$@" | cowsay | lolcat
+else
+	command fortune "$@"
+fi
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

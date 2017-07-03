@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/06/25 21:25:08 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/03 18:01:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -94,18 +94,21 @@ function u {
 }
 
 function h {
-	cat <<-'---'
+	typeset B=$'\e[1m';		b=$'\e[22m'
+	typeset S=$'\e[34m';	s=$'\e[39m'
+	typeset N=$'\e[0m'
+	cat <<----
 	  a  => play songs given on command line.
 	  d  => show info for song on command line.
 	  t  => show time info for song playing.
-	  p  => play songs in *togo.lst*.
-	  m  => make a new *togo.lst* from the songs given on command line
-	  L  => make a new *togo.lst* from \${music_dir}/\${1}*/*/*
-	  N  => make a new *togo.lst* using *next* letter in alphabet for `L`
-	  l  => list songs in *togo.lst*
-	  lg => list groups in *togo.lst*
-	  r  => reload/update all of the special amuse bits
-	  v  => edit *togo.lst*
+	  p  => play songs in ${B}togo.lst${b}.
+	  m  => make a new ${B}togo.lst${b} from the songs given on command line
+	  L  => make a new ${B}togo.lst${b} from \$music_dir/\${1}*/*/*
+	  N  => make a new ${B}togo.lst${b} using *next* letter in alphabet for ${S}L${s}
+	  l  => list songs in ${B}togo.lst${b}
+	  lg => list groups in ${B}togo.lst${b}
+	  r  => rerun 
+	  v  => edit ${B}togo.lst${b}
 	  u  => unset all of the special amuse bits
 	---
 }
