@@ -11,7 +11,7 @@ typeset -- this_pgm=${0##*/}
 # %S/%s => special  (magenta fg)
 typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t [%T-l%t]"
-	'  List current location urls of all surf2 windows.'
+	'  List current location urls of all class=Surf windows.'
 	'  %T-l%t  lists links under hover rather than location.'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
