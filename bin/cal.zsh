@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/07/03 20:12:33 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/07/04 20:34:44 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -25,12 +25,12 @@ typeset -- this_pgm=${0##*/}
 # %T/%t => terminal (green fg)
 # %S/%s => special  (magenta fg)
 typeset -a Usage=(
-	"%T${this_pgm:gs/%/%%}%t [%T-wy%t] [%T-A%t %Unum%u] [%T-B%t %Unum%u] [[%Uday%u] %Umonth%u] [%Uyear%u]"
+	"%T${this_pgm:gs/%/%%}%t [%T-w%t|%T-y%t] [%T-A%t %Unum%u] [%T-B%t %Unum%u] [[%Uday%u] %Umonth%u] [%Uyear%u]"
 	'  Wraps %Tcal%t and %Tcalendar%t and tweaks their output. Woot!'
 	'  %T-w%t      Display week numbers too.'
 	'  %T-y%t      Display whole year (no %Tcalendar%t output).'
-	'  %T-A%t %Unum%u  Show %Udays%u after.'
-	'  %T-B%t %Unum%u  Show %Udays%u before.'
+	'  %T-A%t %Unum%u  Show events for %Udays%u after.'
+	'  %T-B%t %Unum%u  Show events for %Udays%u before.'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
 ); # }}}1

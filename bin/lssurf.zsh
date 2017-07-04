@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:4jZRQPc{A}C@VB@r=kph: 2017/07/04 02:12:28 tw@csongor.lan]
+# @(#)[:4jZRQPc{A}C@VB@r=kph: 2017/07/04 20:05:00 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -10,9 +10,10 @@ typeset -- this_pgm=${0##*/}
 # %T/%t => terminal (green fg)
 # %S/%s => special  (magenta fg)
 typeset -a Usage=(
-	"%T${this_pgm:gs/%/%%}%t [%T-l%t]"
+	"%T${this_pgm:gs/%/%%}%t [%T-lv%t]"
 	'  List current location urls of all class=Surf windows.'
 	'  %T-l%t  lists links under hover rather than location.'
+	'  %T-v%t  more verbose listing.'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
 ); # }}}1
@@ -21,9 +22,11 @@ function bad_programmer {	# {{{2
 	-die '%BProgrammer error%b:' "  No %Tgetopts%t action defined for %T-$1%t."
   };	# }}}2
 integer hover=0
-while getopts ':lh' Option; do
+typeset -- show=show-regular
+while getopts ':lvh' Option; do
 	case $Option in
 		l)	hover=1;											;;
+		v)	show=show-verbose;									;;
 		h)	-usage $Usage;										;;
 		\?)	-die "Invalid option: '-$OPTARG'.";					;;
 		\:)	-die "Option '-$OPTARG' requires an argument.";		;;
@@ -47,6 +50,15 @@ typeset -a query=(
 typeset -a xids=( $( xdotool search --class '^Surf$' ) )
 #(($#xids)|| -die 'Did not find any windows with %Bclass=%SSurf%s%b.'
 
+typeset -- fmtVerbose='%-11s %-11s %s\n'
+function show-regular-header { }
+function show-regular { printf '%s\n' $2; }
+function show-verbose-header { printf $fmtVerbose WINID PID URL; }
+function show-verbose {
+	printf $fmtVerbose $1 ${(@)$(xprop -id $1 _NET_WM_PID)[3]} $2;
+}
+
+${show}-header
 typeset -- url
 for id in $xids; do
 	url=${${"$(xprop -id $id $query[hover+1])"%\"}#*\"}
@@ -54,9 +66,9 @@ for id in $xids; do
 	((hover))&& url=${url#* | }
 
 	if [[ $url == http* || $url == ftp:* ]]; then
-		printf '%s\n' $url
+		$show $id $url
 	elif [[ $url == file:* ]]; then
-		printf '%s\n' ${${${url#file://}/#sPWD/.}/#$HOME/\~}
+		$show $id ${${${url#file://}/#sPWD/.}/#$HOME/\~}
 	fi
 done
 

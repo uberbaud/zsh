@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/06/27 04:10:37 tw@csongor.lan]
+# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/07/04 08:42:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -92,6 +92,8 @@ HOME=$XDG_DATA_HOME/run/$app
 [[ -d $HOME ]] || mkdir -p $HOME
 cd $HOME
 on-error -die "Could not %Tcd%t to %B${HOME:gs/%/%%}%b."
+[[ -f ${HOME}/log ]]&& mv ${HOME}/log{,F}
+[[ -d ${HOME}/log ]]|| mkdir -p ${HOME}/log
 
 [[ -f .Xauthority ]]			|| ln -s ${REALHOME}/.Xauthority || -die 'Bad .Xauthority'
 [[ -d rxfer ]]					|| ln -s ${REALHOME}/rxfer
@@ -188,6 +190,7 @@ function optcmd-environment { # {{{1
 
 ((desktop))&&
 	xdotool set_desktop $desktop
-nohup $appbin $prefixArgs $@ $suffixArgs > log 2>&1 &!
+nohup $appbin $prefixArgs $@ $suffixArgs > log/$$ 2>&1 &!
+mv log/$$ log/$!
 
 # Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

@@ -1,0 +1,29 @@
+# @(#)[:0^k}gBSo!9U5mn95Lfkk: 2017/07/04 22:03:49 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: List include files matching regex, plus list the match.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+typeset -- E=$'\e[0;1m' N=$'\e[0m' B=$'\e[0;38;5;12m' G=$'\e[0;38;5;146m'
+typeset -a awkpgm=(
+	'function h(){'
+			'if (H==1)  {'
+				'printf('
+					'"'$G'### $Z/include/'$E'%s'$G'.zshrc'$G'\n",'
+					'f'
+				');'
+				'H=0;'
+			'}'
+		'}'
+	'/^#===/'
+		'{f=$2;H=1}'
+	'/'"$*"'/'
+		'{ h(); printf "  '$B'%s'$N'\n", $0; }'
+  )
+
+	awk "${(j::)awkpgm}" ${Z}/.include
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
