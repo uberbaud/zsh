@@ -10,11 +10,13 @@ needs sqlite3 egrep autopage awk sort sed mv
 
 (($+amuse_home)) || amuse_home=${me}/util/amuse
 (($+amuse_db))   || amuse_db=${amuse_home}/amuse.db
+(($+amuse_bin))  || amuse_bin=${amuse_home}/amuse-master.zsh
 (($+music_dir))  || music_dir=${HOME}/media/music
 (($+music_list)) || music_list=${music_dir}/togo.lst
 
 test -d $amuse_home || die "No such directory %B${amuse_home:gs/%/%%}%b."
 test -f $amuse_db   || die "No such file %B${amuse_db:gs/%/%%}%b."
+test -f $amuse_bin  || die "No such file %B${amuse_bin:gs/%/%%}%b."
 test -d $music_dir  || die "No such directory %B${music_dir:gs/%/%%}%b."
 test -f $music_list || cat > $music_list <<----
 	; vim: nospell ft=commented
@@ -42,15 +44,40 @@ function t {
 	${amuse_home}/prac/time-played
 }
 
-function p {
-	t=( ${(f)"$(<$music_list)"} )
-	a $t
+function \\dequeue {
+	local reply
+	local c=()
+	local t=( ${(f)"$(<$music_list)"} )
+	local s=$t[1]
+	while [[ $s == ';'* ]]; do
+		c+=($s)
+		shift t
+		s=$t[1]
+	done
+	[[ -n $s ]]||
+		{ print -u 2 'Queue is empty'; { : ${:?DIE} } 2>/dev/null; }
+
+	[[ $s == /* ]]|| s=${XDG_MUSIC_DIR}/$s
+	printf '%s' $s
+	printf '%s\n' ${(F)c} ${(F)t[2,-1]} >$music_list
   }
 
-function m {
-	typeset -a comments=( ${(f)"$(egrep '^;' $music_list)"} )
-	printf '%s\n' $argv $comments > "$music_list"
-}
+function \\queue {
+	local reply
+	-:music-in-fs $@
+	printf '%s\n' "${(F)reply}" >>$music_list
+  }
+
+function p {
+	needs $amuse_bin
+	local s="$(\\dequeue)"
+	while [[ -n $s ]]; do
+		$amuse_bin $s
+		s="$(\\dequeue)"
+	done
+  }
+
+function + { \\queue $@; }
 
 function l {
 	typeset -a pgm=(
@@ -60,15 +87,15 @@ function l {
 	autopage awk -F'/' "${pgm[*]}"  "$music_list"
 }
 
-function _LG {
+function \\LG {
 	declare -a get_groups_awk_pgm=(
 		'/^[^;]/'	'{ bands[$6]; }'
 		'END'		'{ for (b in bands) print b; }'
 	  )
 	awk -F/ "$get_groups_awk_pgm" $music_list | sort
 }
-function lg { autopage _LG; }
-function L { m ${music_dir}/${1}*/*/*; }
+function lg { autopage \\LG; }
+function L { \\queue ${music_dir}/${1}*/*/*; }
 
 function N {
 	typeset -- marker='^; =.=$'
@@ -89,7 +116,8 @@ function v {
 function u {
 	warn 'Removing %F{4}amuse%f functions.'
 	set_prompt
-	unset -f L N _LG d h l lg m p t u v
+	unset -f L N \\LG d h l lg p t u v \\queue \\dequeue amuse +
+	function amuse { builtin autoload -XUz; }
 	cd $PRE_AMUSE_PWD
 }
 
@@ -99,10 +127,11 @@ function h {
 	typeset N=$'\e[0m'
 	cat <<----
 	  a  => play songs given on command line.
+	  +  => add a songs from the paths given on command line ${B}togo.lst${b}
 	  d  => show info for song on command line.
 	  t  => show time info for song playing.
 	  p  => play songs in ${B}togo.lst${b}.
-	  m  => make a new ${B}togo.lst${b} from the songs given on command line
+	  l  => list songs in ${B}togo.lst${b}
 	  L  => make a new ${B}togo.lst${b} from \$music_dir/\${1}*/*/*
 	  N  => make a new ${B}togo.lst${b} using *next* letter in alphabet for ${S}L${s}
 	  l  => list songs in ${B}togo.lst${b}

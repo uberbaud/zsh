@@ -1,0 +1,28 @@
+# @(#)[:!zA4EpG*erMK<N_S7q?!: 2017/07/05 19:59:15 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Look for music files in and below one or more paths.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+typeset -a music=(flac m4a m4v mp3 mp4 wav ogg)
+typeset -ga reply=()
+typeset -- x='' X=''
+while (($#)); do
+	x=$1; shift
+	[[ -n $x ]]|| continue
+	# does it exist?
+	[[ -e $x ]] || { warn "No fso %B${1:gs/%/%%}%b."; continue; }
+	# is it a directory • the (N) sets the NULL_GLOB for that match
+	[[ -d $x ]] && { set $@ $x/*(N); continue; }
+	# is it music
+	X=${x##*.}
+	((music[(I)$X])) || continue
+	# keep the music
+	x="${$(readlink -nf $x)#$XDG_MUSIC_DIR/}"
+	reply+=($x)
+done
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

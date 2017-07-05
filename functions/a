@@ -1,38 +1,14 @@
-# @(#)[:NcEh=XJ@!&0biZQO5&w!: 2017/03/05 05:24:47 tw@csongor.lan]
+# @(#)[:NcEh=XJ@!&0biZQO5&w!: 2017/07/05 20:59:25 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # play some music files using amuse
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-typeset -- amuse=$me/util/amuse/amuse-master.zsh $P
+typeset -- amuse=$me/util/amuse/amuse-master.zsh
 needs $amuse
 
-typeset -a music=(flac m4a m4v mp3 mp4 wav)
-typeset -a P=()
-typeset -- x='' X=''
-while (($#)); do
-	x=$1
-	shift
-	# does it exist?
-	[[ -e $x ]] || {
-		warn "No fso %B${1:gs/%/%%}%b."
-		continue
-	}
-	# is it a directory
-	[[ -d $x ]] && {
-		# the (N) sets the NULL_GLOB for that match
-		set $@ $x/*(N)
-		continue
-	}
-	# is it music
-	X=${x##*.}
-	((music[(I)$X])) || continue
-	# keep the music
-	P+=($x)
-done
-
-# play the music
-$amuse $P
+-:music-in-fs $@
+$amuse $reply
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
