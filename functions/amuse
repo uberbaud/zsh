@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/03 18:01:16 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/05 21:15:58 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -64,7 +64,7 @@ function \\dequeue {
 
 function \\queue {
 	local reply
-	-:music-in-fs $@
+	:-:music-in-fs $@
 	printf '%s\n' "${(F)reply}" >>$music_list
   }
 
@@ -81,10 +81,19 @@ function + { \\queue $@; }
 
 function l {
 	typeset -a pgm=(
-		'/^[^;]/'	'{ print $7 "/" $8; }'
-		'/^; =.=/'	'{ print " " substr( $0, 2 ); }'
+		'/^; =.+=/'	'{ print " " substr( $0, 2 ); }'
+		'/^;/' '{ next; }'
+		'NF==3'
+			'{'
+				'if ($1 != group) { group=$1; album=''; print "  "group; }'
+				'if ($2 != album) { album=$2; print "      "album; }'
+				'sub( "\.[^.]+$", "", $3 );'
+				'print "          "$3;'
+				'next;'
+			'}'
+
 	  )
-	autopage awk -F'/' "${pgm[*]}"  "$music_list"
+	autopage awk -F'/' "$pgm"  "$music_list"
 }
 
 function \\LG {
