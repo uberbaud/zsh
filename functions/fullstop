@@ -1,0 +1,13 @@
+# @(#)[:;TRx*{b}eW^%_X|++D@M: 2017/07/07 16:59:49 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Like die but less dramatic.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+print -ru 2 "  $*"
+{ : ${:?This always fails} } 2>/dev/null
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

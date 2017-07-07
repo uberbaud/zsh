@@ -1,11 +1,11 @@
-# @(#)[:o|-jlwWpwN)v%6h{E#h3: 2017/07/07 18:22:31 tw@csongor.lan]
+# @(#)[:o|-jlwWpwN)v%6h{E#h3: 2017/07/07 18:22:41 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
-# SYNOPSIS: Pause the amuse player function.
+# SYNOPSIS: Skip the rest of the song.
 
 :-:amuse-env
 [[ -n $amusePlayerId ]]|| die '%B$amusePlayerId%b is not set.'
 
-command pkill -SIGINT -f $amusePlayerId
+command pkill -SIGUSR1 -f $amusePlayerId
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:7,4Vj{r{)EKZYZ+!Qi@+: 2017/05/13 01:29:51 tw@csongor.lan]
+# @(#)[:7,4Vj{r{)EKZYZ+!Qi@+: 2017/07/07 17:04:50 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -12,7 +12,7 @@ emulate -L zsh
 # in the function.
 
 # VALIDATE ARGS
-[[ $# -eq 0 ]] && die 'Usage `show %Uvarname%u`'
+[[ $# -eq 0 ]] && die 'Usage `showvar %Uvarname%u`'
 [[ $# -gt 1 ]] && die 'Too many parameters, one (1) expected.'
 [[ $1 == <-> || $1 == 'argv' || $1 == \@ || $1 == \* ]]&& {
 	die '%BScript argv%b is not available within a function.'

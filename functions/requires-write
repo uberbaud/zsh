@@ -1,0 +1,14 @@
+# @(#)[:q{@K~8K3N7h%h_4^9iaR: 2017/07/07 18:00:36 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: If a file is not writable (by touch), DIE.
+
+emulate -L zsh
+
+for f; do
+	touch ${(P)f:?unset or not a variable} >/dev/null ||
+		die "%B${f:gs/%/%%}%b ($f) is not writable."
+done
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

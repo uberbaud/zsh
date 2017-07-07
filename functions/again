@@ -1,0 +1,18 @@
+# @(#)[:AWjmq(|,~%^gY-TXFo(+: 2017/07/07 18:11:05 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Repeat the current song (aMuse player)
+
+emulate -L zsh
+
+needs :-:amuse-env pgrep fullstop die
+
+:-:amuse-env
+pgrep -qf $amusePlayerId ||
+	fullstop "$amusePlayerId is not playing."
+
+echo 'once' >$repeat ||
+	die "Could not set %B${amusePlayerId:gs/%/%%}%b to repeat."
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
