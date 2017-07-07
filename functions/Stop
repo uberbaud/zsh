@@ -1,0 +1,23 @@
+# @(#)[:P)8j-Ie^06UN5<kxpkq!: 2017/07/07 04:42:45 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: stops the amuse player function.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+pause
+
+# turn a PAUSE into a STOP
+(($+amuse_run))		|| local amuse_run=${XDG_DATA_HOME}/run/amuse
+(($+paused_at))		|| local paused_at=${amuse_run}/paused-at
+(($+paused_song))	|| local paused_song=${amuse_run}/paused-song
+
+test -d $amuse_run  || die "No such directory %B${amuse_run:gs/%/%%}%b."
+
+: >$paused_at
+: >$paused_song
+
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

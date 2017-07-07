@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-## @(#)[:Kz2XX!aYV8(8@VXU*wAz: 2017/01/12 00:51:59 tw@csongor.lan]
+## @(#)[:Kz2XX!aYV8(8@VXU*wAz: 2017/07/07 04:33:19 tw@csongor.lan]
 # vim: tabstop=4
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -35,17 +35,7 @@ typeset -i xlock_pid=$!
 [[ -x /usr/bin/ssh-add ]] && /usr/bin/ssh-add '-D'
 
 #================================================= Stop the music ======
-typeset -- was_playing=false
-typeset -i ffmpeg_pid
-#ffmpeg_pid=$(pgrep ffmpeg)
-#if [[ $? -eq 0 ]]; then
-	#if [[ $(ps -ostat= -p $ffmpeg_pid) == T* ]]; then
-		#: # ffmpeg is already stopped
-	#else
-		#$USRBIN/amuse pause
-		#was_playing=true
-	#fi
-#fi
+pkill -SIGINT -f '^zsh: aMuse player'
 
 #======================================================== Suspend ======
 # -Z hibernation -> disk
@@ -62,7 +52,7 @@ typeset -i ffmpeg_pid
 #===================== Pause here until we've unlocked the screen ======
 wait $xlock_pid
 
-$was_playing && $USRBIN/amuse play
+#$was_playing && $USRBIN/amuse play
 $XDG_DATA_HOME/bin/set_bg_per_battery.sh >> $HOME/log/battery-monitor
 
 :log timesheet xlock end || -warn $REPLY

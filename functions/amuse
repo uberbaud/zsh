@@ -1,40 +1,132 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/05 21:15:58 tw@csongor.lan]
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/07 05:04:55 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
+# TODO: start/stop(pause)/skip/quit/finish-song-then-quit
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-needs sqlite3 egrep autopage awk sort sed mv
+needs aucat audioctl autopage awk ffmpeg mediainfo sed sqlite3
+needs ${LOCALBIN}/watch-file
 
-(($+amuse_home)) || amuse_home=${me}/util/amuse
-(($+amuse_db))   || amuse_db=${amuse_home}/amuse.db
-(($+amuse_bin))  || amuse_bin=${amuse_home}/amuse-master.zsh
-(($+music_dir))  || music_dir=${HOME}/media/music
-(($+music_list)) || music_list=${music_dir}/togo.lst
+(($+amuse_home))	|| amuse_home=${me}/util/amuse
+(($+amuse_db))		|| amuse_db=${amuse_home}/amuse.db
+(($+amuse_bin))		|| amuse_bin=${amuse_home}/amuse-master.zsh
+(($+amuse_run))		|| amuse_run=${XDG_DATA_HOME}/run/amuse
+(($+now_playing))	|| now_playing=${amuse_run}/playing
+(($+paused_at))		|| paused_at=${amuse_run}/paused-at
+(($+paused_song))	|| paused_song=${amuse_run}/paused-song
+(($+quiet_for))		|| quiet_for=${amuse_run}/quiet-for
+(($+amuse_pid))		|| amuse_pid=${amuse_run}/amuse-pid
+(($+fflog))			|| fflog=${amuse_run}/fflog
+(($+music_dir))		|| music_dir=${HOME}/media/music
+(($+music_list))	|| music_list=${music_dir}/togo.lst
 
 test -d $amuse_home || die "No such directory %B${amuse_home:gs/%/%%}%b."
 test -f $amuse_db   || die "No such file %B${amuse_db:gs/%/%%}%b."
 test -f $amuse_bin  || die "No such file %B${amuse_bin:gs/%/%%}%b."
+test -d $amuse_run  || die "No such directory %B${amuse_run:gs/%/%%}%b."
+touch ${now_playing%/*} 2>/dev/null ||
+					   die "%B${now_playing:gs/%/%%}%b is not writable."
+touch $paused_at	|| die "%B${paused_at:gs/%/%%}%b is not writable."
+touch $paused_song	|| die "%B${paused_song:gs/%/%%}%b is not writable."
+touch $quiet_for	|| die "%B${quiet_for:gs/%/%%}%b is not writable."
+touch $amuse_pid	|| die "%B${amuse_pid:gs/%/%%}%b is not writable."
+touch $fflog		|| die "%B${fflog:gs/%/%%}%b is not writable."
 test -d $music_dir  || die "No such directory %B${music_dir:gs/%/%%}%b."
-test -f $music_list || cat > $music_list <<----
-	; vim: nospell ft=commented
+test -s $music_list || cat > $music_list <<----
+	; vim: ft=lst nospell nowrap fo-=a tw=0
 	---
 
 typeset -xm amuse_\* music_\*
 
-function d {
-	typeset -- key="$*"
-	# escape quotes for SQL
-	key="${key//\'/\'\'}"
+function fullstop { print -ru 2 "  $*"; { : ${:?DIE} } 2>/dev/null; }
+function msecToHMMSS {
+	integer msecs=$(($1%1000)) seconds=$(($1/1000)) minutes=0 hours=0
+	((minutes=seconds/60,seconds%=60))
+	((hours=minutes/60,minutes%=60))
+	if ((hours)); then
+		printf '%d:%0.2d:%0.2d.%0.3d' $hours $minutes $seconds $msecs
+	else
+		printf '%d:%0.2d.%0.3d' $minutes $seconds $msecs
+	fi
+}
 
-	sqlite3 $amuse_db <<----
-		SELECT printf( '%s (%s) %d', title, performer, duration / 1000 )
-		  FROM mediainfo
-		 WHERE title LIKE '%${key}%'
-		;
-	---
+function a1 {
+	setopt local_options local_traps
+
+	local song=$1 atTime=${2:-0.000}
+	[[ $song == /* ]]|| song=${XDG_MUSIC_DIR}/$song
+	[[ -r $song ]]|| fullstop "Can't play song."
+
+	print -Pu 2 '  %F{4}>>>%f '${${${song#$XDG_MUSIC_DIR/}%.*}:gs/%/%%}
+	# clean up last times mess
+	: >$paused_song
+	: >$paused_at
+	# set up device (if possible)
+	local minf=( $(mediainfo --Output='Audio;%SamplingRate% %Channels%') )
+	audioctl -q rate=${minf[1]:41000} play.channels=${minf[2]:-2} 2>/dev/null
+	# get actual device settings and use those for best efficiency
+	local cfg=( $(audioctl -n rate play.channels encoding) )
+	local ffopts=( -y -loglevel 'error' -ar $cfg[1] -ac $cfg[2] -f $cfg[3] - )
+	local auopts=( -f snd/0 -r $cfg[1] -e $cfg[3] -h raw -i - )
+
+	echo $song > $now_playing
+	( # workaround to keep zsh from printing job information to tty
+		jobs -Z 'aMuse player'
+		integer audio_pipe_pid=0
+		function TRAPINT TRAPQUIT TRAPHUP TRAPABRT TRAPKILL {
+			float -F 3 bytes secs
+			float rate=$cfg[1] chans=$cfg[2] bps=${${cfg[3]#[fsu]}%[bl]e}
+			audioctl -n play.bytes | read bytes
+			cat $now_playing >$paused_song
+			((secs=bytes/(rate*chans*(bps/8.0))))
+			echo $secs >$paused_at
+			kill $audio_pipe_pid
+		}
+		ffmpeg -ss $atTime -i $song $ffopts 2>>$fflog |
+			aucat $auopts &
+		audio_pipe_pid=$! # name needed for the trap function
+		wait $audio_pipe_pid
+		: >$amuse_pid
+		: >$now_playing
+	)&!
+	echo $! >$amuse_pid
+	${LOCALBIN}/watch-file $amuse_pid
+	: > $now_playing
+}
+
+function d {
+	if (($#)); then
+		typeset -- key="$*" NL=$'\0'
+		# escape quotes for SQL
+		key="${key//\'/\'\'}"
+
+		sqlite3 $amuse_db <<---- | read -r -d$'\x00'
+			SELECT replace(replace( performer,   '\','\\'),'${NL}','\n'),
+				   replace(replace( album,       '\','\\'),'${NL}','\n'),
+				   replace(replace( title,       '\','\\'),'${NL}','\n'),
+				                    duration
+		  	FROM mediainfo
+		 	WHERE title LIKE '%${key}%'
+			;
+		---
+		local i=( "${(f)RESULT}" );
+
+	else
+		local f="$(<$now_playing)"
+		[[ -s $f ]]|| fullstop 'No current song.'
+		local o=( Performer Album Title Duration )
+		local i=(
+			"$(mediainfo --Output='General;%'${(j:%|%:)o}'%' $f)"
+		  )
+	fi
+	local s=()
+	for I in $i; do
+		s=( "${(@s.|.)I}" )
+		printf '  %s (%s) %s\n' ${s[3]:-\?} ${s[1]:-\?} $(msecToHMMSS $s[4])
+	done
 }
 
 function t {
@@ -45,7 +137,6 @@ function t {
 }
 
 function \\dequeue {
-	local reply
 	local c=()
 	local t=( ${(f)"$(<$music_list)"} )
 	local s=$t[1]
@@ -54,38 +145,55 @@ function \\dequeue {
 		shift t
 		s=$t[1]
 	done
-	[[ -n $s ]]||
-		{ print -u 2 'Queue is empty'; { : ${:?DIE} } 2>/dev/null; }
+	[[ -n $s ]]|| fullstop 'Queue is empty'
 
 	[[ $s == /* ]]|| s=${XDG_MUSIC_DIR}/$s
 	printf '%s' $s
 	printf '%s\n' ${(F)c} ${(F)t[2,-1]} >$music_list
   }
 
-function \\queue {
+function + \\queue {
 	local reply
 	:-:music-in-fs $@
-	printf '%s\n' "${(F)reply}" >>$music_list
+	printf '%s\n' ${(F)reply} >>$music_list
   }
 
+function ++ \\push {
+	local reply
+	:-:music-in-fs $@
+	local c=()
+	local t=( ${(f)"$(<$music_list)"} )
+	local s=$t[1]
+	while [[ $s == ';'* ]]; do
+		c+=($s)
+		shift t
+		s=$t[1]
+	done
+	[[ -n $s ]]&& t=( $s $t )
+	printf '%s\n' ${(F)c} ${(F)reply} ${(F)t[2,-1]} >$music_list
+}
+
 function p {
-	needs $amuse_bin
+	# resume if there is anything to resume
+	[[ -s $paused_at ]]&& a1 "$(<$paused_song)" $(<$paused_at)
+
+	# then play the list!
 	local s="$(\\dequeue)"
 	while [[ -n $s ]]; do
-		$amuse_bin $s
+		a1 $s
+		[[ -s $paused_at ]]&& return # stop if we asked to stop
 		s="$(\\dequeue)"
 	done
   }
 
-function + { \\queue $@; }
-
 function l {
 	typeset -a pgm=(
-		'/^; =.+=/'	'{ print " " substr( $0, 2 ); }'
+		'/^; =[^=]+=/'
+			'{ sub("^[^=]*=", ""); sub("=.*$",""); print "#", $0; }'
 		'/^;/' '{ next; }'
 		'NF==3'
 			'{'
-				'if ($1 != group) { group=$1; album=''; print "  "group; }'
+				'if ($1 != group) { group=$1; album=""; print "  "group; }'
 				'if ($2 != album) { album=$2; print "      "album; }'
 				'sub( "\.[^.]+$", "", $3 );'
 				'print "          "$3;'
@@ -98,13 +206,13 @@ function l {
 
 function \\LG {
 	declare -a get_groups_awk_pgm=(
-		'/^[^;]/'	'{ bands[$6]; }'
-		'END'		'{ for (b in bands) print b; }'
+		'/^[^;]/'	'{ bands[$1]; }'
+		'END'		'{ for (b in bands) print "  "b; }'
 	  )
-	awk -F/ "$get_groups_awk_pgm" $music_list | sort
+	awk -F/ "$get_groups_awk_pgm" $music_list
 }
 function lg { autopage \\LG; }
-function L { \\queue ${music_dir}/${1}*/*/*; }
+function L { local s; for s; do \\queue ${music_dir}/${s}*; done; }
 
 function N {
 	typeset -- marker='^; =.=$'
@@ -122,37 +230,41 @@ function v {
 	lg
 }
 
-function u {
-	warn 'Removing %F{4}amuse%f functions.'
-	set_prompt
-	unset -f L N \\LG d h l lg p t u v \\queue \\dequeue amuse +
-	function amuse { builtin autoload -XUz; }
-	cd $PRE_AMUSE_PWD
-}
-
 function h {
 	typeset B=$'\e[1m';		b=$'\e[22m'
 	typeset S=$'\e[34m';	s=$'\e[39m'
 	typeset N=$'\e[0m'
 	cat <<----
 	  a  => play songs given on command line.
-	  +  => add a songs from the paths given on command line ${B}togo.lst${b}
+	  +  => append songs from the paths given on command line ${B}togo.lst${b}
+	  ++ => like ${B}+${b}, except prepend.
 	  d  => show info for song on command line.
-	  t  => show time info for song playing.
+	  t  => show time played for song playing.
 	  p  => play songs in ${B}togo.lst${b}.
 	  l  => list songs in ${B}togo.lst${b}
 	  L  => make a new ${B}togo.lst${b} from \$music_dir/\${1}*/*/*
 	  N  => make a new ${B}togo.lst${b} using *next* letter in alphabet for ${S}L${s}
 	  l  => list songs in ${B}togo.lst${b}
 	  lg => list groups in ${B}togo.lst${b}
-	  r  => rerun 
+	  r  => renew ${B}amuse${b} functions from \$Z/functions/amuse
 	  v  => edit ${B}togo.lst${b}
 	  u  => unset all of the special amuse bits
 	---
 }
 
+function r { . $Z/functions/amuse; }
+function u {
+	warn 'Removing %F{4}amuse%f functions.'
+	set_prompt
+	unset -f + ++ L N \\LG \\dequeue \\push \\queue d h l lg p t u v
+	unset -f amuse fullstop msecToHMMSS
+	function amuse { builtin autoload -XUz; }
+	cd $PRE_AMUSE_PWD
+}
+
+
 PS1='%K{3}%F{7}%B amuse %b%f%k%s '
-PRE_AMUSE_PWD=$PWD
+PRE_AMUSE_PWD=${PRE_AMUSE_PWD:-$PWD}
 cd $music_dir
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

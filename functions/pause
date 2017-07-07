@@ -1,0 +1,9 @@
+# @(#)[:o|-jlwWpwN)v%6h{E#h3: 2017/07/07 04:33:32 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Pause the amuse player function.
+
+pkill -SIGINT -f '^zsh: aMuse player'
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
