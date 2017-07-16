@@ -1,4 +1,4 @@
-# @(#)[:!zA4EpG*erMK<N_S7q?!: 2017/07/07 04:56:55 tw@csongor.lan]
+# @(#)[:!zA4EpG*erMK<N_S7q?!: 2017/07/16 15:41:14 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Look for music files in and below one or more paths.
@@ -6,7 +6,10 @@
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo numeric_glob_sort
 
-typeset -a music=(flac m4a m4v mp3 mp4 wav ogg)
+typeset -a music=(
+	aac acm aif aiff flac m4a m4v mp3 mp4 mpa ogg opus spx wav
+	# mid midi snd
+  )
 typeset -ga reply=()
 typeset -- x='' X=''
 while (($#)); do

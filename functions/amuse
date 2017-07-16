@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/08 02:51:18 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/16 15:58:32 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -278,6 +278,6 @@ function u {
 
 PS1='%K{3}%F{7}%B amuse %b%f%k%s '
 PRE_AMUSE_PWD=${PRE_AMUSE_PWD:-$PWD}
-cd $music_dir
+[[ ${music_dir}/ == $PWD/* ]]|| cd $music_dir
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/05/07 02:00:43 tw@csongor.lan]
+# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/07/15 22:54:10 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -41,6 +41,12 @@ unset -f bad_programmer
 shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
+
+i-can-haz-inet || case $? in
+		1)	-die 'no internet';									;;
+		2)	-die 'man in the middle';							;;
+		*)	-die 'Unknown %Bi-can-haz-inet%b result: %B'$?'%b';	;;
+	esac
 
 typeset -- accToFetch=${XDG_CONFIG_HOME}/fetchmail/accTofetch.zsh
 :needs $accToFetch fetchmail inc pick scan mark
