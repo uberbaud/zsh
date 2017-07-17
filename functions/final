@@ -1,0 +1,11 @@
+# @(#)[:o|-jlwWpwN)v%6h{E#h3: 2017/07/17 22:24:44 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Skip the rest of the song.
+
+:-:amuse-env
+[[ -n $amusePlayerId ]]|| die '%B$amusePlayerId%b is not set.'
+
+command pkill -SIGUSR2 -f $amusePlayerId
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
