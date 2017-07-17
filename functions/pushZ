@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:J=U-vn#C+xt68#iB`gGG: 2016/12/02 03:34:33 tw@csongor.lan]
+# @(#)[:J=U-vn#C+xt68#iB`gGG: 2017/07/17 22:33:18 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -9,10 +9,12 @@ emulate -L zsh
 	exit 0
   }
 
+i-can-haz-inet || die 'No internet'
+
 typeset -- OPWD=$PWD
 
-[[ -n ${ZDOTDIR:-} ]]|| -die '%S$ZDOTDIR%s is not defined.'
-cd $ZDOTDIR|| -die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
+[[ -n ${ZDOTDIR:-} ]]|| die '%S$ZDOTDIR%s is not defined.'
+cd $ZDOTDIR|| die 'Could not %Tcd%t to %S$ZDOTDIR%s.'
 
 function  Log { print -Pu 2 " %F{4}>>>%f" $@; }
 
