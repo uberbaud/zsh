@@ -1,9 +1,11 @@
-# @(#)[:rkWZN0*sxn9FJi=!1stg: 2016/12/02 03:52:29 tw@csongor.lan]
+# @(#)[:rkWZN0*sxn9FJi=!1stg: 2017/07/17 22:34:27 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 # wrapper for reZ.zsh
 
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
+
+i-can-haz-inet || die 'No internet.'
 
 $ZDOTDIR/bin/reZ.zsh
 . $ZDOTDIR/bin/rezsh.zsh
