@@ -1,4 +1,4 @@
-# @(#)[:O~OCV?5i_E^o?Ym~KAV7: 2017/07/17 22:21:48 tw@csongor.lan]
+# @(#)[:O~OCV?5i_E^o?Ym~KAV7: 2017/07/17 23:41:57 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Set some variables.
@@ -18,7 +18,7 @@ paused_at=${amuse_run}/paused-at
 paused_song=${amuse_run}/paused-song
 missing_bytes=${amuse_run}/missing-bytes
 final=${amuse_run}/final
-repeat=${amuse_run}/repeat
+again=${amuse_run}/again
 fflog=${amuse_run}/fflog
 
 music_list=${amuse_run}/togo.lst

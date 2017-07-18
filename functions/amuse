@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/17 22:28:21 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 00:00:21 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -16,7 +16,7 @@ test -f $amuse_db   || die "No such file %B${amuse_db:gs/%/%%}%b."
 test -f $amuse_bin  || die "No such file %B${amuse_bin:gs/%/%%}%b."
 # requires-write expects variable names not their expansion
 requires-write	now_playing paused_at paused_song missing_bytes \
-				final repeat amuse_pid fflog music_list
+				final again amuse_pid fflog music_list
 
 test -s $music_list || cat > $music_list <<----
 	; vim: ft=lst nospell nowrap fo-=a tw=0
@@ -164,8 +164,8 @@ function ++ \\push {
 }
 
 function \\next-song {
-	if [[ -s $repeat ]]; then
-		: >$repeat
+	if [[ -s $again ]]; then
+		: >$again
 	else
 		typeset -g $1="$(\\dequeue)"
 	fi
@@ -196,8 +196,8 @@ function p {
 			return
 		  }
 		[[ -s $paused_at ]]&& return # stop if we asked to stop
-		if [[ -s $repeat ]]; then
-			: >$repeat
+		if [[ -s $again ]]; then
+			: >$again
 		else
 			\\next-song s
 		fi
