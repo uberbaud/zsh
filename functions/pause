@@ -1,4 +1,4 @@
-# @(#)[:o|-jlwWpwN)v%6h{E#h3: 2017/07/07 18:22:31 tw@csongor.lan]
+# @(#)[:o|-jlwWpwN)v%6h{E#h3: 2017/07/18 17:14:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Pause the amuse player function.
@@ -7,5 +7,6 @@
 [[ -n $amusePlayerId ]]|| die '%B$amusePlayerId%b is not set.'
 
 command pkill -SIGINT -f $amusePlayerId
+sleep 0.1
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

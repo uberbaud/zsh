@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 17:03:10 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 17:12:44 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -273,29 +273,24 @@ function cd { (($#))|| set $music_dir; builtin cd "$@"; }
 function r { . $Z/functions/amuse; }
 function u {
 	warn 'Removing %F{4}amuse%f functions.'
-	precmd_functions=("${(@)precmd_functions:#ps-amuse-info}")
+	precmd_functions=("${(@)precmd_functions:#ps1-amuse-info}")
 	set_prompt
 	unset -f + ++ L N \\LG \\dequeue \\push \\queue a1 d h l lg p r t u v
-	unset -f amuse cd msecToHMMSS ps-amuse-info
+	unset -f amuse cd msecToHMMSS ps1-amuse-info
 	function amuse { builtin autoload -XUz; }
 	cd $PRE_AMUSE_PWD
 }
 
-function ps-amuse-info {
-	if [[ -s $paused_at ]]; then
-		psvar[2]='PAUSED '
-	else
-		psvar[2]=''
-	fi
-	if [[ -s $final ]]; then
-		psvar[3]='FINAL '
-	else
-		psvar[3]=''
-	fi
+function ps1-amuse-info {
+	local info=''
+	[[ -s $paused_at ]]&&	info+='PAUSED '
+	[[ -s $final ]]&&		info+='FINAL '
+	[[ -s $again ]]&&		info+='AGAIN '
+	psvar[2]=$info
 }
-precmd_functions+=( ps-amuse-info )
+precmd_functions+=( ps1-amuse-info )
 
-PS1='%K{3}%F{7}%B amuse %b%2v%3v%f%k%s '
+PS1='%K{3}%F{7}%B amuse %b%2v%f%k%s '
 PRE_AMUSE_PWD=${PRE_AMUSE_PWD:-$PWD}
 [[ ${PWD}/ == ${music_dir}/* ]]|| cd $music_dir
 
