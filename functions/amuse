@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 17:12:44 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 18:02:08 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -34,6 +34,7 @@ function msecToHMMSS {
 }
 
 function a1 {
+	[[ -s $amuse_pid ]]&& fullstop 'Already playing'
 	setopt local_options local_traps
 
 	local song=$1 atTime=${2:-0.000}
@@ -171,6 +172,7 @@ function \\next-song {
 }
 
 function p {
+	[[ -s $amuse_pid ]]&& fullstop 'Already playing'
 
 	# resume if there is anything to resume
 	[[ -s $paused_at ]]&& {
@@ -252,12 +254,11 @@ function h {
 	typeset S=$'\e[34m';	s=$'\e[39m'
 	typeset N=$'\e[0m'
 	cat <<----
-	  a  => play songs given on command line.
 	  +  => append songs from the paths given on command line ${B}togo.lst${b}
 	  ++ => like ${B}+${b}, except prepend.
 	  d  => show info for song on command line.
 	  t  => show time played for song playing.
-	  p  => play songs in ${B}togo.lst${b}.
+	  p  => PLAY: add and play songs to/in ${B}togo.lst${b}.
 	  l  => list songs in ${B}togo.lst${b}
 	  L  => make a new ${B}togo.lst${b} from \$music_dir/\${1}*/*/*
 	  N  => make a new ${B}togo.lst${b} using *next* letter in alphabet for ${S}L${s}
@@ -273,7 +274,7 @@ function cd { (($#))|| set $music_dir; builtin cd "$@"; }
 function r { . $Z/functions/amuse; }
 function u {
 	warn 'Removing %F{4}amuse%f functions.'
-	precmd_functions=("${(@)precmd_functions:#ps1-amuse-info}")
+	precmd_functions=( "${(@)precmd_functions:#ps1-amuse-info}" )
 	set_prompt
 	unset -f + ++ L N \\LG \\dequeue \\push \\queue a1 d h l lg p r t u v
 	unset -f amuse cd msecToHMMSS ps1-amuse-info
