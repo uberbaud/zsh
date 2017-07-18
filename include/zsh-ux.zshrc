@@ -1,4 +1,4 @@
-# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/03/03 21:08:48 tw@csongor.lan]
+# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/07/18 16:04:33 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 HISTFILE=~/.local/zsh/histfile
@@ -36,7 +36,7 @@ function set_window_title { print -Pn $'\e]0;%M (%d)\a'; }
 chpwd_functions+=( set_window_title )
 set_window_title
 
-function handle_errno {
+function ps-errno {
 	if (( errno )); then
 		psvar[1]="$errno"
 	else
@@ -44,7 +44,7 @@ function handle_errno {
 	fi
 	errno=0
   }
-precmd_functions+=( handle_errno )
+precmd_functions+=( ps-errno )
 
 set_prompt
 

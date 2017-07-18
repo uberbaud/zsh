@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/05/20 19:33:35 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/07/18 15:45:22 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -15,6 +15,10 @@ export HELPPATH
 
 me=~/work/clients/me
 Z=$ZDOTDIR
+B=${ZDOTDIR}/bin
+F=${ZDOTDIR}/functions
+I=${ZDOTDIR}/include
+L=${ZDOTDIR}/lib
 
 export USRLIB=$XDG_DATA_HOME/lib
 export USR_ZSHLIB=$ZDOTDIR/lib
