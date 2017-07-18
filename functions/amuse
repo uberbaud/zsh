@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 16:22:46 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 17:03:10 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -189,11 +189,11 @@ function p {
 	# then play the list!
 	local s; \\next-song s
 	while [[ -n $s ]]; do
-		a1 $s
 		[[ -s $final ]]&& {
 			: >$final
 			return
 		  }
+		a1 $s
 		[[ -s $paused_at ]]&& return # stop if we asked to stop
 		if [[ -s $again ]]; then
 			: >$again
@@ -273,24 +273,29 @@ function cd { (($#))|| set $music_dir; builtin cd "$@"; }
 function r { . $Z/functions/amuse; }
 function u {
 	warn 'Removing %F{4}amuse%f functions.'
-	precmd_functions=("${(@)precmd_functions:#ps-paused}")
+	precmd_functions=("${(@)precmd_functions:#ps-amuse-info}")
 	set_prompt
 	unset -f + ++ L N \\LG \\dequeue \\push \\queue a1 d h l lg p r t u v
-	unset -f amuse cd msecToHMMSS ps-paused
+	unset -f amuse cd msecToHMMSS ps-amuse-info
 	function amuse { builtin autoload -XUz; }
 	cd $PRE_AMUSE_PWD
 }
 
-function ps-paused {
-	if [[ -s ${amuse_run}/paused-at ]]; then
-		psvar[2]='(paused) '
+function ps-amuse-info {
+	if [[ -s $paused_at ]]; then
+		psvar[2]='PAUSED '
 	else
 		psvar[2]=''
 	fi
+	if [[ -s $final ]]; then
+		psvar[3]='FINAL '
+	else
+		psvar[3]=''
+	fi
 }
-precmd_functions+=( ps-paused )
+precmd_functions+=( ps-amuse-info )
 
-PS1='%K{3}%F{7}%B amuse %b%2v%f%k%s '
+PS1='%K{3}%F{7}%B amuse %b%2v%3v%f%k%s '
 PRE_AMUSE_PWD=${PRE_AMUSE_PWD:-$PWD}
 [[ ${PWD}/ == ${music_dir}/* ]]|| cd $music_dir
 
