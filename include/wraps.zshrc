@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/07/19 09:29:35 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/07/19 09:34:22 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -66,7 +66,7 @@ typeset -Ag	WRAP_COMMANDS=(
 
 function autopage { # pipes cmd to pager if output would scroll the screen. {{{1
 
-    pager=${PAGER:-less}
+    local pager=${PAGER:-less}
     (($#))|| die 'Missing required argument %Bcommand%b.'
 
     integer rc=0
