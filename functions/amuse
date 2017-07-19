@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/18 18:02:08 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/19 18:18:13 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -271,14 +271,35 @@ function h {
 }
 
 function cd { (($#))|| set $music_dir; builtin cd "$@"; }
+function cls {
+	# get one (1) octet (value 0-255)
+	local b="$(dd bs=1 count=1 status=none if=/dev/urandom)"
+	# convert that to an integer, but don't declare it as such because 
+	# that encourages ZSH to do float conversions (see below)
+	local i="$(printf '%d' \'$b)"
+	# because ZSH will sometimes do internal conversions with floats 
+	# that have a fixed mantissa size and so the result will MAY be 
+	# outside the range A-Z if many calculations are combined.
+	# THIS WORKS AS IS!!!
+	local R=$((255./26.))	# ratio of alphabet to octet
+	local a=$(($i./$R))		# convert 0-255 => 0-25 (A-Z) or (a-z)
+	a=${a%.*}				# truncate
+	local upperHex="$( printf %x $(($a+65)) )"
+	local lowerHex="$( printf %x $(($a+97)) )"
+	local A=$( printf "\x${upperHex}\x${lowerHex}" )
+	print -u 2 -f '\e[0;0H\e[2J\e[3J'
+	print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ─┤ %s ├─\e[0m\n" '' $A
+	ls -d [$A]*
+}
 function r { . $Z/functions/amuse; }
 function u {
 	warn 'Removing %F{4}amuse%f functions.'
 	precmd_functions=( "${(@)precmd_functions:#ps1-amuse-info}" )
 	set_prompt
 	unset -f + ++ L N \\LG \\dequeue \\push \\queue a1 d h l lg p r t u v
-	unset -f amuse cd msecToHMMSS ps1-amuse-info
+	unset -f amuse cd msecToHMMSS ps1-amuse-info cls
 	function amuse { builtin autoload -XUz; }
+	alias cls='clear ls'
 	cd $PRE_AMUSE_PWD
 }
 
@@ -290,9 +311,9 @@ function ps1-amuse-info {
 	psvar[2]=$info
 }
 precmd_functions+=( ps1-amuse-info )
-
 PS1='%K{3}%F{7}%B amuse %b%2v%f%k%s '
 PRE_AMUSE_PWD=${PRE_AMUSE_PWD:-$PWD}
 [[ ${PWD}/ == ${music_dir}/* ]]|| cd $music_dir
+unalias cls
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
