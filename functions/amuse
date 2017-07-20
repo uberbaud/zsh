@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/19 18:18:13 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/20 01:38:56 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -288,7 +288,7 @@ function cls {
 	local lowerHex="$( printf %x $(($a+97)) )"
 	local A=$( printf "\x${upperHex}\x${lowerHex}" )
 	print -u 2 -f '\e[0;0H\e[2J\e[3J'
-	print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ─┤ %s ├─\e[0m\n" '' $A
+	print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ├┤ %s ├┤\e[0m\n" '' $A
 	ls -d [$A]*
 }
 function r { . $Z/functions/amuse; }
