@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/20 01:38:56 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/20 18:07:47 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -186,7 +186,7 @@ function p {
 	}
 
 	# push any new songs
-	(($#))&& \\push "$@"
+	(($#))&& \\push $@
 
 	# then play the list!
 	local s; \\next-song s
@@ -206,6 +206,11 @@ function p {
   }
 
 function l {
+	(($#))&& {
+		:-:music-in-fs $@
+		printf '  %s\n' ${reply%.*}
+		return
+	}
 	typeset -a pgm=(
 		'/^; =[^=]+=/'
 			'{ sub("^[^=]*=", ""); sub("=.*$",""); print "#", $0; }'
@@ -259,7 +264,7 @@ function h {
 	  d  => show info for song on command line.
 	  t  => show time played for song playing.
 	  p  => PLAY: add and play songs to/in ${B}togo.lst${b}.
-	  l  => list songs in ${B}togo.lst${b}
+	  l  => list songs from command line or in ${B}togo.lst${b}
 	  L  => make a new ${B}togo.lst${b} from \$music_dir/\${1}*/*/*
 	  N  => make a new ${B}togo.lst${b} using *next* letter in alphabet for ${S}L${s}
 	  l  => list songs in ${B}togo.lst${b}
@@ -272,6 +277,26 @@ function h {
 
 function cd { (($#))|| set $music_dir; builtin cd "$@"; }
 function cls {
+	print -u 2 -f '\e[0;0H\e[2J\e[3J'
+	(($#))&& {
+		print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ├┤ %s ├┤\e[0m\n" '' "$*"
+		ls $@
+		return
+	}
+	# not in $music_dir or a subdirectory thereof
+	[[ ${PWD}/ == ${music_dir}/* ]]|| {
+		clear ls $@
+		return
+	}
+	# in a subdirectory $music_dir
+	[[ $PWD == $music_dir ]]|| {
+		local D=${PWD##*/}
+		print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ├┤ %s ├┤\e[0m\n" '' $D
+		:-:music-in-fs $PWD
+		printf '  %s\n' $reply
+		return
+	}
+	# in $music_dir itself
 	# get one (1) octet (value 0-255)
 	local b="$(dd bs=1 count=1 status=none if=/dev/urandom)"
 	# convert that to an integer, but don't declare it as such because 
@@ -287,7 +312,6 @@ function cls {
 	local upperHex="$( printf %x $(($a+65)) )"
 	local lowerHex="$( printf %x $(($a+97)) )"
 	local A=$( printf "\x${upperHex}\x${lowerHex}" )
-	print -u 2 -f '\e[0;0H\e[2J\e[3J'
 	print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ├┤ %s ├┤\e[0m\n" '' $A
 	ls -d [$A]*
 }
