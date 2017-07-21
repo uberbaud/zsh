@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/21 03:45:10 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/21 03:51:11 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -247,12 +247,12 @@ function N {
 
 function v {
 	local snap='snapshot.lst' edit='music.lst (editing)'
-	cp music_list $snap
+	cp $music_list $snap
 	cp $snap $edit
 	command v $edit
 
 	local edited="$(<$edit)"
-	local deleted=( ${(f)"$(diff -e music_list $snap)"} )
+	local deleted=( ${(f)"$(diff -e $music_list $snap)"} )
 	rm $snap $edit
 
 	if (($#deleted)); then # ¿aMuse? changed the $music_list
@@ -268,7 +268,7 @@ function v {
 	fi
 
 	# save changes
-	printf '%s\n' $edited >Xmusic_list
+	printf '%s\n' $edited >$music_list
 
 	lg
 }
