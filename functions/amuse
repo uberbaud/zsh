@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/21 02:57:45 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/21 03:45:10 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -297,14 +297,28 @@ function h {
 function cd { (($#))|| set $music_dir; builtin cd "$@"; }
 function cls {
 	print -u 2 -f '\e[0;0H\e[2J\e[3J'
+	local fmt="\e[1;44;37m%${COLUMNS}s\r ├┤ %.$((COLUMNS-8))s ├┤\e[0m\n"
+	[[ $PWD == $music_dir && $# -eq 1 && $1 == ? ]]&& {
+			local C='' X=''
+			if [[ $1 == [A-Za-z] ]]; then
+				C=${(U)1}${(L)1}
+				X=$C
+			else
+				C='^A-Za-z'
+				X='#'
+			fi
+			printf $fmt '' $X >&2
+			eval "colorls -d [$C]*"
+			return
+	}
 	(($#))&& {
-		print -u 2 -f "\e[1;44;37m%${COLUMNS}s\r ├┤ %s ├┤\e[0m\n" '' "$*"
-		ls $@
+		printf $fmt '' "$*" >&2
+		colorls $@
 		return
 	}
 	# not in $music_dir or a subdirectory thereof
 	[[ ${PWD}/ == ${music_dir}/* ]]|| {
-		clear ls $@
+		clear colorls $@
 		return
 	}
 	# in a subdirectory $music_dir
