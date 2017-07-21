@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/20 18:07:47 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/21 02:57:45 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -229,11 +229,7 @@ function l {
 }
 
 function \\LG {
-	declare -a get_groups_awk_pgm=(
-		'/^[^;]/'	'{ bands[$1]; }'
-		'END'		'{ for (b in bands) print "  "b; }'
-	  )
-	awk -F/ "$get_groups_awk_pgm" $music_list
+	awk -F/ '/^[^;]/ { i=NF-2; if (!bands[$i]++) print $i; }' $music_list
 }
 function lg { autopage \\LG; }
 function L { local s; for s; do \\queue ${music_dir}/${s}*; done; }
@@ -250,7 +246,30 @@ function N {
 }
 
 function v {
-	vim $music_list
+	local snap='snapshot.lst' edit='music.lst (editing)'
+	cp music_list $snap
+	cp $snap $edit
+	command v $edit
+
+	local edited="$(<$edit)"
+	local deleted=( ${(f)"$(diff -e music_list $snap)"} )
+	rm $snap $edit
+
+	if (($#deleted)); then # ¿aMuse? changed the $music_list
+		[[ $deleted[1] =~ '[0-9][0-9]*a' ]]||
+			-die 'Unexpted %Tdiff%t output:' $deleted
+		[[ $deleted[-1] == '.' ]]||
+			-die 'Unexpted %Tdiff%t output:' $deleted
+		shift deleted
+		shift -p deleted
+
+		local delblock=${(F)deleted}
+		local edited="${edited:s/$delblock/}"
+	fi
+
+	# save changes
+	printf '%s\n' $edited >Xmusic_list
+
 	lg
 }
 

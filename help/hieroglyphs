@@ -1,0 +1,8 @@
+
+  \e[1mZSH Hieroglyphs (interesting expansion constructs)\e[22m
+
+  Remove array item matching \e[32ms\e[0m => \e[32ma=("${(@)a:#s}")\e[0m
+      \e[32m:#\e[0m is the hieroglyph to remove matching elements;
+      Use \e[32m""\e[0m and \e[32m@\e[0m to keep empty elements (otherwise
+      they are removed too).
+
