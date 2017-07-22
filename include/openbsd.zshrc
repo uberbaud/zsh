@@ -1,4 +1,4 @@
-# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/03/05 06:12:31 tw@csongor.lan]
+# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/07/22 20:49:31 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 #
 # THIS FILE INCLUDES everything and anything that is specific to 
@@ -28,10 +28,13 @@ function ls {
 			# special case of -- used as a file name on the command line
 			(($argv[(i)--])) && {				# there is at least one '--'
 				(($argv[(i)--]!=$argv[(I)--]))|| # there is MORE than one
-					return
+					return 0
 			  }
+			# if there aren't any files here, we don't need to do any 
+			# more work
+			[[ -n *(#qN) ]]|| return 1
 			workaround+=( -d -- * )
-		  }
+		  } || return 0
 	  }
 	$SYSLOCAL/bin/colorls ${=LS_OPTIONS} $workaround $argv;
 }

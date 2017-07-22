@@ -6,3 +6,5 @@
       Use \e[32m""\e[0m and \e[32m@\e[0m to keep empty elements (otherwise
       they are removed too).
 
+  Does a glob match at least one (1) item => \e[32m[[ -n *(#qN) ]]\e[22m
+
