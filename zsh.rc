@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/07/18 15:45:22 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/07/22 06:23:43 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -8,6 +8,8 @@ setopt extended_glob rm_star_silent numeric_glob_sort
 setopt bsd_echo chase_links ignore_eof
 setopt combining_chars vi
 unsetopt auto_cd bang_hist prompt_bang mult_ios
+bindkey -a ':' .history-incremental-search-backward
+bindkey -a ::: execute-named-cmd
 
 typeset -U path
 typeset -TU HELPPATH helppath

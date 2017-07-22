@@ -10,7 +10,31 @@ AsRoot='/usr/bin/doas'
 SYSLOCAL='/usr/local'
 LS_OPTIONS='-FG'
 
-function ls { $SYSLOCAL/bin/colorls ${=LS_OPTIONS} $argv; }
+function ls {
+	# we can cusomize ZSH glob sorting with greater granularity,
+	# so use -f to disable colorls resorting in a different order,
+	# BUT -f implies -a(?!?!), which we don't want, but can work around 
+	# by using -d * if we don't find any files
+	local workaround=()
+	local wantNoSort=true
+	local flags=( $argv[1,$(($arg[(i)--]-1))] ) # !!! discards empties
+	(($flags[(I)-*r*])) && wantNoSort=false
+	(($flags[(I)-*S*])) && wantNoSort=false
+	(($flags[(I)-*x*])) && wantNoSort=false
+	$wantNoSort && {
+		workaround=( -f )
+		# if we have anything that looks like a file (not a flag)
+		(($argv[(I)[^-]*]))|| (){
+			# special case of -- used as a file name on the command line
+			(($argv[(i)--])) && {				# there is at least one '--'
+				(($argv[(i)--]!=$argv[(I)--]))|| # there is MORE than one
+					return
+			  }
+			workaround+=( -d -- * )
+		  }
+	  }
+	$SYSLOCAL/bin/colorls ${=LS_OPTIONS} $workaround $argv;
+}
 
 export SYSLOCAL
 
