@@ -1,4 +1,4 @@
-# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/07/22 20:49:31 tw@csongor.lan]
+# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/07/23 02:24:35 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 #
 # THIS FILE INCLUDES everything and anything that is specific to 
@@ -36,7 +36,7 @@ function ls {
 			workaround+=( -d -- * )
 		  } || return 0
 	  }
-	$SYSLOCAL/bin/colorls ${=LS_OPTIONS} $workaround $argv;
+	$SYSLOCAL/bin/colorls ${=LS_OPTIONS} $argv $workaround
 }
 
 export SYSLOCAL
