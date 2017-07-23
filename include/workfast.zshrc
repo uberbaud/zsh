@@ -7,7 +7,6 @@ bindkey -M vitextblock $'\t' self-insert
 bindkey -M vitextblock $'\x04' accept-line
 
 function note {
-set -x
 	[[ -d NOTES/RCS ]]|| {
 		mkdir -p NOTES/RCS || die 'Could not mkdir %BNOTES%b.'
 	  }
