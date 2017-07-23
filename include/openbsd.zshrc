@@ -1,4 +1,4 @@
-# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/07/23 02:24:35 tw@csongor.lan]
+# @(#)[:$PwGOxb)-3O5}EjD*CEL: 2017/07/23 05:32:10 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab
 #
 # THIS FILE INCLUDES everything and anything that is specific to 
@@ -17,7 +17,7 @@ function ls {
 	# by using -d * if we don't find any files
 	local workaround=()
 	local wantNoSort=true
-	local flags=( $argv[1,$(($arg[(i)--]-1))] ) # !!! discards empties
+	local flags=( $argv[1,$(($argv[(i)--]-1))] ) # !!! discards empties
 	(($flags[(I)-*r*])) && wantNoSort=false
 	(($flags[(I)-*S*])) && wantNoSort=false
 	(($flags[(I)-*x*])) && wantNoSort=false
@@ -36,7 +36,7 @@ function ls {
 			workaround+=( -d -- * )
 		  } || return 0
 	  }
-	$SYSLOCAL/bin/colorls ${=LS_OPTIONS} $argv $workaround
+	$SYSLOCAL/bin/colorls ${=LS_OPTIONS} $workaround $argv
 }
 
 export SYSLOCAL

@@ -1,4 +1,4 @@
-# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/22 17:31:19 tw@csongor.lan]
+# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/23 05:13:19 tw@csongor.lan]
 # Simple tools to handle common needs (TODO+/notes+) quickly
 
 bindkey -N vitextblock viins
@@ -7,18 +7,30 @@ bindkey -M vitextblock $'\t' self-insert
 bindkey -M vitextblock $'\x04' accept-line
 
 function note {
+set -x
 	[[ -d NOTES/RCS ]]|| {
 		mkdir -p NOTES/RCS || die 'Could not mkdir %BNOTES%b.'
 	  }
-	local q=( NOTES/[0-9]*([-1]) )
-	local seqnum=$(($q[1]+1))
-	local filename=NOTES/$seqnum.note
-	touch $filename
-	[[ -s $filename ]]&&
-		die "Unexpectedly, %B${filename:gs/%/%%}%b exists."
-	echo 'working' >$filename
-
-
+	cd NOTES
+	local TMPFILE="$( mktemp note-XXXXXXXXX )"
+	local Q=( [0-9]*.note(N) )
+	integer seqnum=0
+	(($#Q))&& {
+		[[ $q =~ '^[0-9]+' ]]|| die 'IMPOSSIBLE THING #1'
+		seqnum=$((MATCH))
+	  }
+	integer tries=5
+	while ((tries--)); do
+		((seqnum++))
+		ln $TMPFILE $seqnum.note && break
+		octet="$(dd bs=1 count=1 status=none if=/dev/urandom)"
+		sleep 0.$(printf '%03d' \'$octet)
+	done
+	((tries))|| die 'Could not create %Bnote%b.'
+	new -nz note "$@"
+	pbpaste >$seqnum.note
+	(($#))|| v -m'.' $seqnum.note
+	cd ..
 }
 
 
