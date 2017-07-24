@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/06/04 04:48:15 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/07/24 02:32:53 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -6,9 +6,9 @@ CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
 EMAIL='tom@greyshirt.net'
 LESS='-RcgiSw#8'
 LESSHISTFILE='-'
-linode='li131-170.members.linode.com'
-LINODE_IP='69.164.216.170'
-LINODE_IPv6='2600:3c03::f03c:91ff:fe96:e402'
+VULTR_IP='208.167.249.143'
+VULTR_IP6='2001:19f0:5:eef:5400:00ff:fe7e:34d3'
+linode='https://my.vultr.com/'
 LOGNAME=${LOGNAME:-tw}
 PAGER='/usr/bin/less'
 TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"

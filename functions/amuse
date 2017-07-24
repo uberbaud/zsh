@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/21 03:51:11 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/24 19:33:59 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -42,7 +42,9 @@ function a1 {
 	[[ $song == /* ]]|| song=${XDG_MUSIC_DIR}/$song
 	[[ -r $song ]]|| fullstop "Can't play song."
 
-	print -Pu 2 '  %F{4}>>>%f '${${${song#$XDG_MUSIC_DIR/}%.*}:gs/%/%%}
+	local banner=${${song#$XDG_MUSIC_DIR/}%.*}
+	(($#banner>COLUMNS-6))&& banner="…${(l.COLUMNS-7.)banner}"
+	print -Pu 2 '  %F{4}>>>%f '${banner:gs/%/%%}
 	# clean up last times mess
 	: >$paused_song
 	: >$paused_at
@@ -232,16 +234,31 @@ function \\LG {
 	awk -F/ '/^[^;]/ { i=NF-2; if (!bands[$i]++) print $i; }' $music_list
 }
 function lg { autopage \\LG; }
-function L { local s; for s; do \\queue ${music_dir}/${s}*; done; }
 
 function N {
-	typeset -- marker='^; =.=$'
-	typeset -- current="$( awk -F= "/$marker/ { print \$2; }" $music_list )"
-	typeset -i asc=$(( $(printf '%d' \'$current) + 1 ))
-	typeset -- next=$( printf "\x$(printf '%x\n' $asc)" )
-	L $next
-	typeset -- sponge=$(sed -e "s/$marker/; =$next=/" $music_list)
-	cat <<<$sponge  >$music_list
+	cd $music_dir
+
+	local F=${amuse_run}/last-letter
+	[[ -s $F ]]|| echo 'Z'>$F
+
+	local -u current="$(<$F)"
+	[[ $current =~ '^[A-Z#]$' ]]||
+		die "Unexpected last-letter: %B<${F:gs/%/%%}>%b."
+
+	local -u next='#'
+	local pattern='^A-Za-z'
+	if [[ $current == '#' ]]; then
+		next='A'
+	else
+		integer asc=$(printf '%d' \'$current)
+		((asc<90)) && {
+			next="$( printf "\x$(printf '%x\n' $((asc+1)) )" )"
+			pattern=${(U)next}${(L)next}
+		  }
+	fi
+
+	printf '  Adding \e[35m%s\e[39m\n' $next
+	\\queue [$pattern]*
 	lg
 }
 
@@ -278,19 +295,20 @@ function h {
 	typeset S=$'\e[34m';	s=$'\e[39m'
 	typeset N=$'\e[0m'
 	cat <<----
-	  +  => append songs from the paths given on command line ${B}togo.lst${b}
-	  ++ => like ${B}+${b}, except prepend.
-	  d  => show info for song on command line.
-	  t  => show time played for song playing.
-	  p  => PLAY: add and play songs to/in ${B}togo.lst${b}.
-	  l  => list songs from command line or in ${B}togo.lst${b}
-	  L  => make a new ${B}togo.lst${b} from \$music_dir/\${1}*/*/*
-	  N  => make a new ${B}togo.lst${b} using *next* letter in alphabet for ${S}L${s}
-	  l  => list songs in ${B}togo.lst${b}
-	  lg => list groups in ${B}togo.lst${b}
-	  r  => renew ${B}amuse${b} functions from \$Z/functions/amuse
-	  v  => edit ${B}togo.lst${b}
-	  u  => unset all of the special amuse bits
+	  Using the %Bplaylist%b
+	    +  => append songs from the paths given on command line.
+	    ++ => like ${B}+${b}, except prepend.
+	    p  => PLAY: add and play songs
+	    l  => list songs from command line or in ${B}playlist${b}
+	    N  => add songs *next* letter in alphabet.
+	    l  => List %Bsongs%b.
+	    lg => List %Bgroups%b.
+	    v  => Edit.
+	  Other
+	    d  => show info for currently playing song or on command line.
+	    t  => show time played for song playing.
+	    r  => renew ${B}amuse${b} functions from \$Z/functions/amuse
+	    u  => unset all of the special amuse bits
 	---
 }
 
@@ -353,7 +371,7 @@ function u {
 	warn 'Removing %F{4}amuse%f functions.'
 	precmd_functions=( "${(@)precmd_functions:#ps1-amuse-info}" )
 	set_prompt
-	unset -f + ++ L N \\LG \\dequeue \\push \\queue a1 d h l lg p r t u v
+	unset -f + ++ N \\LG \\dequeue \\push \\queue a1 d h l lg p r t u v
 	unset -f amuse cd msecToHMMSS ps1-amuse-info cls
 	function amuse { builtin autoload -XUz; }
 	alias cls='clear ls'

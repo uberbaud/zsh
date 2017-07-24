@@ -1,4 +1,4 @@
-# @(#)[:-F9CVtfW_HC(S+`g,PB5: 2017/07/15 22:44:11 tw@csongor.lan]
+# @(#)[:-F9CVtfW_HC(S+`g,PB5: 2017/07/24 06:04:29 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Is the internet available?
@@ -6,8 +6,7 @@
 emulate -L zsh
 setopt local_options local_traps pipe_fail bsd_echo
 
-typeset -- NAME='uberbaud.net' ADDR=69.164.216.170
-
+typeset -- NAME='uberbaud.net' ADDR='208.167.249.143'
 typeset -a digopts=(
 	# @8.8.8.8		# google DNS
 	+short			# inet address only
