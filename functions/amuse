@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/24 19:33:59 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/24 22:07:11 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -40,7 +40,7 @@ function a1 {
 	local song=$1 atTime=${2:-0.000}
 	((atTime))|| : >$missing_bytes # clear if we're starting over
 	[[ $song == /* ]]|| song=${XDG_MUSIC_DIR}/$song
-	[[ -r $song ]]|| fullstop "Can't play song."
+	[[ -r $song ]]|| fullstop "Can't play song: $song."
 
 	local banner=${${song#$XDG_MUSIC_DIR/}%.*}
 	(($#banner>COLUMNS-6))&& banner="…${(l.COLUMNS-7.)banner}"
