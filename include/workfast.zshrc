@@ -1,4 +1,4 @@
-# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/24 17:51:58 tw@csongor.lan]
+# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/30 14:01:25 tw@csongor.lan]
 # Simple tools to handle common needs (TODO+/notes+) quickly
 
 bindkey -N vitextblock viins
@@ -10,30 +10,41 @@ bindkey -M vtxtblckcmd : beep
 
 alias note='noglob note'
 function note {
-	[[ -d NOTES/RCS ]]|| {
-		mkdir -p NOTES/RCS || die 'Could not mkdir %BNOTES%b.'
+	local NOTES=$PWD OLDPWD=$PWD
+	local noterepo=${HOME}/.local/sysdata/notes
+	[[ $NOTES == $HOME ]]&& NOTES=${HOME}/docs/NOTES
+	[[ -d $noterepo ]]|| {
+		mkdir -p $noterepo ||
+			die 'Could not mkdir %B${noterepo:gs/%/%%}%b.'
 	  }
-	cd NOTES
+	[[ -d ${NOTES}/RCS ]]|| {
+		mkdir -p ${NOTES}/RCS || die 'Could not mkdir %B${NOTES}%b.'
+	  }
+	cd ${NOTES}
 	local TMPFILE="$( mktemp note-XXXXXXXXX )"
 	local Q=( [0-9]*.note(N) )
+	local seqnote
 	integer seqnum=0
 	(($#Q))&& {
-		[[ $q =~ '^[0-9]+' ]]|| die 'IMPOSSIBLE THING #1'
-		seqnum=$((MATCH))
+		[[ $Q[-1] =~ '^[0-9]+' ]]|| die "IMPOSSIBLE THING #1."
+		seqnum=$MATCH
 	  }
 	integer tries=5
 	while ((tries--)); do
 		((seqnum++))
-		ln $TMPFILE $seqnum.note && break
+		seqnote=$seqnum.note
+		ln $TMPFILE $seqnote && break
 		octet="$(dd bs=1 count=1 status=none if=/dev/urandom)"
 		sleep 0.$(printf '%03d' \'$octet)
 	done
 	rm $TMPFILE
 	((tries))|| die 'Could not create %Bnote%b.'
 	new -nz note "$*"
-	pbpaste >$seqnum.note
-	(($#))|| v -m'.' $seqnum.note
-	cd ..
+	pbpaste >$seqnum
+	ln -s $PWD/$seqnum \
+		  ${noterepo}/"$(date -u '%Y-%m-%dz')"${OLDPWD##*/}'-'$seqnum
+	(($#))|| v -m'.' $seqnum
+	cd $OLDPWD
 }
 
 alias t='noglob t'

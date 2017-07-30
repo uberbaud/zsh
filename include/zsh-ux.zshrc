@@ -1,4 +1,4 @@
-# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/07/24 17:29:15 tw@csongor.lan]
+# @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/07/30 05:33:52 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
 HISTFILE=~/.local/zsh/histfile
@@ -54,7 +54,7 @@ set_prompt
 # \e[0;0H   move to top (0;0 is the default
 # \e[2J     clear the screen from here on
 function clear {
-	print -f '\e3J\e[H\e[2J' >&2
+	print -f '\e[H\e[2J\e[3J\e[H' >&2
 	((!$#))|| {
 		local banner="$*" exp=() p=''
 		(($#banner<(COLUMNS-6)))|| banner="${banner:0:$((COLUMNS-7))}…"
