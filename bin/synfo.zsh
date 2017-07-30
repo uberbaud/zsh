@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 20:11:38 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 20:12:55 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -168,11 +168,8 @@ typeset SP=$'[ \t]' NS=$'[^ \t]'
 typeset rxValid='(region|match)'$SP'+'$NS'+'
 typeset -aU clusters=(    $(synFind '^cluster'$SP'.*')                 )
 typeset -aU createds=(    $(synFind '(region|match)'$SP'+'$NS'+')      )
-printf '===\n'; printf '  %s\n' $createds | column
 typeset -aU matchgrps=(   $(synFind 'matchgroup='$NS'+')               )
-printf '===\n'; printf '  %s\n' $matchgrps | column
 typeset -aU matchonly=(   ${matchgrps:|createds}                       )
-printf '===\n'; printf '  %s\n' $matchonly | column
 			createds+=(   "@${(@)^clusters}"                           )
 typeset -aU valids=(      $createds $matchgrps                         )
 typeset -aU containeds=(  $(synFind $rxValid'.*'$SP'contained[[:>:]]') )
