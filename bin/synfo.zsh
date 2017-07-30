@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:00:18 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:10:33 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -115,7 +115,8 @@ function hilinkFind { # {{{1
 		egrep -v '^('${(j:|:)vimHiGroups}')$'
 } # }}}1
 function incFind { # {{{1
-	egrep -o '(contain(s|edin)|nextgroup|add|remove)=[^[:space:]]*' syntax |
+	egrep -o '(contain(s|edin)|nextgroup|add|remove)=[^[:space:]]*' \
+		<<<$syntax 				|
 		awk -F= '{print $2;}'	|
 		tr , '\n'				|
 		sort					|
