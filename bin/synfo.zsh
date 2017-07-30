@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:45:22 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 20:11:38 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -165,14 +165,17 @@ function clusterMath { # {{{1
 } # }}}1
 
 typeset SP=$'[ \t]' NS=$'[^ \t]'
-typeset rxValid='(matchgroup=|region'$SP'*|match'$SP'*)'$NS'+'
-typeset -aU createds=(    $(synFind '(region|match)'$SP'*'$NS'+')      )
-typeset -aU matchgrps=(   $(synFind 'matchgroup='$NS'+')               )
-
+typeset rxValid='(region|match)'$SP'+'$NS'+'
 typeset -aU clusters=(    $(synFind '^cluster'$SP'.*')                 )
-typeset -aU valids=(      $createds $matchgrps "@${(@)^clusters}"      )
+typeset -aU createds=(    $(synFind '(region|match)'$SP'+'$NS'+')      )
+printf '===\n'; printf '  %s\n' $createds | column
+typeset -aU matchgrps=(   $(synFind 'matchgroup='$NS'+')               )
+printf '===\n'; printf '  %s\n' $matchgrps | column
+typeset -aU matchonly=(   ${matchgrps:|createds}                       )
+printf '===\n'; printf '  %s\n' $matchonly | column
+			createds+=(   "@${(@)^clusters}"                           )
+typeset -aU valids=(      $createds $matchgrps                         )
 typeset -aU containeds=(  $(synFind $rxValid'.*'$SP'contained[[:>:]]') )
-typeset -aU containeds+=( ${matchgrps|:createds}                       )
 typeset -aU hi_linked=(   $(hilinkFind)                                )
 typeset -aU hi_decl=(     $(hiFind)                                    )
 typeset -aU highlighted=( $hi_decl $hi_linked                          )
