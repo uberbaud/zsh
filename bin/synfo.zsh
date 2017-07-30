@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:42:11 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:45:22 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -172,6 +172,7 @@ typeset -aU matchgrps=(   $(synFind 'matchgroup='$NS'+')               )
 typeset -aU clusters=(    $(synFind '^cluster'$SP'.*')                 )
 typeset -aU valids=(      $createds $matchgrps "@${(@)^clusters}"      )
 typeset -aU containeds=(  $(synFind $rxValid'.*'$SP'contained[[:>:]]') )
+typeset -aU containeds+=( ${matchgrps|:createds}                       )
 typeset -aU hi_linked=(   $(hilinkFind)                                )
 typeset -aU hi_decl=(     $(hiFind)                                    )
 typeset -aU highlighted=( $hi_decl $hi_linked                          )
@@ -181,8 +182,7 @@ typeset -A  cgjunction=(  ${(f)"$(clusterMath)"}                       )
 typeset -aU clstrdgrps=();
 			for v (${(v)cgjunction}) { clstrdgrps+=( ${(s:,:)v} ); }
 typeset -aU uncontained=( ${valids:|containeds}                        )
-typeset -aU minimaltops=( ${${uncontained:|clstrdgrps}:|matchgrps}     )
-
+typeset -aU minimaltops=( ${uncontained:|clstrdgrps}                   )
 
 $showStats && { # {{{1
 	printf '\e[34m<<<<<<<<<<<<<<<< stats >>>>>>>>>>>>>>>>>\e[39m\n'
