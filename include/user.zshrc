@@ -1,25 +1,22 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/07/25 04:35:01 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/07/30 01:03:46 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
-BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
-CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
-EMAIL='tom@greyshirt.net'
-LESS='-RcgiSw#8'
-LESSHISTFILE='-'
-VULTR_IP='208.167.249.143'
-VULTR_IP6='2001:19f0:5:eef:5400:00ff:fe7e:34d3'
-linode='https://my.vultr.com/'
-LOGNAME=${LOGNAME:-tw}
-PAGER='/usr/bin/less'
-TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"
-TIMEFMT='    %*E real    %U user    %S system    %P cpu    %MMB mem'
-TMPDIR="$XDG_DATA_HOME/temp"
-UBERBAUD_NET="$LINODE_IP"
-radio_wazee='http://wazee.org/128.pls'
+export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
+export CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
+export EMAIL='tom@greyshirt.net'
+export FCEDIT=vim
+export LESS='-RcgiSw#8'
+export LESSHISTFILE='-'
+export VULTR_IP='208.167.249.143'
+export VULTR_IP6='2001:19f0:5:eef:5400:00ff:fe7e:34d3'
+export LOGNAME=${LOGNAME:-tw}
+export PAGER='/usr/bin/less'
+export TEMPLATES_FOLDER="$XDG_DATA_HOME/templates"
+export TMPDIR="$XDG_DATA_HOME/temp"
 
-export BC_ENV_ARG		LESS		PAGER		CALENDAR_DIR	LOGNAME
-export LESSHISTFILE		TMPDIR		EMAIL		TEMPLATES_FOLDER
-export VULTR_IP			VULTR_IP6
+TIMEFMT='    %*E real    %U user    %S system    %P cpu    %MMB mem'
+UBERBAUD_NET="$VULTR_IP"
+radio_wazee='http://wazee.org/128.pls'
 
 [[ $LESSHISTFILE =~ '^(-|/dev/null)$' ]]	\
 	|| [[ -d ${LESSHISTFILE%*/} ]]			\
