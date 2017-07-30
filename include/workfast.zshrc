@@ -1,4 +1,4 @@
-# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/30 14:01:25 tw@csongor.lan]
+# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/30 14:10:07 tw@csongor.lan]
 # Simple tools to handle common needs (TODO+/notes+) quickly
 
 bindkey -N vitextblock viins
@@ -42,7 +42,7 @@ function note {
 	new -nz note "$*"
 	pbpaste >$seqnum
 	ln -s $PWD/$seqnum \
-		  ${noterepo}/"$(date -u '%Y-%m-%dz')"${OLDPWD##*/}'-'$seqnum
+		  ${noterepo}/"$(date -u +'%Y-%m-%dz')"${OLDPWD##*/}'-'$seqnum
 	(($#))|| v -m'.' $seqnum
 	cd $OLDPWD
 }

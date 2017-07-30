@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/07/05 02:57:15 tw@csongor.lan]
+# @(#)[:!qoFKJRWTqV74SCjJrLd: 2017/07/30 15:54:17 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -209,6 +209,20 @@ else
 	done
 	argv=( $prefixArgs $@ $suffixArgs )
 fi
+
+[[ "$(readlink -nf $appbin)" == $realbin ]]&& {
+	local x='' possibles=( ${(f)"$(whence -ap $app)"} )
+	local errmsg='%B$appbin%b is masked by wrapper to %Bstart%b.'
+	(){
+		for x in $possibles; do
+			[[ "$(readlink -nf $x)" != $realbin ]]&& return
+		done
+		-die $errmsg \
+			"Could not find a suitable executable named: %B${app:gs/%/%%}%b."
+	  }
+	app=$x
+	-warn $errmsg "Using %B${app:gs/%/%%}%b instead."
+}
 
 # switch to the requested desktop
 :needs $appbin
