@@ -1,0 +1,42 @@
+# @(#)[:JQUPQ8CVRu(HA%pC-6f|: 2017/07/28 18:00:23 tw@csongor.lan]
+
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Show an X11 messagebox at specified time.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+(($#))|| {
+	local u='Usage' p='msg-at' t='time' m='message ...'
+	print -Pu 2 "  %F{4}$u%f: %F{2}$p%f %U$t%u %F{5}[%f%U$m%u%F{5}]%f"
+	return 0
+  }
+
+[[ $1 =~ [0-9]+:[0-9][0-9] ]]|| die 'Invalid time format'
+
+local alarms=${XDG_DATA_HOME}/alarms
+[[ -d $alarms ]]|| mkdir -p $alarms ||
+	die 'Could not create alarms directory.'
+needs date
+zmodload zsh/datetime || exit 86
+
+local NOW=$EPOCHSECONDS ymd='' day='today'
+
+strftime -s ymd '%Y-%m-%d' $NOW
+strftime -r -s when '%Y-%m-%d %H:%M' "$ymd $1"
+# use tomorrow if the time has alread passed
+(($when<$NOW))&& {
+	strftime -s ymd '%Y-%m-%d' $((NOW+(24*60*60)))
+	strftime -r -s when '%Y-%m-%d %H:%M' "$ymd $1"
+	day='tomorrow'
+}
+
+printf '  \e[34m>>>\e[39m Setting message for \e[1m%s\e[22m %s.\n' $1 $day
+local alfile=${alarms}/$when
+[[ -s $alfile ]]|| echo "$ymd $1" >>$alfile
+shift
+echo -e "$*" >>$alfile
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

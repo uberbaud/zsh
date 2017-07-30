@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:G@37~B={L|0egkHnImjz: 2017/01/18 09:02:09 tw@csongor.lan]
+# @(#)[:G@37~B={L|0egkHnImjz: 2017/07/25 07:37:19 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 emulate -L zsh
 
@@ -21,7 +21,7 @@ if [[ -z ${checkForChanges[(r)$gitCmd]} ]]; then
 	return $?
 fi
 
-typeset -- diffDir=$TMPDIR/git-study
+typeset -- diffDir=$XDG_DATA_HOME/git-study
 [[ -d $diffDir ]]|| mkdir -p $diffDir	\
 	|| die 'Could not create %S${diffDir:gs/%/%%}%s.'
 

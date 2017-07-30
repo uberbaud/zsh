@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+# @(#)[:5V,y(}-;oUC42~pl69?_: 2017/07/25 02:10:15 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+emulate -L zsh
+
+
+(($#))&& warn 'Discarding all parameters.' "$*"
+
+# there's a function for that
+ssh 208.167.249.143
+
+# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.

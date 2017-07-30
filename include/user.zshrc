@@ -1,4 +1,4 @@
-# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/07/24 02:32:53 tw@csongor.lan]
+# @(#)[:w$5whw8(m0HW}8aT?EPw: 2017/07/25 04:35:01 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
@@ -19,6 +19,7 @@ radio_wazee='http://wazee.org/128.pls'
 
 export BC_ENV_ARG		LESS		PAGER		CALENDAR_DIR	LOGNAME
 export LESSHISTFILE		TMPDIR		EMAIL		TEMPLATES_FOLDER
+export VULTR_IP			VULTR_IP6
 
 [[ $LESSHISTFILE =~ '^(-|/dev/null)$' ]]	\
 	|| [[ -d ${LESSHISTFILE%*/} ]]			\

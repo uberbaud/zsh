@@ -1,4 +1,4 @@
-# @(#)[:%=cM@&J?*$Pf!Do}|sJ5: 2017/05/22 03:38:23 tw@csongor.lan]
+# @(#)[:%=cM@&J?*$Pf!Do}|sJ5: 2017/07/30 00:50:13 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Give a clean shell experience
@@ -8,9 +8,10 @@ setopt local_options local_traps pipe_fail bsd_echo
 
 needs =getent readlink /usr/bin/env
 typeset -a RESHELL_VARS=(
-	DISPLAY TERM WINDOWID WINDOWPATH
+	FCEDIT HOME TERM
+	DISPLAY WINDOWID WINDOWPATH
 	SSH_AGENT_PID SSH_AUTH_SOCK
-	)
+  )
 
 local s=$(=getent shells $(which -p $1))
 (($#s))|| die "%B${1:gs/%/%%}%b is not a recognized shell."
@@ -30,7 +31,7 @@ local ENV=${XDG_CONFIG_HOME:-$HOME/.config}/${s##*/}/env
   }
 
 typeset -a setenvs=( )
-for v ($RESHELL_VARS) [[ -n ${(P)v} ]]&& setenvs+=( $v="${(P)v}" )
+for v ($RESHELL_VARS) [[ -n ${(P)v:-} ]]&& setenvs+=( $v="${(P)v}" )
 
 /usr/bin/env -i $setenvs $s -l "$@"
 

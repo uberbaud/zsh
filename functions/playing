@@ -1,0 +1,13 @@
+# @(#)[:d%Z|+EnMPJn4IHFZBmsH: 2017/07/28 15:29:28 tw@csongor.lan]
+
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: What's playing (amuse).
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+:-:amuse-env
+cat $now_playing
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

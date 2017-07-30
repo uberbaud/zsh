@@ -1,0 +1,52 @@
+# @(#)[:dh2*cp3cB&*hJi~C9sX6: 2017/07/28 17:08:56 tw@csongor.lan]
+
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Conversion
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+[[ $1 ==  *[!0-9]*  ]]&& die 'Bad year'
+[[ $2 ==  *[!0-9]*  ]]&& die 'Bad month'
+[[ $3 ==  *[!0-9]*  ]]&& die 'Bad day'
+[[ $4 ==  *[!0-9]*  ]]&& die 'Bad hour'
+[[ $5 ==  *[!0-9]*  ]]&& die 'Bad minutes'
+[[ $6 ==  *[!0-9]*  ]]&& die 'Bad seconds'
+[[ $7 == *[!0-9+-]* ]]&& die 'Bad utc offset'
+integer era=0 yoe=0 doy=0 doe=0 epdays=0
+# DO NOT INTEGERIZE ARGV,
+#   0 prefixed (EDT -0400) numbers will be read as octal
+local y=$1 m=$2 d=$3 H=$4 M=$5 S=$6 u=$7
+while [[ $y == 0* ]] { y=${y#0}; }
+while [[ $m == 0* ]] { m=${m#0}; }
+while [[ $d == 0* ]] { d=${d#0}; }
+while [[ $H == 0* ]] { H=${H#0}; }
+while [[ $M == 0* ]] { M=${M#0}; }
+while [[ $S == 0* ]] { S=${S#0}; }
+if [[ $u == [+-]0000 ]]; then
+    u=0
+else
+    while [[ $u == -0* ]] { u="-${u#-0}"; }
+    while [[ $u == +0* ]] { u="+${u#-0}"; }
+fi
+
+((y))|| die 'Bad year'
+((m))|| die 'Bad month'
+((d))|| die 'Bad day'
+
+# !!! EPOCH IS UTC !!!
+
+(( y-= m <= 2                                               ))
+(( era = ( y>=0 ? y : y-399 ) / 400                         ))
+(( yoe = (y-(era*400))                                      ))
+(( doy = ((153*(m + (m > 2 ? -3 : 9) ) + 2 )/5) + d-1       ))
+(( doe = (yoe * 365) + (yoe/4) - (yoe/100) + doy            ))
+(( epdays = era * 146097 + doe - 719468                     ))
+(( epsecs = (($epdays*24+H-(u/100))*60 + M-(u%100))*60 + S  ))
+print $epsecs
+
+# Copyright (C) setEnv YEAR} by Tom Davis <tom@greyshirt.net>.
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
