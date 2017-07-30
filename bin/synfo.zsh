@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:10:33 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 19:42:11 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -166,10 +166,11 @@ function clusterMath { # {{{1
 
 typeset SP=$'[ \t]' NS=$'[^ \t]'
 typeset rxValid='(matchgroup=|region'$SP'*|match'$SP'*)'$NS'+'
-typeset rxContained=$rxValid'.*'$SP'contained[[:>:]]'
+typeset -aU createds=(    $(synFind '(region|match)'$SP'*'$NS'+')      )
+typeset -aU matchgrps=(   $(synFind 'matchgroup='$NS'+')               )
 
 typeset -aU clusters=(    $(synFind '^cluster'$SP'.*')                 )
-typeset -aU valids=(      $(synFind $rxValid) "@${(@)^clusters}"       )
+typeset -aU valids=(      $createds $matchgrps "@${(@)^clusters}"      )
 typeset -aU containeds=(  $(synFind $rxValid'.*'$SP'contained[[:>:]]') )
 typeset -aU hi_linked=(   $(hilinkFind)                                )
 typeset -aU hi_decl=(     $(hiFind)                                    )
@@ -180,7 +181,7 @@ typeset -A  cgjunction=(  ${(f)"$(clusterMath)"}                       )
 typeset -aU clstrdgrps=();
 			for v (${(v)cgjunction}) { clstrdgrps+=( ${(s:,:)v} ); }
 typeset -aU uncontained=( ${valids:|containeds}                        )
-typeset -aU minimaltops=( ${uncontained:|clstrdgrps}                   )
+typeset -aU minimaltops=( ${${uncontained:|clstrdgrps}:|matchgrps}     )
 
 
 $showStats && { # {{{1
