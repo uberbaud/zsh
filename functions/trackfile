@@ -1,4 +1,4 @@
-# @(#)[:=Z+ch-XT`{^omOPkDe4N: 2017/07/31 18:09:22 tw@csongor.lan]
+# @(#)[:=Z+ch-XT`{^omOPkDe4N: 2017/07/31 19:08:26 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Notes that a file should be synced.
@@ -19,7 +19,7 @@ local trackdir=${HOME}/hold/DOCSTORE/TRACK
 	return 1
   }
 
-touch $trackdir/${file:gs|/|%}
+: >$trackdir/${file:gs|/|%}
 
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
