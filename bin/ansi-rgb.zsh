@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Ov^$raT);Z0gwNl5rYsF: 2017/05/13 00:54:19 tw@csongor.lan]
+# @(#)[:Ov^$raT);Z0gwNl5rYsF: 2017/07/31 02:25:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -46,6 +46,7 @@ typeset -a errmsg=(
 )
 
 local x
+typeset -L 33 RGB=''
 (($#==1))&& for x; do
 	[[ $x == *[!0-9]* ]]&&	break
 	(($x<16))&&				break
@@ -56,6 +57,7 @@ local x
 	g=$((x%6))
 	r=$((x/6))
 	set -- $r $g $b
+	RGB="$r  $g  $b"
 done
 
 (($#==3))|| -die $errmsg
@@ -88,7 +90,7 @@ typeset -a _showme=(
   )
 typeset -- showme='  '${(j..)_showme}
 typeset -a fig=( ${(f)"$( figlet $ansi_code )"} )
-printf '%40s %s\n' ' '                              $fig[1]
+printf '%40s %s\n' $RGB                             $fig[1]
 printf $showme $ansi_code $ansi_code 'ABCDefghÉçþð' $fig[2]
 printf $showme $ansi_code $ansi_code '_0123456789-' $fig[3]
 printf $showme $ansi_code $ansi_code '!@#$%^&*([{|' $fig[4]

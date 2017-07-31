@@ -1,0 +1,25 @@
+# @(#)[:Dgv^Jo3A!$&J1}J03-xT: 2017/07/31 03:55:34 tw@csongor.lan]
+
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: repeat a command in a while loop with a continue?
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+local clear=':'
+[[ -z ${NOCLEAR:-} ]]&& {
+	warn 'Clearing screen each iteration. Set %B$NOCLEAR%b to not.'
+	clear=clear
+}
+
+while :; do
+	$clear
+	"$@"
+	printf '---\n'
+	yes-or-no 'Do it again.' || break
+done
+printf '  Thank you for using our service.\n'
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
