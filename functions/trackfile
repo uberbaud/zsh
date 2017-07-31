@@ -1,0 +1,25 @@
+# @(#)[:=Z+ch-XT`{^omOPkDe4N: 2017/07/31 18:09:22 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Notes that a file should be synced.
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+[[ -f ${1:-} ]]|| {
+	warn "Can't track a non-existent file." "${1:gs/%/%%}"
+	return 1
+  }
+local file="$(readlink -nf $1)"
+[[ -n $file ]]|| { warn 'File disappeared!'; return 1; }
+
+local trackdir=${HOME}/hold/DOCSTORE/TRACK
+[[ -d $trackdir ]]|| mkdir -p $trackdir || {
+	warn 'Could not %Bmkdir%b $HOME/hold/DOCSTORE/TRACK'
+	return 1
+  }
+
+touch $trackdir/${file:gs|/|%}
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
