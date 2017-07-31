@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/30 20:12:55 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/31 00:26:36 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -121,7 +121,7 @@ function incFind { # {{{1
 		tr , '\n'				|
 		sort					|
 		uniq					|
-		egrep -v '^(TOP|CONTAINED|ALL(BUT)?|@(No)?Spell)$'
+		egrep -v '^(TOP|CONTAINED|ALL(BUT)?|@(No)?Spell|NONE)$'
 } # }}}1
 function clusterMath { # {{{1
 	awkpgm="$(cat)" <<-\---
@@ -172,7 +172,9 @@ typeset -aU matchgrps=(   $(synFind 'matchgroup='$NS'+')               )
 typeset -aU matchonly=(   ${matchgrps:|createds}                       )
 			createds+=(   "@${(@)^clusters}"                           )
 typeset -aU valids=(      $createds $matchgrps                         )
-typeset -aU containeds=(  $(synFind $rxValid'.*'$SP'contained[[:>:]]') )
+typeset -aU containeds=(  $(synFind $rxValid'.*'$SP'contained[[:>:]]')
+						  $matchonly
+						)
 typeset -aU hi_linked=(   $(hilinkFind)                                )
 typeset -aU hi_decl=(     $(hiFind)                                    )
 typeset -aU highlighted=( $hi_decl $hi_linked                          )

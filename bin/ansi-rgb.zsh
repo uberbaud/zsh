@@ -12,6 +12,9 @@ typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t %F{1}R%f %F{2}G%f %F{4}B%f"
 	'  Outputs the 256 color number of the %Brgb%b value.'
 	'  Each of the %Brgb%b is a number between %B0%b and %B5%b.'
+	"%T${this_pgm:gs/%/%%}%t %Bcolor-code%b"
+	'  Outputs the R G B ofthat color-code (0-255)'
+	'  Where color-code is a number between 16 and 231 inclusive.'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
 ); # }}}1
@@ -39,8 +42,21 @@ shift $(($OPTIND - 1))
 typeset -- rgb='%F{1}R%F{2}G%F{4}B%f'
 typeset -a errmsg=(
  'I need %Bthree%b (3) numbers (%F{1}Red%f %F{2}Green%f %F{4}Blue%f),'
- 'each between %B0%b and %B5%b.'
+ 'each between %B0%b and %B5%b, or one between 16 and 231.'
 )
+
+local x
+(($#==1))&& for x; do
+	[[ $x == *[!0-9]* ]]&&	break
+	(($x<16))&&				break
+	(($x>231))&&			break
+	local r=0 g=0 b=0
+	x=$(($x-16))
+	b=$((x%6));		x=$((x/6))
+	g=$((x%6))
+	r=$((x/6))
+	set -- $r $g $b
+done
 
 (($#==3))|| -die $errmsg
 
