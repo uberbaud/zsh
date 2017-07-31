@@ -7,7 +7,7 @@ emulate -L zsh
 # Usage {{{1
 typeset -- this_pgm=${0##*/}
 typeset -a Usage=(
-	"%T${this_pgm:gs/%/%%}%t [-w"
+	"%T${this_pgm:gs/%/%%}%t [-cCgiIsW] %Ufile type%u"
 	'  Show information about a %Bvim syntax%b file.'
 	'    %T-c%t  List %Bcontained%b groups.'
 	'    %T-C%t  List minimal %Buncontained%b groups (in TOP).'
