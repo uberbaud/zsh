@@ -1,4 +1,4 @@
-# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/07/24 22:07:11 tw@csongor.lan]
+# @(#)[:Ap$)AX3uRfcc&*eNcFG&: 2017/08/01 15:52:04 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 # SYNOPSIS: Create all of the needed variables and functions.
@@ -379,7 +379,8 @@ function u {
 }
 
 function ps1-amuse-info {
-	local info=''
+	integer count="$(egrep -v '^;' $music_list | wc -l)"
+	local info="($count) "
 	[[ -s $paused_at ]]&&	info+='PAUSED '
 	[[ -s $final ]]&&		info+='FINAL '
 	[[ -s $again ]]&&		info+='AGAIN '

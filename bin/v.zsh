@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/06/12 19:05:33 tw@csongor.lan]
+# @(#)[:GpEYZa*c{{hMx~)jN6Sk: 2017/07/31 19:16:21 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh|| exit 86
@@ -250,6 +250,7 @@ $newStemma && {
 }
 
 $edit_cmd
+:trackfile $f_fullpath
 
 
 # UPDATE the @''(#)[…] string
