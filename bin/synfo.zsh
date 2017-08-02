@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/07/31 00:26:36 tw@csongor.lan]
+# @(#)[:y}iP-=lc9LvggFV|y{#S: 2017/08/01 19:40:44 tw@csongor.lan]
 
 emulate -L zsh
 . $USR_ZSHLIB/common.zsh || exit 86

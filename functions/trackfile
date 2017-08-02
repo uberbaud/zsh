@@ -1,4 +1,4 @@
-# @(#)[:=Z+ch-XT`{^omOPkDe4N: 2017/07/31 19:08:26 tw@csongor.lan]
+# @(#)[:=Z+ch-XT`{^omOPkDe4N: 2017/08/02 13:37:11 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Notes that a file should be synced.
@@ -19,7 +19,9 @@ local trackdir=${HOME}/hold/DOCSTORE/TRACK
 	return 1
   }
 
-: >$trackdir/${file:gs|/|%}
-
+# encode/escape any exiting percent signs, but before we do that, 
+# encode/escape any escape characters! We'll use the conventional 
+# backslash for escapping duty.
+: >$trackdir/${${${file:gs|\\|\\\\}:gs|%|\\%}:gs|/|%}
 
 # Copyright © 2017 by Tom Davis <tom@greyshirt.net>.
