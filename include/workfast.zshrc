@@ -1,4 +1,4 @@
-# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/07/30 14:10:07 tw@csongor.lan]
+# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/08/04 17:37:28 tw@csongor.lan]
 # Simple tools to handle common needs (TODO+/notes+) quickly
 
 bindkey -N vitextblock viins
@@ -54,6 +54,34 @@ function t {
 	[[ -n $TODO ]]|| vared -M vitextblock -m vtxtblckcmd TODO
 	{ printf '%s\n' $H; printf '    %s\n' ${(f)TODO}; } >>TODO
 }
+
+function show-todos {
+	local needsep=false showit=false ln=''
+	for ln in ${(f)"$(<TODO)"}; do
+		[[ $ln == \@* ]]&& {
+			if [[ $ln == *' DONE '* ]]; then
+				showit=false
+			else
+				showit=true
+			fi
+			$needsep && printf ' -----\n'
+			needsep=true
+			continue
+		  }
+		printf '%s\n' $ln
+	done
+}
+
+function newcd {
+	builtin cd "$@" && {
+		[[ -f TODO ]]&& {
+			printf '  \e[1;38;5;128m== TODO ==\e[0m\n'
+			show-todos
+		  }
+		true
+	}
+}
+FINIT: 'alias cd=newcd'
 
 
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab

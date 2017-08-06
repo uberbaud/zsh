@@ -1,0 +1,37 @@
+# @(#)[:Vp#VgD%Qv-}~d8PE<;)g: 2017/08/05 19:43:21 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+# Weather in Charlotte
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+needs :x11 curl display disown
+
+typeset -- graph_url='http://forecast.weather.gov/meteograms/Plotter.php'
+typeset -a graph_opts=(
+	lat='40.789'
+	lon='-73.9053'
+	wfo='OKX'
+	zcode='NYZ176'
+	gset='20'
+	gdiff='10'
+	unit='0'
+	tinfo='EY5'
+	ahour='0'
+	pcmd='11000011100000000000000000000000000000000000000000000000000'
+   # all preciptation
+   #pcmd='11000011101110000000000000000000000000000000000000000000000'
+   # heat index
+   #pcmd='11100011101110000000000000000000000000000000000000000000000'
+	lg='en'
+	indu='1'
+  )
+
+setopt auto_continue no_hup no_check_jobs no_monitor no_notify
+() {
+	curl -sL $graph_url\?${(j:&:)graph_opts}	\
+	| display -immutable -geometry 800x600+1100+20 -
+  }  >/dev/null 2>&1 &
+disown
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

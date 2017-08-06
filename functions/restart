@@ -1,0 +1,15 @@
+# @(#)[:R5PfVAxLzPAs{?+R_7)#: 2017/08/03 01:36:34 tw@csongor.lan]
+# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
+
+# SYNOPSIS: Zero out paused-at to restart a paused song
+
+emulate -L zsh
+setopt local_options local_traps pipe_fail bsd_echo
+
+:-:amuse-env
+local p=${amuse_run}/paused-at
+[[ -s $p ]]&&
+	echo 0.0 >$p
+
+
+# Copyright © 2017 by Tom Davis <tom@greyshirt.net>.

@@ -1,8 +1,0 @@
-#!/usr/bin/env zsh
-# @(#)[:oC^Rl,eLTzspWwy;nV|M: 2017/03/05 05:42:36 tw@csongor.lan]
-# vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
-emulate -L zsh
-
-echo $#
-
-# Copyright © 2016 by Tom Davis <tom@greyshirt.net>.
