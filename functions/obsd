@@ -1,4 +1,4 @@
-# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/06/27 04:30:50 tw@csongor.lan]
+# @(#)[:JP%W9J8Pwg*P@&D@<|aL: 2017/08/08 00:23:57 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: handle mail from the "OpenBSD CVS change list" specially.
@@ -64,6 +64,9 @@ typeset -a refold=(
 	'/^[a-z]+:[0-9]+$/' '{X=$0;next}'
 	'{printf "%-'$W's%s\n", X, $0; X="";}'
   )
+
+printf '%s\n' $filter > ~/play/ksh/filter-zsh.awk
+printf '%s\n' $refold > ~/play/ksh/refold-zsh.awk
 
 typeset -a OUTPUT=( ${(f)"$(\
 	=show +inbox obsd -nocheckmime -form mhl.body	|
