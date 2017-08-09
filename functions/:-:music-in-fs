@@ -1,4 +1,4 @@
-# @(#)[:!zA4EpG*erMK<N_S7q?!: 2017/07/16 15:41:14 tw@csongor.lan]
+# @(#)[:!zA4EpG*erMK<N_S7q?!: 2017/08/09 04:24:59 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 # SYNOPSIS: Look for music files in and below one or more paths.
@@ -16,7 +16,7 @@ while (($#)); do
 	x=$1; shift
 	[[ -n $x ]]|| continue
 	# does it exist?
-	[[ -e $x ]] || { warn "No fso %B${1:gs/%/%%}%b."; continue; }
+	[[ -e $x ]] || { warn "No fso %B${x:gs/%/%%}%b."; continue; }
 	# is it a directory • the (N) sets the NULL_GLOB for that match
 	[[ -d $x ]] && { set $@ $x/*(N); continue; }
 	# is it music
