@@ -1,4 +1,4 @@
-# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/07/19 09:34:22 tw@csongor.lan]
+# @(#)[:5qhPljJRVwa`1@n|4$2n: 2017/08/09 15:09:28 tw@csongor.lan]
 # vim: ft=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 typeset -a	AUTOPAGE_COMMANDS=( whois )
@@ -60,6 +60,7 @@ typeset -Ag	WRAP_COMMANDS=(
 	'dash'	'reshell dash'
 	'fish'	'reshell fish'
 	'ksh'	'reshell ksh'
+	'ksh93'	'reshell ksh93'
 	'sh'	'reshell sh'
 	#'zsh'	'reshell zsh'
 )

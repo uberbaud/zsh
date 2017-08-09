@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/07/15 22:54:10 tw@csongor.lan]
+# @(#)[:Gh_yxV#+HhAg%Wk{Rasr: 2017/08/09 19:24:16 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 . $USR_ZSHLIB/common.zsh || exit 86
@@ -102,7 +102,7 @@ done
 # regenerate fetchmailrc with all accounts enabled
 $accToFetch
 
-typeset -i msgCount=$(egrep -c '^From ' /var/mail/tw)
+typeset -i msgCount=$(from|wc -l)
 
 (($msgCount))|| { -notify "Nothing more to do, quitting."; return 0; }
 
