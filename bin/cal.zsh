@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/07/04 20:34:44 tw@csongor.lan]
+# @(#)[:e0$Emzv9aDN4!Og3WY9T: 2017/08/11 14:06:35 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab
 
 emulate -L zsh
@@ -57,7 +57,7 @@ shift $(($OPTIND - 1))
 # ready to process non '-' prefixed arguments
 # /options }}}1
 
-(($#>3))&& -die 'To many arguments:' "$@"
+(($#>3))&& -die 'Too many arguments:' "$@"
 if (($#==1)) && [[ $1 == [0-9][0-9][0-9][0-9] ]]; then
 	calOpts+=( $1 )
 	yearOnly=true
@@ -145,7 +145,6 @@ for ln in ${(f)evblob}; do
 		ev='    '$ev
 	done
 	events+=( $H$ev$E )
-	pref=''
 done
 
 # ─────────────────────────────── VERTICALLY CENTER cal and events ───
