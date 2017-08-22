@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/05/13 00:56:26 tw@csongor.lan]
+# @(#)[:ZNzBFFtwmnw3a2f60Uv4: 2017/08/22 03:41:06 tw@csongor.lan]
 # vim: filetype=zsh tabstop=4 textwidth=72 noexpandtab nowrap
 
 emulate -L zsh
@@ -221,7 +221,7 @@ else
 	# we have the output already
 	rm $bofile
 fi
-exit totalerrs
+exit $totalerrs
 
 # begin in-file documentation {{{1
 : <<-IN-FILE-DOCUMENTATION

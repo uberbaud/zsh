@@ -1,4 +1,4 @@
-# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/08/04 17:37:28 tw@csongor.lan]
+# @(#)[:u0r)IAiXI>A&Rwg0i@R&: 2017/08/15 08:23:13 tw@csongor.lan]
 # Simple tools to handle common needs (TODO+/notes+) quickly
 
 bindkey -N vitextblock viins
@@ -40,10 +40,10 @@ function note {
 	rm $TMPFILE
 	((tries))|| die 'Could not create %Bnote%b.'
 	new -nz note "$*"
-	pbpaste >$seqnum
-	ln -s $PWD/$seqnum \
+	pbpaste >$seqnote
+	ln -s $PWD/$seqnote \
 		  ${noterepo}/"$(date -u +'%Y-%m-%dz')"${OLDPWD##*/}'-'$seqnum
-	(($#))|| v -m'.' $seqnum
+	(($#))|| v -m'.' $seqnote
 	cd $OLDPWD
 }
 

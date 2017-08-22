@@ -1,4 +1,4 @@
-# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/07/22 21:39:59 tw@csongor.lan]
+# @(#)[:2vLEy@AbLSC^^)rs6$y#: 2017/08/11 16:07:26 tw@csongor.lan]
 # vim: ts=4 ft=zsh
 
 setopt inc_append_history extended_history hist_ignore_dups
@@ -32,8 +32,8 @@ export USR_ZSHLIB=$ZDOTDIR/lib
 	USRBIN=$LOCALBIN
 	path=( $USRBIN $path )
 }
-[[ -d ~/bin ]] && {
-	USRBIN=~/bin
+[[ -d ~/bin/zsh ]] && {
+	USRBIN=~/bin/zsh
 	path=( $USRBIN $path )
 }
 [[ -n $USRBIN ]]&& export USRBIN

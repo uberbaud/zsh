@@ -1,4 +1,4 @@
-# @(#)[:;D;F2<M+vG`6ZAW*r1=i: 2017/07/04 22:03:02 tw@csongor.lan]
+# @(#)[:;D;F2<M+vG`6ZAW*r1=i: 2017/08/15 04:58:13 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh
 
 BROWSER='/home/tw/bin/start-surf2'
@@ -22,6 +22,7 @@ csongor-colors
 function set_prompt { # set prompt {{{1
 	typeset -a prmpt=(
 		'%F{3}'	'['						# amber [
+			'%F{110}ZSH%f '				# light slate ZSH
 			'%F{2}'	'%n'				# green $USER
 			'%F{3}'	'@'					# amber @
 			'%F{2}'	'%m'				# green machine name
