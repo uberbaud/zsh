@@ -15,7 +15,7 @@ needs ${LOCALBIN}/watch-file fullstop :-:amuse-env requires-write
 test -f $amuse_db   || die "No such file %B${amuse_db:gs/%/%%}%b."
 test -f $amuse_bin  || die "No such file %B${amuse_bin:gs/%/%%}%b."
 # requires-write expects variable names not their expansion
-requires-write	now_playing paused_at paused_song missing_bytes \
+requires-write	now_playing paused_at paused_song skipped_bytes \
 				final again amuse_pid fflog music_list
 
 test -s $music_list || cat > $music_list <<----
@@ -38,7 +38,7 @@ function a1 {
 	setopt local_options local_traps
 
 	local song=$1 atTime=${2:-0.000}
-	((atTime))|| : >$missing_bytes # clear if we're starting over
+	((atTime))|| : >$skipped_bytes # clear if we're starting over
 	[[ $song == /* ]]|| song=${XDG_MUSIC_DIR}/$song
 	[[ -r $song ]]|| fullstop "Can't play song: $song."
 
@@ -68,7 +68,7 @@ function a1 {
 			cat $now_playing >$paused_song
 			((secs=bytes/(rate*chans*(bps/8.0))))
 			echo $secs >$paused_at
-			echo $((bytes+${$(<$missing_bytes):-0})) >$missing_bytes
+			echo $((bytes+${$(<$skipped_bytes):-0})) >$skipped_bytes
 			kill $audio_pipe_pid
 		}
 		# SKIP the rest of this song.
@@ -124,7 +124,7 @@ function t {
 	needs ${amuse_home}/prac/time-played
 	echo
 	echo
-	export missing_bytes paused_at
+	export skipped_bytes paused_at
 	${amuse_home}/prac/time-played
 }
 
