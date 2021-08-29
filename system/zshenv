@@ -1,8 +1,7 @@
 # @(#)[:O|k_cRl#UUzvO{A*dk~u: 2017/03/05 06:25:19 tw@csongor.lan]
 # system wide ZSHELL file that is ALWAYS called
 
-if [[ -d ~/.config ]]; then
-	XDG_CONFIG_HOME=~/.config
+if [[ -d ${XDG_CONFIG_HOME:=$HOME/.config} ]]; then
 	if [[ -f $XDG_CONFIG_HOME/user-dirs.dirs ]]; then
 		. $XDG_CONFIG_HOME/user-dirs.dirs
 	fi

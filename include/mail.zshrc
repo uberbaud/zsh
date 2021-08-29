@@ -6,12 +6,14 @@ MAIL_HOME=$XDG_CONFIG_HOME/mail
 MAILRC=$MAIL_HOME/mail.rc
 MBOX=$MAIL_HOME/mbox
 MAILDROP=/var/mail/$USER
-NMH=$XDG_CONFIG_HOME/nmh
-MH=$NMH/config
+MMH=$XDG_CONFIG_HOME/mmh
+MH=$MMH/config
 fold=( fold -s -w 78 )
 
-typeset -x -m 'MAIL*' MBOX NMH MH
-export MH_DATA_HOME="$(mhpath +)" # must be AFTER export NMH
+path+=/usr/local/mmh/bin
+
+typeset -x -m 'MAIL*' MBOX MMH MH
+export MH_DATA_HOME="$(mhpath +)" # must be AFTER export MMH
 
 function mail { warn "Don't you mean %F{2}inc%f?"; }
 function inc  { /usr/local/bin/inc -nochangecur; }

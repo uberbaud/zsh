@@ -1,7 +1,7 @@
 # @(#)[:S<27N7I=@tWFSmOls`Hu: 2017/07/30 05:33:52 tw@csongor.lan]
 # vim: tabstop=4 filetype=zsh nowrap
 
-HISTFILE=~/.local/zsh/histfile
+HISTFILE=~/local/zsh/histfile
 HISTSIZE=254
 SAVEHIST=1000
 

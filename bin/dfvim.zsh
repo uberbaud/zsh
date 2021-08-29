@@ -13,7 +13,7 @@ typeset -- this_pgm=${0##*/}
 typeset -a Usage=(
 	"%T${this_pgm:gs/%/%%}%t [%Ufile name%u]"
 	'  Edits a file in %BDistraction Free%b mode'
-	'  If no %Ufile name%u is given, uses %B.local/disfree/*%b'
+	'  If no %Ufile name%u is given, uses %Blocal/disfree/*%b'
 	"%T${this_pgm:gs/%/%%} -h%t"
 	'  Show this help message.'
 ); # }}}1

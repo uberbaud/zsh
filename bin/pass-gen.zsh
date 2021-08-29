@@ -205,7 +205,7 @@ elif [[ -n $domain ]]; then
 		 'when saving to %Udomain%u.pwd'
 fi
 
-typeset -r pwdFile="$HOME/.local/secrets/${domain}.pwd"
+typeset -r pwdFile="$HOME/local/secrets/${domain}.pwd"
 [[ -a $pwdFile ]]&& -die "Password file for %B${domain:gs/%/%%}%b already exists."
 
 ### verbose

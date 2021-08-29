@@ -6,7 +6,7 @@ typeset -A	AUTOPAGE_CUSTOMS
 AUTOPAGE_CUSTOMS=()
 
 typeset --	AskFirst="$ZDOTDIR/bin/ask-first.zsh"
-typeset --	clpath='~/.config/clisp'
+typeset --	clpath='~/config/clisp'
 typeset -Ag	WRAP_COMMANDS=(
 	# ───────────────────────────────────────────────────────────────────
 	#  autopage

@@ -20,7 +20,7 @@ shift
 # we're entering the new shell so let the user know
 printf "\e[1;43;37m%${COLUMNS}s\r ─ %s ─\e[0m\n" '' $s # banner
 
-local ENV=${XDG_CONFIG_HOME:-$HOME/.config}/${s##*/}/env
+local ENV=${XDG_CONFIG_HOME:-$HOME/config}/${s##*/}/env
 [[ -f $ENV ]]&& {
 	ENV=$(readlink -fn $ENV)
 	if [[ -f $ENV ]]; then

@@ -4,7 +4,7 @@
 export BC_ENV_ARG="$XDG_CONFIG_HOME/etc/bc.rc"
 export CALENDAR_DIR="$XDG_CONFIG_HOME/calendar"
 export EMAIL='tom@greyshirt.net'
-export FCEDIT=vim
+export FCEDIT=nvim
 export LESS='-RcgiSw#8'
 export LESSHISTFILE='-'
 export VULTR_IP='208.167.249.143'

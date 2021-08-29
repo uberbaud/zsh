@@ -15,7 +15,7 @@ local cmd=$1
 shift
 local binpath="/usr/sbin"
 local bin="$binpath/pkg_${cmd}"
-local pkghome="$HOME/.local/pkg-info/v${osv}"
+local pkghome="$HOME/local/pkg-info/v${osv}"
 
 local record=false
 case $cmd in

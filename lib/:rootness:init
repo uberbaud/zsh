@@ -5,7 +5,7 @@ emulate -L zsh
 
 typeset -- expected='READY'
 typeset -- LOG=~/log/simplesh
-typeset -- RSH=~/.local/bin/simplesh
+typeset -- RSH=~/local/bin/simplesh
 
 [[ -x $RSH ]]|| {
 	[[ -f $RSH ]] || -die "No such file %B${RSH:gs/%/%%}%b."

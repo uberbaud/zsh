@@ -23,8 +23,8 @@ Note: I use **xdg** directories and try to keep dot files out of my
 home directory and everything herein is designed around that concept.  
 If you haven't previously set up your own **xdg** directories and 
 corresponding variables, you will probably want, at least,
-  * XDG_CONFIG_HOME -> ~/.config
-  * XDG_DATA_HOME   -> ~/.local
+  * XDG_CONFIG_HOME -> ~/config
+  * XDG_DATA_HOME   -> ~/local
 
 Clone this repository to `$XDG_CONFIG_HOME/zsh`.
 

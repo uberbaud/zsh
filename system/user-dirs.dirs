@@ -20,8 +20,8 @@
 # The only *environment* variable that can be used is $HOME
 
 # generals
-XDG_DATA_HOME="$HOME/.local"
-XDG_CACHE_HOME="$HOME/.local/cache"
+XDG_DATA_HOME="$HOME/local"
+XDG_CACHE_HOME="$HOME/local/cache"
 
 # specifics
 XDG_DOCUMENTS_DIR="$HOME/docs"

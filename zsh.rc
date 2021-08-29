@@ -22,7 +22,7 @@ F=${ZDOTDIR}/functions
 I=${ZDOTDIR}/include
 L=${ZDOTDIR}/lib
 
-export USRLIB=$XDG_DATA_HOME/lib
+export USRLIB=$XDG_DATA_HOME/c/lib
 export USR_ZSHLIB=$ZDOTDIR/lib
 # reorder (path is array-unique-special) or set in order path
 # put things we install ahead of system bins in OUR path

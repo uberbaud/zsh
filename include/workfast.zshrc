@@ -11,7 +11,7 @@ bindkey -M vtxtblckcmd : beep
 alias note='noglob note'
 function note {
 	local NOTES=$PWD OLDPWD=$PWD
-	local noterepo=${HOME}/.local/sysdata/notes
+	local noterepo=${HOME}/local/sysdata/notes
 	[[ $NOTES == $HOME ]]&& NOTES=${HOME}/docs/NOTES
 	[[ -d $noterepo ]]|| {
 		mkdir -p $noterepo ||
