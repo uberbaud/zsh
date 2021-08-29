@@ -2,11 +2,18 @@
 % Tom Davis
 % 2016-10-23
 
+Note
+=====
+
+This *was* my personal ZSH configuration.
+
+**I have abandoned *ZSH* and these files are barely, if at all, 
+maintained.**
+
+Everything below was true when I was using zsh.
+
 ZSHELL Configuration and Program Files for uberbaud
 ====================================================
-
-This is my personal ZSH configuration and is based on workflows which 
-I may still be using or which I may have abandoned years ago.
 
 Many of these files are based on *bash* files from when that was my 
 primary shell.
@@ -97,9 +104,9 @@ providing a quick lookup of bash commands. So I've repiped `help` to
 do that here.
 
 Additionally, I've begun creating help for my own autoloaded functions 
-and those are included in the "$ZDOTDIR/help" directory.
+and those are included in the $ZDOTDIR/help directory.
 
-You can get help on scripts in the `$ZDOTDIR/bin` directory by calling 
+You can get help on scripts in the *$ZDOTDIR/bin* directory by calling 
 them with the `-h` flag.
 
 Contributing
